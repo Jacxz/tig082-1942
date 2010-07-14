@@ -134,7 +134,7 @@ namespace Game1942
                 player = new Player(Game, ref actionTexture);
                 Components.Add(player);
             }
-            for (int x = 0; x < 10; x++)
+            for (int x = 0; x < 11; x++)
             {
                 enemy = new Enemy(Game, ref actionTexture);
                 Components.Add(enemy);
