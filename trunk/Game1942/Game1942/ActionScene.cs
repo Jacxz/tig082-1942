@@ -64,13 +64,10 @@ namespace Game1942
 
         protected override void LoadContent()
         {
-
-
             font = (SpriteFont)Game.Services.GetService(typeof(SpriteFont));
             viewport = graphics.GraphicsDevice.Viewport;
             shipPos = new Vector2(viewport.Width / 2, viewport.Height / 2);
             
-
             gameFont = Game.Content.Load<SpriteFont>("font");
 
             base.LoadContent();
