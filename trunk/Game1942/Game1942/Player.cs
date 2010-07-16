@@ -29,8 +29,6 @@ namespace Game1942
 
         protected Rectangle screenBounds;
 
-        private Weapon weapon;
-
         public Player(Game game, ref Texture2D theTexture)
             : base(game)
         {

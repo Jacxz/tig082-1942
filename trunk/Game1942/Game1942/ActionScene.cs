@@ -21,7 +21,6 @@ namespace Game1942
     {
         protected Texture2D mBackgroundTexture, actionTexture;
         protected SpriteBatch mSpriteBatch;
-        GraphicsDeviceManager graphics;
         protected Player player;
 
         List<Weapon> bulletList = new List<Weapon>();
@@ -29,12 +28,12 @@ namespace Game1942
 
         private Enemy enemy;
 
+        private int fitta = 9;
+
         private const float Rotation = 0;
         private const float Scale = 2.0f;
         private const float Depth = 0.5f;
 
-        private Viewport viewport;
-        private Vector2 shipPos;
         private const int Frames = 4;
         private const int FramesPerSec = 2;
 
@@ -45,8 +44,6 @@ namespace Game1942
 
         private const int startDrops = 1;
         private KeyboardState oldKeyboardState;
-
-        int k = 4;
 
         public ActionScene(Game game, Texture2D theTexture, Texture2D backGroundTexture, SpriteFont smallFont)
             : base(game)
@@ -64,11 +61,10 @@ namespace Game1942
 
         protected override void LoadContent()
         {
-            font = (SpriteFont)Game.Services.GetService(typeof(SpriteFont));
-            viewport = graphics.GraphicsDevice.Viewport;
-            shipPos = new Vector2(viewport.Width / 2, viewport.Height / 2);
-            
             gameFont = Game.Content.Load<SpriteFont>("font");
+
+            AudioManager.LoadEffect("luger");
+            AudioManager.LoadEffect("implosion");
 
             base.LoadContent();
         }
@@ -91,7 +87,6 @@ namespace Game1942
             base.Hide();
         }
 
-
         /// <summary>
         /// Allows the game component to update itself.
         /// </summary>
@@ -107,10 +102,10 @@ namespace Game1942
                 Components.Add(bulletList[bulletList.Count - 1]);
                 bulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 3));
                 Components.Add(bulletList[bulletList.Count - 1]);
+
+                AudioManager.Effect("luger");
             }
 
-            
-          
             // removes the bullet when it reached the end of the screen
             for (int i = 0; i < bulletList.Count; i++)
             {
@@ -120,7 +115,6 @@ namespace Game1942
                 }
             }
 
-      
             oldKeyboardState = keyboard;
             base.Update(gameTime);
         }
@@ -143,10 +137,10 @@ namespace Game1942
         public override void Draw(GameTime gameTime)
         {
             mSpriteBatch.Begin();
-            mSpriteBatch.DrawString(font, "Bullets: " + bulletList.Count.ToString(), new Vector2(15, 15), Color.White);           
+            mSpriteBatch.DrawString(gameFont, "Bullets: " + bulletList.Count.ToString(), new Vector2(15, 15), Color.White);
+            mSpriteBatch.DrawString(gameFont, "Errno: " + fitta.ToString(), new Vector2(15, 35), Color.White);
             mSpriteBatch.End();
             base.Draw(gameTime);
-            
         }
     }
 }
