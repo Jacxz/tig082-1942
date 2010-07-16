@@ -35,7 +35,7 @@ namespace Game1942
             : base(game)
         {
             mTexture = theTexture;
-            mPosition = newPosition;
+            mPosition = newPosition + new Vector2(0, -16.0f);
             mKind = kindOf;
             if (mKind == 1)
             {

@@ -139,6 +139,7 @@ namespace Game1942.Core
                 {
                     selectedIndex = 0;
                 }
+                AudioManager.Effect("menu");
             }
 
             if (up)
@@ -148,6 +149,7 @@ namespace Game1942.Core
                 {
                     selectedIndex = menuItems.Count - 1;
                 }
+                AudioManager.Effect("menu");
             }
 
 

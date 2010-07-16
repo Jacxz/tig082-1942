@@ -30,8 +30,6 @@ namespace Game1942
 
         protected Rectangle mScreenBounds;
 
-
-
         private Animation mAnimation;
 
         private bool killed;

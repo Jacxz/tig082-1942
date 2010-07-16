@@ -30,9 +30,6 @@ namespace Game1942
         // textures
         protected Texture2D startElementsTexture, startBackgroundTexture, actionTextures;
 
-        //sounds
-        private SoundEffect mExplosion;
-
         //font
         private SpriteFont gameFont;
         // fonts
@@ -71,20 +68,23 @@ namespace Game1942
             Services.AddService(typeof(SpriteBatch), mSpriteBatch);
             contentManager = new ContentManager(Services, @"Content\");
             actionTextures = Content.Load<Texture2D>("1945");
-            mExplosion = contentManager.Load<SoundEffect>("luger");
 
             startElementsTexture = Content.Load<Texture2D>("MenuTitle"); // sceneSprite
             
             gameFont = Content.Load<SpriteFont>("font");
             smallFont = Content.Load<SpriteFont>("smallMenuFont");
             largeFont = Content.Load<SpriteFont>("largeMenuFont");
+
+            AudioManager.Initialize(this);
+            AudioManager.LoadEffect("menu");
+
             // start scene
             startScene = new StartScene(this, smallFont, largeFont, startBackgroundTexture, startElementsTexture);
             Components.Add(startScene);
             startScene.Show();
             currentScene = startScene;
             // actionscene
-            actionScene = new ActionScene(this, actionTextures, startBackgroundTexture, smallFont, mExplosion);
+            actionScene = new ActionScene(this, actionTextures, startBackgroundTexture, smallFont);
             actionScene.Initialize();
             Components.Add(actionScene);
 
