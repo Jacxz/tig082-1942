@@ -79,11 +79,13 @@ namespace Game1942
 
         public override void Show()
         {
+            AudioManager.PlayMusic("song");
             base.Show();
         }
 
         public override void Hide()
         {
+            MediaPlayer.Stop();
             base.Hide();
         }
 

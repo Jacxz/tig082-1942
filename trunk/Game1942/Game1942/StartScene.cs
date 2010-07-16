@@ -45,8 +45,6 @@ namespace Game1942
             Components.Add(menu);
 
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
-
-
         }
 
         /// <summary>
