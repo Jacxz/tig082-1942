@@ -21,18 +21,14 @@ namespace Game1942
     {
         protected Texture2D mBackgroundTexture, actionTexture, blockTextureData;
         protected SpriteBatch mSpriteBatch;
-        GraphicsDeviceManager graphics;
         protected Player player;
         private CollisionDetection mCollison;
-
-        protected SoundEffect mExplosion;
 
         List<Weapon> bulletList = new List<Weapon>();
         SpriteFont font;
 
         //private Enemy enemy; // ändrat kod
         private List<Enemy> Enemies = new List<Enemy>(); // ändrat kod
-
      
         // error variables
         int error;
@@ -42,15 +38,12 @@ namespace Game1942
 
         private KeyboardState oldKeyboardState;
 
-        int k = 4;
-
-        public ActionScene(Game game, Texture2D theTexture, Texture2D backGroundTexture, SpriteFont smallFont, SoundEffect explosion)
+        public ActionScene(Game game, Texture2D theTexture, Texture2D backGroundTexture, SpriteFont smallFont)
             : base(game)
         {
             font = smallFont;
             actionTexture = theTexture;
             mBackgroundTexture = backGroundTexture;
-            mExplosion = explosion;
 
             // creates and puts the player in start position
             Start();
@@ -62,8 +55,9 @@ namespace Game1942
 
         protected override void LoadContent()
         {
-           // mExplosion = Game.Content.Load<SoundEffect>("luger");
             gameFont = Game.Content.Load<SpriteFont>("font");
+            AudioManager.LoadEffect("luger");
+            AudioManager.LoadEffect("implosion");
             base.LoadContent();
             error++;
         }
@@ -78,11 +72,13 @@ namespace Game1942
 
         public override void Show()
         {
+            AudioManager.PlayMusic("song");
             base.Show();
         }
 
         public override void Hide()
         {
+            MediaPlayer.Stop();
             base.Hide();
         }
 
@@ -102,7 +98,8 @@ namespace Game1942
                 Components.Add(bulletList[bulletList.Count - 1]);
                 bulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 3));
                 Components.Add(bulletList[bulletList.Count - 1]);
-                mExplosion.Play();
+                
+                AudioManager.Effect("luger");
             }
 
 

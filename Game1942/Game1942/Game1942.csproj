@@ -85,6 +85,7 @@
   <ItemGroup>
     <Compile Include="ActionScene.cs" />
     <Compile Include="Animation.cs" />
+    <Compile Include="AudioManager.cs" />
     <Compile Include="CollisionDetection.cs" />
     <Compile Include="Core\GameScene.cs" />
     <Compile Include="Core\TextMenuComponent.cs" />
