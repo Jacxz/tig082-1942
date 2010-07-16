@@ -1,0 +1,3 @@
+C:\Users\Knan\Documents\Visual Studio 2008\Projects\Game1942\Game1942\Content\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\My documents\My Dropbox\Xna\Game1942\Game1942\Content\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\SVN Sommarkurs 2010\Game1942\Game1942\Content\obj\x86\Debug\ResolveAssemblyReference.cache
