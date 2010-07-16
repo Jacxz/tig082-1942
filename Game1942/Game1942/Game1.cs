@@ -74,6 +74,9 @@ namespace Game1942
             gameFont = Content.Load<SpriteFont>("font");
             smallFont = Content.Load<SpriteFont>("smallMenuFont");
             largeFont = Content.Load<SpriteFont>("largeMenuFont");
+
+            AudioManager.Initialize(this);
+
             // start scene
             startScene = new StartScene(this, smallFont, largeFont, startBackgroundTexture, startElementsTexture);
             Components.Add(startScene);
@@ -81,6 +84,7 @@ namespace Game1942
             currentScene = startScene;
             // actionscene
             actionScene = new ActionScene(this, actionTextures, startBackgroundTexture, smallFont);
+            actionScene.Initialize();
             Components.Add(actionScene);
 
             

@@ -70,6 +70,7 @@
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Xml">
       <Private>False</Private>
     </Reference>
@@ -84,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScene.cs" />
+    <Compile Include="AudioManager.cs" />
     <Compile Include="Core\GameScene.cs" />
     <Compile Include="Core\TextMenuComponent.cs" />
     <Compile Include="Enemy.cs" />
