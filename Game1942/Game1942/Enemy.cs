@@ -28,8 +28,8 @@ namespace Game1942
         protected Random random;
         protected SpriteBatch mSpriteBatch;
 
-        protected const int RAINWIDTH = 32;
-        protected const int RAINHEIGHT = 32;
+        protected const int ENEMYWIDTH = 32; // ändrat kod
+        protected const int ENEMYHEIGHT = 32; // ändrat kod
 
         public Enemy(Game game, ref Texture2D theTexture)
             : base(game)
@@ -42,8 +42,8 @@ namespace Game1942
 
             // Create the source rectangle.
             // This represents where is the sprite picture in surface
-            spriteRectangle = new Rectangle(4, 4, RAINWIDTH, RAINHEIGHT);
-           
+            spriteRectangle = new Rectangle(4, 4, ENEMYWIDTH, ENEMYHEIGHT); //// ändrat kod
+
             // Initialize the random number generator and put the enemy in 
             // your start position
             random = new Random(this.GetHashCode());
@@ -55,7 +55,7 @@ namespace Game1942
         /// </summary>
         public void PutinStartPosition()
         {
-            position.X = random.Next(Game.Window.ClientBounds.Width - RAINWIDTH);
+            position.X = random.Next(Game.Window.ClientBounds.Width - ENEMYWIDTH); // ändrat kod
             position.Y = 0;
             Yspeed = 1 + random.Next(3);
             Xspeed = random.Next(3) - 1;
@@ -92,7 +92,7 @@ namespace Game1942
             }
 
             // Move Enemy
-          //  position.Y += Yspeed;
+            //  position.Y += Yspeed;
             position.X += Xspeed;
 
             base.Update(gameTime);
@@ -104,12 +104,16 @@ namespace Game1942
         /// <param name="rect">test rectangle</param>
         /// <returns>true, if has a collision</returns>
         /// 
-        public bool checkColision(Rectangle rect)
+        public bool checkCollision(Rectangle rect) // ändrat kod
         {
-            Rectangle spriterect = new Rectangle((int)position.X, (int)position.Y, RAINWIDTH, RAINHEIGHT);
+            Rectangle spriterect = new Rectangle((int)position.X, (int)position.Y, ENEMYWIDTH, ENEMYHEIGHT);
             return spriterect.Intersects(rect);
 
         }
-      
+
+        public Rectangle getBounds()
+        {
+            return new Rectangle((int)position.X, (int)position.Y, ENEMYWIDTH, ENEMYHEIGHT);
+        }
     }
 }

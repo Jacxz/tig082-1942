@@ -1,6 +1,6 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
-    <ProjectGuid>{B4E74A3F-81E4-4E32-94B4-501714A74A4D}</ProjectGuid>
+    <ProjectGuid>{6BBD5AA7-C4AF-4B62-8B56-C10938ADEC6B}</ProjectGuid>
     <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -11,7 +11,7 @@
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <XnaFrameworkVersion>v3.1</XnaFrameworkVersion>
     <XnaPlatform>Windows</XnaPlatform>
-    <XnaCrossPlatformGroupID>7ac93d82-9e4d-4d0d-918d-d895c1436f65</XnaCrossPlatformGroupID>
+    <XnaCrossPlatformGroupID>0adc9de5-9e0e-4c6a-b991-45bf6fc1bfda</XnaCrossPlatformGroupID>
     <ApplicationIcon>Game.ico</ApplicationIcon>
     <Thumbnail>GameThumbnail.png</Thumbnail>
     <PublishUrl>publish\</PublishUrl>
@@ -70,7 +70,6 @@
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml">
       <Private>False</Private>
     </Reference>
@@ -85,7 +84,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScene.cs" />
-    <Compile Include="AudioManager.cs" />
+    <Compile Include="Animation.cs" />
+    <Compile Include="CollisionDetection.cs" />
     <Compile Include="Core\GameScene.cs" />
     <Compile Include="Core\TextMenuComponent.cs" />
     <Compile Include="Enemy.cs" />
@@ -102,7 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <NestedContentProject Include="Content\Content.contentproj">
-      <Project>5a7048e7-7686-4bde-9d57-a7e4d05fee22</Project>
+      <Project>c43cfe45-ea82-4625-9a39-c902a040dd70</Project>
       <Visible>False</Visible>
     </NestedContentProject>
   </ItemGroup>

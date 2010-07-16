@@ -28,7 +28,7 @@ namespace Game1942
 
         protected Rectangle pacRect = new Rectangle(0, 0, 290, 67);
         protected Vector2 pacPosition = new Vector2(300, 0);
-        
+
 
         // protected Rectangle startRect = new Rectangle(100, 100, 200, 200);
         // protected Vector2 startPosition;
@@ -39,12 +39,14 @@ namespace Game1942
             this.elements = elements;
             bGround = background;
 
-            string[] items = { "Start", "Highscore", "Options" , "Exit" };
+            string[] items = { "Start", "Highscore", "Options", "Exit" };
             menu = new TextMenuComponent(game, smallFont, largeFont);
             menu.SetMenuItems(items);
             Components.Add(menu);
 
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
+
+
         }
 
         /// <summary>
@@ -80,12 +82,12 @@ namespace Game1942
         public override void Draw(GameTime gameTime)
         {
 
-          //  mSpriteBatch.Draw(bGround, new Vector2(0, 0), Color.White);
+            //  mSpriteBatch.Draw(bGround, new Vector2(0, 0), Color.White);
             mSpriteBatch.Begin();
             mSpriteBatch.Draw(elements, pacPosition, pacRect, Color.White);
             mSpriteBatch.End();
             base.Draw(gameTime);
-            
+
 
             // sBatch.Draw(elements, startPosition, startRect, Color.White);
 

@@ -20,7 +20,7 @@ namespace Game1942
     {
         GraphicsDeviceManager graphics;
         SpriteBatch mSpriteBatch;
-   
+        ContentManager contentManager;
         //game scenes
         protected StartScene startScene;
         protected ActionScene actionScene;
@@ -29,6 +29,9 @@ namespace Game1942
 
         // textures
         protected Texture2D startElementsTexture, startBackgroundTexture, actionTextures;
+
+        //sounds
+        private SoundEffect mExplosion;
 
         //font
         private SpriteFont gameFont;
@@ -64,29 +67,28 @@ namespace Game1942
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             mSpriteBatch = new SpriteBatch(GraphicsDevice);
-
-            Services.AddService(typeof(SpriteBatch), mSpriteBatch);
             
+            Services.AddService(typeof(SpriteBatch), mSpriteBatch);
+            contentManager = new ContentManager(Services, @"Content\");
             actionTextures = Content.Load<Texture2D>("1945");
+            mExplosion = contentManager.Load<SoundEffect>("luger");
 
             startElementsTexture = Content.Load<Texture2D>("MenuTitle"); // sceneSprite
-
+            
             gameFont = Content.Load<SpriteFont>("font");
             smallFont = Content.Load<SpriteFont>("smallMenuFont");
             largeFont = Content.Load<SpriteFont>("largeMenuFont");
-
-            AudioManager.Initialize(this);
-            AudioManager.LoadEffect("menu");
-
             // start scene
             startScene = new StartScene(this, smallFont, largeFont, startBackgroundTexture, startElementsTexture);
             Components.Add(startScene);
             startScene.Show();
             currentScene = startScene;
             // actionscene
-            actionScene = new ActionScene(this, actionTextures, startBackgroundTexture, smallFont);
+            actionScene = new ActionScene(this, actionTextures, startBackgroundTexture, smallFont, mExplosion);
             actionScene.Initialize();
             Components.Add(actionScene);
+
+
         }
 
         /// <summary>
@@ -96,7 +98,7 @@ namespace Game1942
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
-            
+
         }
 
         /// <summary>
@@ -106,10 +108,10 @@ namespace Game1942
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            
+
             KeyboardState keyboard = Keyboard.GetState();
-           
-              
+
+
             // Handle GameScene Inputs
             HandleScenesInput();
             base.Update(gameTime);
@@ -122,7 +124,7 @@ namespace Game1942
             currentScene.Show();
         }
 
-         private void HandleScenesInput()
+        private void HandleScenesInput()
         {
             // Handle Start Scene Input
             if (currentScene == startScene)
@@ -130,7 +132,7 @@ namespace Game1942
                 HandleStartSceneInput();
             }
             // 
-            
+
             // Handle Action Scene Input
             else if (currentScene == actionScene)
             {
@@ -155,7 +157,7 @@ namespace Game1942
         private void HandleActionInput()
         {
             // Get the Keyboard state
-            
+
             KeyboardState keyboardState = Keyboard.GetState();
 
             bool backKey = (oldKeyboardState.IsKeyDown(Keys.Escape) &&
@@ -193,7 +195,7 @@ namespace Game1942
                 }
             }
         }
-      
+
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -203,10 +205,10 @@ namespace Game1942
         {
             GraphicsDevice.Clear(Color.Black);
             mSpriteBatch.Begin();
-         
+            
             mSpriteBatch.End();
             base.Draw(gameTime);
-           
+
         }
     }
 }

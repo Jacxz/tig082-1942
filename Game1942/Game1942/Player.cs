@@ -20,36 +20,55 @@ namespace Game1942
     public class Player : Microsoft.Xna.Framework.DrawableGameComponent
     {
         protected Texture2D mTexture;
-        protected Rectangle spriteRectangle;
-        protected Vector2 position;
+        protected Rectangle mSpriteRectangle, mLivesRectangle;
+        protected Vector2 mPosition;
+        protected Vector2 mLivesPosition;
         protected SpriteBatch mSpriteBatch;
 
         protected const int SHIPWIDTH = 32;
         protected const int SHIPHEIGHT = 32;
 
-        protected Rectangle screenBounds;
+        protected Rectangle mScreenBounds;
+
+
+
+        private Animation mAnimation;
+
+        private bool killed;
+        SpriteFont font;
+        private int error, error2, lives, HP;
+
 
         public Player(Game game, ref Texture2D theTexture)
             : base(game)
         {
             mTexture = theTexture;
-            position = new Vector2();
-            
+            mPosition = new Vector2();
+
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
 
-            spriteRectangle = new Rectangle(136, 202, SHIPWIDTH, SHIPHEIGHT);
-
-            screenBounds = new Rectangle(0, 0,
+            mSpriteRectangle = new Rectangle(136, 202, SHIPWIDTH, SHIPHEIGHT);
+            mLivesRectangle = new Rectangle(169, 268, SHIPWIDTH, SHIPHEIGHT);
+            
+            lives = 3;
+            HP = 100;
+           
+            mScreenBounds = new Rectangle(0, 0,
                 Game.Window.ClientBounds.Width,
                 Game.Window.ClientBounds.Height);
-
-           // weapon = new Weapon(Game, ref mTexture, new Vector2(position.X, position.Y));
+           
+         
+           
+            font = Game.Content.Load<SpriteFont>("font");
+          //  mAnimation = new Animation(Game, mTexture, position, 0, 1.0f, 0.5f, 2, 0.2f, 5); ska göras om
+          //  mAnimation.Initialize();
+            // weapon = new Weapon(Game, ref mTexture, new Vector2(position.X, position.Y));
         }
 
         public void PutInStartPosition()
         {
-            position.X = screenBounds.Width / 2;
-            position.Y = screenBounds.Height - SHIPHEIGHT;
+            mPosition.X = mScreenBounds.Width / 2;
+            mPosition.Y = mScreenBounds.Height - SHIPHEIGHT;
         }
 
         /// <summary>
@@ -75,44 +94,52 @@ namespace Game1942
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-             // Move the ship with keyboard
+            mLivesPosition.X = mScreenBounds.Width - SHIPWIDTH*lives;
+          
+            // Move the ship with keyboard
+            
             KeyboardState keyboard = Keyboard.GetState();
             if (keyboard.IsKeyDown(Keys.Up))
             {
-                position.Y -= 3;
+                mPosition.Y -= 3;
             }
             if (keyboard.IsKeyDown(Keys.Down))
             {
-                position.Y += 3;
+                mPosition.Y += 3;
             }
             if (keyboard.IsKeyDown(Keys.Left))
             {
-                position.X -= 3;
+                mPosition.X -= 3;
             }
             if (keyboard.IsKeyDown(Keys.Right))
             {
-                position.X += 3;
+                mPosition.X += 3;
             }
-           
+
 
             // Keep the ship inside the screen
-            if (position.X < screenBounds.Left)
+            if (mPosition.X < mScreenBounds.Left)
             {
-                position.X = screenBounds.Left;
+                mPosition.X = mScreenBounds.Left;
             }
-            if (position.X > screenBounds.Width - SHIPWIDTH)
+            if (mPosition.X > mScreenBounds.Width - SHIPWIDTH)
             {
-                position.X = screenBounds.Width - SHIPWIDTH;
+                mPosition.X = mScreenBounds.Width - SHIPWIDTH;
             }
-            if (position.Y < screenBounds.Top)
+            if (mPosition.Y < mScreenBounds.Top)
             {
-                position.Y = screenBounds.Top;
+                mPosition.Y = mScreenBounds.Top;
             }
-            if (position.Y > screenBounds.Height - SHIPHEIGHT)
+            if (mPosition.Y > mScreenBounds.Height - SHIPHEIGHT)
             {
-                position.Y = screenBounds.Height - SHIPHEIGHT;
+                mPosition.Y = mScreenBounds.Height - SHIPHEIGHT;
             }
-
+            if (Killed)
+            {
+                IsKilled();
+            }
+           // float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds; ska göras om
+            //mAnimation.UpdateFrame(elapsed);
             base.Update(gameTime);
         }
 
@@ -121,11 +148,26 @@ namespace Game1942
         /// </summary>
         public override void Draw(GameTime gameTime)
         {
+            
             mSpriteBatch.Begin();
+            for (int x = 0; x < lives; x++)
+            {
+                // draw lives
+                mSpriteBatch.Draw(mTexture, mLivesPosition, mLivesRectangle, Color.White);
+                mLivesPosition.X += 32;
+            }
+           
             // Draw the ship
-            mSpriteBatch.Draw(mTexture, position, spriteRectangle, Color.White);
+            mSpriteBatch.Draw(mTexture, mPosition, mSpriteRectangle, Color.White);
+            mSpriteBatch.DrawString(font, "Player IsKilled: "+ error.ToString() + "\nPlayer HP: "+HP.ToString()+"\nPlayer Lives: " + lives.ToString()+"\nError2: "+error2.ToString(), new Vector2(15,60), Color.White);
             mSpriteBatch.End();
+          /*  if (Killed)
+            {
+                mAnimation.Draw(gameTime);
+                Killed = false; 
+            }*/
             base.Draw(gameTime);
+            
         }
 
         /// <summary>
@@ -133,14 +175,41 @@ namespace Game1942
         /// </summary>
         public Rectangle GetBounds()
         {
-            return new Rectangle((int)position.X, (int)position.Y,
-                SHIPWIDTH, SHIPHEIGHT);
+            return new Rectangle((int)mPosition.X, (int)mPosition.Y, SHIPWIDTH, SHIPHEIGHT);
         }
 
         public Vector2 getPosition()
         {
-            return position;
+            return mPosition;
         }
-        
+
+        public bool Killed
+        {
+            get { return killed; }
+            set { killed = value; }
+        }
+
+        public void IsHit()
+        {
+            HP -= 1;
+            if (HP <= 0)
+            {
+                Killed = true;
+            }
+        }
+
+        public void IsKilled()
+        {
+            lives -= 1;
+          //  mAnimation = new Animation(Game, mTexture, position, 0, 1.0f, 0.5f, 2, 0.2f, 5);
+           // mAnimation.Initialize();
+            //mAnimation.Draw(gameTime);
+            PutInStartPosition();
+            Killed = false;
+            HP = 100;
+        }
+
+
+
     }
 }

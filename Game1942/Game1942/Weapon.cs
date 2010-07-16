@@ -20,39 +20,39 @@ namespace Game1942
     public class Weapon : Microsoft.Xna.Framework.DrawableGameComponent
     {
 
-        protected Texture2D texture;
-        protected Rectangle spriteRectangle;
-        public Vector2 position;
+        protected Texture2D mTexture;
+        protected Rectangle mSpriteRectangle;
+        public Vector2 mPosition;
         protected int speed = 4;
         private int mKind;
-       
+
         protected SpriteBatch mSpriteBatch;
 
         protected const int BULLETWIDTH = 32;
-        protected const int BULLETLENGTH = 32;
+        protected const int BULLETHEIGHT = 32;
 
         public Weapon(Game game, ref Texture2D theTexture, Vector2 newPosition, int kindOf)
             : base(game)
         {
-            texture = theTexture;
-            position = newPosition;
+            mTexture = theTexture;
+            mPosition = newPosition;
             mKind = kindOf;
             if (mKind == 1)
             {
-                spriteRectangle = new Rectangle(37, 169, BULLETWIDTH, BULLETLENGTH);
+                mSpriteRectangle = new Rectangle(37, 169, BULLETWIDTH, BULLETHEIGHT);
             }
             else if (mKind == 2)
             {
-                spriteRectangle = new Rectangle(4, 169, BULLETWIDTH, BULLETLENGTH);
+                mSpriteRectangle = new Rectangle(4, 169, BULLETWIDTH, BULLETHEIGHT);
             }
             else if (mKind == 3)
             {
-                spriteRectangle = new Rectangle(37, 169, BULLETWIDTH, BULLETLENGTH);
+                mSpriteRectangle = new Rectangle(37, 169, BULLETWIDTH, BULLETHEIGHT);
             }
-            
+
 
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
-        
+
         }
 
         /// <summary>
@@ -66,11 +66,11 @@ namespace Game1942
 
         public override void Draw(GameTime gameTime)
         {
-            mSpriteBatch.Begin();          
-            mSpriteBatch.Draw(texture, position, spriteRectangle, Color.White);
+            mSpriteBatch.Begin();
+            mSpriteBatch.Draw(mTexture, mPosition, mSpriteRectangle, Color.White);
             mSpriteBatch.End();
             base.Draw(gameTime);
-            
+
         }
 
 
@@ -82,21 +82,25 @@ namespace Game1942
         {
             if (mKind == 1)
             {
-                position.Y -= speed;
-                position.X -= speed / 2;
+                mPosition.Y -= speed;
+                mPosition.X -= speed / 2;
             }
             else if (mKind == 2)
             {
                 // updates bullet position
-                position.Y -= speed;                
+                mPosition.Y -= speed;
             }
             else if (mKind == 3)
             {
-                position.Y -= speed;
-                position.X += speed / 2;
+                mPosition.Y -= speed;
+                mPosition.X += speed / 2;
             }
-            
+
             base.Update(gameTime);
+        }
+        public Rectangle GetBounds()
+        {
+            return new Rectangle((int)mPosition.X, (int)mPosition.Y, BULLETWIDTH, BULLETHEIGHT);
         }
     }
 }
