@@ -20,7 +20,7 @@ namespace Game1942.Core
     public class TextMenuComponent : Microsoft.Xna.Framework.DrawableGameComponent
     {
 
-        protected SpriteBatch sBatch;
+        protected SpriteBatch mSpriteBatch;
         //font declerations and color
         protected readonly SpriteFont regularFont, selectedFont;
         protected Color regularColor = Color.White, selectedColor = Color.Red;
@@ -103,7 +103,7 @@ namespace Game1942.Core
             this.selectedFont = selectedFont;
             menuItems = new List<string>();
 
-            sBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
+            mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
 
             oldKeyboardState = Keyboard.GetState();
 
@@ -116,8 +116,6 @@ namespace Game1942.Core
         /// </summary>
         public override void Initialize()
         {
-            // TODO: Add your initialization code here
-
             base.Initialize();
         }
 
@@ -127,7 +125,7 @@ namespace Game1942.Core
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            // TODO: Add your update code here
+         
             KeyboardState keyboardState = Keyboard.GetState();
 
             bool up, down, enter;
@@ -141,7 +139,6 @@ namespace Game1942.Core
                 {
                     selectedIndex = 0;
                 }
-                AudioManager.Effect("menu");
             }
 
             if (up)
@@ -151,17 +148,16 @@ namespace Game1942.Core
                 {
                     selectedIndex = menuItems.Count - 1;
                 }
-                AudioManager.Effect("menu");
             }
 
-          
+
             oldKeyboardState = keyboardState;
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            sBatch.Begin();
+            mSpriteBatch.Begin();
             float y = position.Y;
             for (int i = 0; i < menuItems.Count; i++)
             {
@@ -179,13 +175,13 @@ namespace Game1942.Core
                 }
 
                 // for shadowing
-                sBatch.DrawString(font, menuItems[i], new Vector2(position.X + 1, y + 1), Color.Yellow);
+                mSpriteBatch.DrawString(font, menuItems[i], new Vector2(position.X + 1, y + 1), Color.Yellow);
                 //the string item
-                sBatch.DrawString(font, menuItems[i], new Vector2(position.X + 1, y + 1), theColor);
+                mSpriteBatch.DrawString(font, menuItems[i], new Vector2(position.X + 1, y + 1), theColor);
                 y += font.LineSpacing;
 
             }
-            sBatch.End();
+            mSpriteBatch.End();
             base.Draw(gameTime);
         }
     }

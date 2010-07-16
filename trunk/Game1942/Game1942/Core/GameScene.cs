@@ -80,7 +80,7 @@ namespace Game1942.Core
 
         public override void Draw(GameTime gameTime)
         {
-            
+
             for (int i = 0; i < components.Count; i++)
             {
                 GameComponent gc = components[i];

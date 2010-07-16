@@ -19,75 +19,73 @@ namespace Game1942
     /// </summary>
     public class ActionScene : GameScene
     {
-        protected Texture2D mBackgroundTexture, actionTexture;
+        protected Texture2D mBackgroundTexture, actionTexture, blockTextureData;
         protected SpriteBatch mSpriteBatch;
+        GraphicsDeviceManager graphics;
         protected Player player;
+        private CollisionDetection mCollison;
+
+        protected SoundEffect mExplosion;
 
         List<Weapon> bulletList = new List<Weapon>();
         SpriteFont font;
 
-        private Enemy enemy;
+        //private Enemy enemy; // ändrat kod
+        private List<Enemy> Enemies = new List<Enemy>(); // ändrat kod
 
-        private int fitta = 9;
-
-        private const float Rotation = 0;
-        private const float Scale = 2.0f;
-        private const float Depth = 0.5f;
-
-        private const int Frames = 4;
-        private const int FramesPerSec = 2;
+     
+        // error variables
+        int error;
 
         //font
         private SpriteFont gameFont;
-           
-        private const int addDropTime = 1000;       
 
-        private const int startDrops = 1;
         private KeyboardState oldKeyboardState;
 
-        public ActionScene(Game game, Texture2D theTexture, Texture2D backGroundTexture, SpriteFont smallFont)
+        int k = 4;
+
+        public ActionScene(Game game, Texture2D theTexture, Texture2D backGroundTexture, SpriteFont smallFont, SoundEffect explosion)
             : base(game)
         {
             font = smallFont;
             actionTexture = theTexture;
             mBackgroundTexture = backGroundTexture;
+            mExplosion = explosion;
 
             // creates and puts the player in start position
             Start();
-            
+
             oldKeyboardState = Keyboard.GetState();
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
+            mCollison = new CollisionDetection(player, bulletList, Enemies, actionTexture);
         }
 
         protected override void LoadContent()
         {
+           // mExplosion = Game.Content.Load<SoundEffect>("luger");
             gameFont = Game.Content.Load<SpriteFont>("font");
-
-            AudioManager.LoadEffect("luger");
-            AudioManager.LoadEffect("implosion");
-
             base.LoadContent();
+            error++;
         }
         /// <summary>
         /// Allows the game component to perform any initialization it needs to before starting
         /// to run.  This is where it can query for any required services and load content.
         /// </summary>
         public override void Initialize()
-        {            
+        {
             base.Initialize();
         }
 
         public override void Show()
         {
-            AudioManager.PlayMusic("song");
             base.Show();
         }
 
         public override void Hide()
         {
-            MediaPlayer.Stop();
             base.Hide();
         }
+
 
         /// <summary>
         /// Allows the game component to update itself.
@@ -104,45 +102,73 @@ namespace Game1942
                 Components.Add(bulletList[bulletList.Count - 1]);
                 bulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 3));
                 Components.Add(bulletList[bulletList.Count - 1]);
-
-                AudioManager.Effect("luger");
+                mExplosion.Play();
             }
+
+
 
             // removes the bullet when it reached the end of the screen
             for (int i = 0; i < bulletList.Count; i++)
             {
-                if (bulletList[i].position.Y < (0))
+                if (bulletList[i].mPosition.Y < (0))
                 {
                     bulletList.RemoveAt(i);
                 }
             }
+           // CheckCollisions(); // checks collition with enemy List
 
             oldKeyboardState = keyboard;
             base.Update(gameTime);
         }
-        private void Start()
+        private void Start() // ändrat kod
         {
             if (player == null)
             {
                 player = new Player(Game, ref actionTexture);
+                player.Initialize();
                 Components.Add(player);
+              //  mCollison = new CollisionDetection(player, bulletList, Enemies, actionTexture);
             }
-            for (int x = 0; x < 11; x++)
+            for (int x = 0; x < 10; x++)// ändrat kod
             {
-                enemy = new Enemy(Game, ref actionTexture);
-                Components.Add(enemy);
+             
+                Enemies.Add(new Enemy(Game, ref actionTexture));
+                Components.Add(Enemies[Enemies.Count -1]);
             }
 
             player.PutInStartPosition();
         }
 
+        public void CheckCollisions()// ändrat kod
+        {
+           
+            
+            /*for (int x = 0; x < Enemies.Count - 1; x++)
+            {
+                if (Enemies[x].checkCollision(player.GetBounds()))
+                {
+                    error++;
+                    player.IsHit();
+                }
+            }
+             */
+            
+           
+            //mCollison.fuckIT();
+            mCollison.checkCollision();           
+
+
+        }
+
         public override void Draw(GameTime gameTime)
         {
+            GraphicsDevice.Clear(Color.Black);
             mSpriteBatch.Begin();
-            mSpriteBatch.DrawString(gameFont, "Bullets: " + bulletList.Count.ToString(), new Vector2(15, 15), Color.White);
-            mSpriteBatch.DrawString(gameFont, "Errno: " + fitta.ToString(), new Vector2(15, 35), Color.White);
+
+            mSpriteBatch.DrawString(gameFont, "ActionScene Bullets: " + bulletList.Count.ToString()+ "\nActionScene Hits: "+ error.ToString(), new Vector2(15, 15), Color.White);
             mSpriteBatch.End();
             base.Draw(gameTime);
+
         }
     }
 }
