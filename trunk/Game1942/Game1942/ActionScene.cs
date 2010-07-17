@@ -25,23 +25,21 @@ namespace Game1942
         private CollisionDetection mCollison;
 
         List<Weapon> bulletList = new List<Weapon>();
-        SpriteFont font;
-
-        //private Enemy enemy; // ändrat kod
-        private List<Enemy> Enemies = new List<Enemy>(); // ändrat kod
-     
-        // error variables
-        int error;
 
         //font
         private SpriteFont gameFont;
+
+        private List<Enemy> Enemies = new List<Enemy>();
+     
+        // error variables
+        int error;
 
         private KeyboardState oldKeyboardState;
 
         public ActionScene(Game game, Texture2D theTexture, Texture2D backGroundTexture, SpriteFont smallFont)
             : base(game)
         {
-            font = smallFont;
+            gameFont = smallFont;
             actionTexture = theTexture;
             mBackgroundTexture = backGroundTexture;
 
@@ -55,11 +53,10 @@ namespace Game1942
 
         protected override void LoadContent()
         {
-            gameFont = Game.Content.Load<SpriteFont>("font");
             AudioManager.LoadEffect("luger");
             AudioManager.LoadEffect("implosion");
             base.LoadContent();
-            error++;
+           
         }
         /// <summary>
         /// Allows the game component to perform any initialization it needs to before starting
@@ -112,23 +109,21 @@ namespace Game1942
                     bulletList.RemoveAt(i);
                 }
             }
-           // CheckCollisions(); // checks collition with enemy List
+            CheckCollisions(); // checks collition with enemy List
 
             oldKeyboardState = keyboard;
             base.Update(gameTime);
         }
-        private void Start() // ändrat kod
+        private void Start() 
         {
             if (player == null)
             {
                 player = new Player(Game, ref actionTexture);
                 player.Initialize();
                 Components.Add(player);
-              //  mCollison = new CollisionDetection(player, bulletList, Enemies, actionTexture);
             }
-            for (int x = 0; x < 10; x++)// ändrat kod
+            for (int x = 0; x < 10; x++)
             {
-             
                 Enemies.Add(new Enemy(Game, ref actionTexture));
                 Components.Add(Enemies[Enemies.Count -1]);
             }
@@ -138,9 +133,7 @@ namespace Game1942
 
         public void CheckCollisions()// ändrat kod
         {
-           
-            
-            /*for (int x = 0; x < Enemies.Count - 1; x++)
+            for (int x = 0; x < Enemies.Count - 1; x++)
             {
                 if (Enemies[x].checkCollision(player.GetBounds()))
                 {
@@ -148,20 +141,12 @@ namespace Game1942
                     player.IsHit();
                 }
             }
-             */
-            
-           
-            //mCollison.fuckIT();
-            mCollison.checkCollision();           
-
-
         }
 
         public override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
             mSpriteBatch.Begin();
-
             mSpriteBatch.DrawString(gameFont, "ActionScene Bullets: " + bulletList.Count.ToString()+ "\nActionScene Hits: "+ error.ToString(), new Vector2(15, 15), Color.White);
             mSpriteBatch.End();
             base.Draw(gameTime);
