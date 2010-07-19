@@ -142,6 +142,7 @@ namespace Game1942
                     actionScene.ResetScene();
                     gameOverScene = new GameOverScene(this);
                     gameOverScene.Initialize();
+                    Components.Add(gameOverScene);
                     ShowScene(gameOverScene);
                 }
             }
