@@ -53,7 +53,7 @@ namespace Game1942
             // Puts in two battle cruisers.
             for (int x = Enemies.Count; x < 2; x++)
             {
-                mEnemy = new Enemy(game, ref actionTexture, 32, 32 * 6, 466, 301);
+                mEnemy = new Enemy(game, ref actionTexture, 40, 196, 466, 301);
                 Enemies.Add(mEnemy);
             }
             for (int x = Enemies.Count; x <= 10; x++)
@@ -228,12 +228,8 @@ namespace Game1942
             for (int x = 0; x <= BulletList.Count - 1; x++)
             {
                 BulletList[x].mPosition.Y = -10;
-
             } 
-
-            }
-
-        
+        }
 
         public void SetGameOver()
         {
