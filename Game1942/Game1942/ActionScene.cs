@@ -26,8 +26,8 @@ namespace Game1942
         private int screenheight, screenwidth, deltaY, i, j, changeY, oldLives;
         private ScrollingBackground currentBackground;
         private float mTime, shootRate = 0.3f;
-
-        List<Weapon> bulletList = new List<Weapon>();
+        private Enemy mEnemy, mEnemy1;
+        
 
         private bool mGameOver = false;
 
@@ -35,7 +35,7 @@ namespace Game1942
         private SpriteFont gameFont;
 
         private List<Enemy> Enemies = new List<Enemy>();
-     
+        private List<Weapon> BulletList = new List<Weapon>();
         // error variables
         int error;
 
@@ -49,6 +49,19 @@ namespace Game1942
             actionTexture = theTexture;
             mBackgroundTexture = backGroundTexture;
             deltaY = 2;
+
+            // Puts in two battle cruisers.
+            for (int x = Enemies.Count; x < 2; x++)
+            {
+                mEnemy = new Enemy(game, ref actionTexture, 32, 32 * 6, 466, 301);
+                Enemies.Add(mEnemy);
+            }
+            for (int x = Enemies.Count; x <= 10; x++)
+            {
+                mEnemy1 = new Enemy(game, ref actionTexture, 32, 32, 4, 4);
+                Enemies.Add(mEnemy1);
+            }
+            
 
             oldKeyboardState = Keyboard.GetState();
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
@@ -114,11 +127,11 @@ namespace Game1942
                 oldLives = player.GetLives();
             }
             // removes the bullet when it reached the end of the screen
-            for (int i = 0; i <= bulletList.Count-1; i++)
+            for (int i = 0; i <= BulletList.Count-1; i++)
             {
-                if (bulletList[i].mPosition.Y < (0))
+                if (BulletList[i].mPosition.Y < (0))
                 {
-                    bulletList.RemoveAt(i);
+                    BulletList.RemoveAt(i);
                 }
             }
             CheckCollisions(); // checks collition with enemy List
@@ -142,10 +155,10 @@ namespace Game1942
                 Components.Add(player);
                 oldLives = player.GetLives();
             }
-            for (int x = 0; x < 10; x++)
+            for (int x = 0; x < Enemies.Count-1; x++)
             {
-                Enemies.Add(new Enemy(Game, ref actionTexture));
-                Components.Add(Enemies[Enemies.Count -1]);
+               
+                Components.Add(Enemies[x]);
             }
 
             player.PutInStartPosition();
@@ -162,15 +175,14 @@ namespace Game1942
             }
 
             // check if any enemy has a collision with a weapon, if it collides the position of the weapon is put outside the screen and will be removed in the update.
-            for (int x = 0; x <= bulletList.Count - 1; x++)
+            for (int x = 0; x <= BulletList.Count - 1; x++)
             {
                 for (int y = 0; y <= Enemies.Count - 1; y++)
                 {
-                    if (Enemies[y].checkCollision(bulletList[x].GetBounds()))
-                    {
-                        error++;
+                    if (Enemies[y].checkCollision(BulletList[x].GetBounds()))
+                    {                        
                         Enemies[y].isHit();
-                        bulletList[x].mPosition.Y = -10;
+                        BulletList[x].mPosition.Y = -10;
                     }
                 }
             }
@@ -183,7 +195,7 @@ namespace Game1942
 
             currentBackground.Draw(mSpriteBatch);
 
-            mSpriteBatch.DrawString(gameFont, "ActionScene EnemyCounts: " + Enemies.Count.ToString() + "\nActionScene Player killed Enemy: " + error.ToString(), new Vector2(15, 15), Color.White);
+            mSpriteBatch.DrawString(gameFont, "ActionScene EnemyCounts: " + Enemies.Count + "\nActionScene Player killed Enemy: " + error.ToString(), new Vector2(15, 15), Color.White);
             mSpriteBatch.End();
             base.Draw(gameTime);
         }
@@ -195,12 +207,12 @@ namespace Game1942
             {
                 if (mTime > shootRate)
                 {
-                    bulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 1));
-                    Components.Add(bulletList[bulletList.Count - 1]);
-                    bulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 2));
-                    Components.Add(bulletList[bulletList.Count - 1]);
-                    bulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 3));
-                    Components.Add(bulletList[bulletList.Count - 1]);
+                    BulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 1));
+                    Components.Add(BulletList[BulletList.Count - 1]);
+                    BulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 2));
+                    Components.Add(BulletList[BulletList.Count - 1]);
+                    BulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 3));
+                    Components.Add(BulletList[BulletList.Count - 1]);
                     AudioManager.Effect("luger");
                     mTime = 0;
                 }
@@ -213,11 +225,15 @@ namespace Game1942
             {
                 Enemies[x].PutinStartPosition();
             }
-            for (int x = 0; x <= bulletList.Count - 1; x++)
+            for (int x = 0; x <= BulletList.Count - 1; x++)
             {
-                bulletList[x].mPosition.Y = -10;
+                BulletList[x].mPosition.Y = -10;
+
+            } 
+
             }
-        }
+
+        
 
         public void SetGameOver()
         {

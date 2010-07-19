@@ -20,28 +20,32 @@ namespace Game1942
     public class Enemy : Microsoft.Xna.Framework.DrawableGameComponent
     {
 
-        protected Texture2D texture;
+        protected Texture2D mTexture;
         protected Rectangle spriteRectangle;
         protected Vector2 position, HpPosition;
-        protected int Yspeed, Xspeed, error, HP=100;        
+        protected int Yspeed, Xspeed, error, HP=100, mStartX, mStartY;        
         protected Random random;
         protected SpriteBatch mSpriteBatch;
         protected SpriteFont gameFont;
 
-        protected const int ENEMYWIDTH = 32; // Ska inte vara const
-        protected const int ENEMYHEIGHT = 32; // 
+        protected int mEnemyWidth, mEnemyHeight; // Ska inte vara const
+         
 
-        public Enemy(Game game, ref Texture2D theTexture)
+        public Enemy(Game game, ref Texture2D theTexture, int width, int height, int startX, int startY)
             : base(game)
         {
-            texture = theTexture;
+            mTexture = theTexture;
+            mEnemyWidth = width;
+            mEnemyHeight = height;
+            mStartX = startX;
+            mStartY = startY;
             position = new Vector2();
             // Get the current spritebatch
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
 
             // Create the source rectangle.
             // This represents where is the sprite picture in surface
-            spriteRectangle = new Rectangle(4, 4, ENEMYWIDTH, ENEMYHEIGHT); //// ändrat kod
+            spriteRectangle = new Rectangle(mStartX, mStartY, mEnemyWidth, mEnemyHeight); //// ändrat kod
 
             // Initialize the random number generator and put the enemy in 
             // your start position
@@ -55,7 +59,7 @@ namespace Game1942
         /// </summary>
         public void PutinStartPosition()
         {
-            position.X = random.Next(Game.Window.ClientBounds.Width - ENEMYWIDTH); // ändrat kod
+            position.X = random.Next(Game.Window.ClientBounds.Width - mEnemyWidth); // ändrat kod
             position.Y = 0;
             Yspeed = 1 + random.Next(3);
             Xspeed = random.Next(3) - 1;
@@ -74,7 +78,7 @@ namespace Game1942
             {
                 position.Y += 1;
                 mSpriteBatch.DrawString(gameFont, "HP: " + HP.ToString(), HpPosition, Color.White);
-                mSpriteBatch.Draw(texture, position, spriteRectangle, Color.White);
+                mSpriteBatch.Draw(mTexture, position, spriteRectangle, Color.White);
             }
             mSpriteBatch.End();
             base.Draw(gameTime);
@@ -116,13 +120,13 @@ namespace Game1942
         /// 
         public bool checkCollision(Rectangle rect) 
         {
-            Rectangle spriterect = new Rectangle((int)position.X, (int)position.Y, ENEMYWIDTH, ENEMYHEIGHT);
+            Rectangle spriterect = new Rectangle((int)position.X, (int)position.Y, mEnemyWidth, mEnemyHeight);
             return spriterect.Intersects(rect);            
         }
 
         public Rectangle getBounds()
         {            
-            return new Rectangle((int)position.X, (int)position.Y, ENEMYWIDTH, ENEMYHEIGHT);
+            return new Rectangle((int)position.X, (int)position.Y, mEnemyWidth, mEnemyHeight);
         }
 
         public void isHit() 
