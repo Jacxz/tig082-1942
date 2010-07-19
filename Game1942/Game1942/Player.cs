@@ -31,8 +31,8 @@ namespace Game1942
         protected Rectangle mScreenBounds;
 
         private Animation mExplosionAnimation, mPlayerAnimation;
-
-        
+        private AnimationTest playerAnimation, explosionAnimation;
+        private AnimationPlayer playerAnimationPlayer;
         private bool killed;
         SpriteFont font;
         private int lives, HP;
@@ -45,13 +45,16 @@ namespace Game1942
             mPosition = new Vector2();
 
             mExplosionAnimation = new Animation(game, mTexture, 6, 0.1f, 70, 169,33,false);
-            mPlayerAnimation = new Animation(game, mTexture, 3, 0.1f, 169, 202, 33, true);
-            
+           // mPlayerAnimation = new Animation(game, mTexture, 3, 0.1f, 169, 202, 33, true);
+            playerAnimation = new AnimationTest(game, theTexture, 0.1f, true, 3, 32, 32, 169, 202);
+            explosionAnimation = new AnimationTest(game, theTexture, 0.1f, false, 6, 32, 32, 70, 169);
+           
+            playerAnimationPlayer = new AnimationPlayer(game);
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
 
             mSpriteRectangle = new Rectangle(136, 202, SHIPWIDTH, SHIPHEIGHT);
             mLivesRectangle = new Rectangle(169, 268, SHIPWIDTH, SHIPHEIGHT);
-            
+            playerAnimationPlayer.PlayAnimation(playerAnimation);
             lives = 3;
             HP = 100;
            
@@ -86,6 +89,7 @@ namespace Game1942
         {
             mLivesPosition.X = mScreenBounds.Width - SHIPWIDTH*lives;
           
+            
             // Move the ship with keyboard
             
             KeyboardState keyboard = Keyboard.GetState();
@@ -126,6 +130,7 @@ namespace Game1942
             }
             if (Killed)
             {
+
                 IsKilled(gameTime);
             }
          
@@ -146,17 +151,18 @@ namespace Game1942
             }
             // Draw the ship
                   
-            mSpriteBatch.Draw(mTexture, mPosition, mSpriteRectangle, Color.White);
+           // mSpriteBatch.Draw(mTexture, mPosition, mSpriteRectangle, Color.White);
             mSpriteBatch.DrawString(font, "Player HP: "+HP.ToString()+"\nPlayer GameTime: "+ (error += (float)gameTime.ElapsedGameTime.TotalSeconds) , new Vector2(15,60), Color.White);
             mSpriteBatch.End();
-
+            
             
             // Draw the explosion
-            if (mExplosionAnimation.IsPaused)
+           /* if (mExplosionAnimation.IsPaused)
             {
                 mExplosionAnimation.Draw(gameTime);
               
-            }
+            }*/
+            playerAnimationPlayer.Draw(gameTime, mSpriteBatch, getPosition());
             base.Draw(gameTime);
         }
 
@@ -190,24 +196,31 @@ namespace Game1942
             if (HP <= 0)
             {
                 Killed = true;
+                AudioManager.Effect("implosion");
+                playerAnimationPlayer.PlayAnimation(explosionAnimation);
             }
         }
 
         public void IsKilled(GameTime gTime)
         {
-            lives -= 1;
-            mExplosionAnimation.SpritePos = mPosition;
-            mExplosionAnimation.Play();
-            AudioManager.Effect("implosion");
-
-           // error2 += (float)gTime.ElapsedGameTime.TotalSeconds;
-            //if (error2 > 0.6f)
-            //{
-                PutInStartPosition();
+            
+            //mExplosionAnimation.SpritePos = mPosition;
+            //mExplosionAnimation.Play();
+            
+            
+            error2+=(float)gTime.ElapsedGameTime.TotalSeconds;
+            if (error2 > explosionAnimation.FrameTime*explosionAnimation.FrameCount)
+            {
                 Killed = false;
-              //  error2 = 0;
-            //}
-            HP = 100;
+                HP = 100;
+                PutInStartPosition();
+                lives -= 1;
+                playerAnimationPlayer.PlayAnimation(playerAnimation);
+                error2 = 0;
+            }
+            
+            
+            
         }
 
         public int GetLives()

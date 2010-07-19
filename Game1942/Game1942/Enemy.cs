@@ -104,7 +104,7 @@ namespace Game1942
        
             position.X += Xspeed;
 
-            if (HP < 0)
+            if (HP <= 0)
             {
                 PutinStartPosition();
             }
