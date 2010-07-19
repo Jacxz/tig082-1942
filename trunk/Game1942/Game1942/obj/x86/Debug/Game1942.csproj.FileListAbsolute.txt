@@ -33,3 +33,19 @@ D:\SVN Sommarkurs 2010\Game1942\Game1942\obj\x86\Debug\ResolveAssemblyReference.
 D:\SVN Sommarkurs 2010\Game1942\Game1942\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 D:\SVN Sommarkurs 2010\Game1942\Game1942\obj\x86\Debug\Game1942.exe
 D:\SVN Sommarkurs 2010\Game1942\Game1942\obj\x86\Debug\Game1942.pdb
+C:\Users\Knan\Documents\SVN\Game1942\Game1942\bin\x86\Debug\Content\1945.xnb
+C:\Users\Knan\Documents\SVN\Game1942\Game1942\bin\x86\Debug\Content\MenuTitle.xnb
+C:\Users\Knan\Documents\SVN\Game1942\Game1942\bin\x86\Debug\Content\largeMenuFont.xnb
+C:\Users\Knan\Documents\SVN\Game1942\Game1942\bin\x86\Debug\Content\smallMenuFont.xnb
+C:\Users\Knan\Documents\SVN\Game1942\Game1942\bin\x86\Debug\Content\font.xnb
+C:\Users\Knan\Documents\SVN\Game1942\Game1942\bin\x86\Debug\Content\luger.xnb
+C:\Users\Knan\Documents\SVN\Game1942\Game1942\bin\x86\Debug\Content\menu.xnb
+C:\Users\Knan\Documents\SVN\Game1942\Game1942\bin\x86\Debug\Content\song.xnb
+C:\Users\Knan\Documents\SVN\Game1942\Game1942\bin\x86\Debug\Content\implosion.xnb
+C:\Users\Knan\Documents\SVN\Game1942\Game1942\bin\x86\Debug\Content\song.wma
+C:\Users\Knan\Documents\SVN\Game1942\Game1942\bin\x86\Debug\Game1942.exe
+C:\Users\Knan\Documents\SVN\Game1942\Game1942\bin\x86\Debug\Game1942.pdb
+C:\Users\Knan\Documents\SVN\Game1942\Game1942\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Knan\Documents\SVN\Game1942\Game1942\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\Knan\Documents\SVN\Game1942\Game1942\obj\x86\Debug\Game1942.exe
+C:\Users\Knan\Documents\SVN\Game1942\Game1942\obj\x86\Debug\Game1942.pdb

@@ -26,6 +26,7 @@ namespace Game1942
 
         List<Weapon> bulletList = new List<Weapon>();
 
+      
         //font
         private SpriteFont gameFont;
 
@@ -34,7 +35,7 @@ namespace Game1942
         // error variables
         int error;
 
-        private KeyboardState oldKeyboardState;
+        private KeyboardState oldKeyboardState, keyboard;
 
         public ActionScene(Game game, Texture2D theTexture, Texture2D backGroundTexture, SpriteFont smallFont)
             : base(game)
@@ -48,7 +49,8 @@ namespace Game1942
 
             oldKeyboardState = Keyboard.GetState();
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
-            mCollison = new CollisionDetection(player, bulletList, Enemies, actionTexture);
+
+
         }
 
         protected override void LoadContent()
@@ -86,18 +88,8 @@ namespace Game1942
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            KeyboardState keyboard = Keyboard.GetState();
-            if (keyboard.IsKeyDown(Keys.Space) && !oldKeyboardState.Equals(keyboard))
-            {
-                bulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 1));
-                Components.Add(bulletList[bulletList.Count - 1]);
-                bulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 2));
-                Components.Add(bulletList[bulletList.Count - 1]);
-                bulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 3));
-                Components.Add(bulletList[bulletList.Count - 1]);
-                
-                AudioManager.Effect("luger");
-            }
+           keyboard = Keyboard.GetState();
+            addBullet();
 
 
 
@@ -131,14 +123,25 @@ namespace Game1942
             player.PutInStartPosition();
         }
 
-        public void CheckCollisions()// ändrat kod
+        public void CheckCollisions()
         {
             for (int x = 0; x < Enemies.Count - 1; x++)
             {
                 if (Enemies[x].checkCollision(player.GetBounds()))
+                {                   
+                    player.IsHit();                   
+                }
+            }
+            for (int x = 0; x < bulletList.Count - 1; x++)
+            {
+                for (int y = 0; y < Enemies.Count - 1; y++)
                 {
-                    error++;
-                    player.IsHit();
+                    if (Enemies[y].checkCollision(bulletList[x].GetBounds()))
+                    {
+                        error++;
+                        Enemies[y].PutinStartPosition();
+                        bulletList.RemoveAt(x);
+                    }
                 }
             }
         }
@@ -147,10 +150,26 @@ namespace Game1942
         {
             GraphicsDevice.Clear(Color.Black);
             mSpriteBatch.Begin();
-            mSpriteBatch.DrawString(gameFont, "ActionScene Bullets: " + bulletList.Count.ToString()+ "\nActionScene Hits: "+ error.ToString(), new Vector2(15, 15), Color.White);
+            mSpriteBatch.DrawString(gameFont, "ActionScene Bullets: " + bulletList.Count.ToString()+ "\nActionScene Player killed Enemy: "+ error.ToString(), new Vector2(15, 15), Color.White);
+            
             mSpriteBatch.End();
+        
             base.Draw(gameTime);
 
+        }
+
+        public void addBullet()
+        {
+            if (keyboard.IsKeyDown(Keys.Space) && !oldKeyboardState.Equals(keyboard))
+            {
+                bulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 1));
+                Components.Add(bulletList[bulletList.Count - 1]);
+                bulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 2));
+                Components.Add(bulletList[bulletList.Count - 1]);
+                bulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 3));
+                Components.Add(bulletList[bulletList.Count - 1]);
+                AudioManager.Effect("luger");
+            }
         }
     }
 }

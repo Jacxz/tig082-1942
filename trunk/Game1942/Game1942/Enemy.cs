@@ -104,7 +104,7 @@ namespace Game1942
         /// <param name="rect">test rectangle</param>
         /// <returns>true, if has a collision</returns>
         /// 
-        public bool checkCollision(Rectangle rect) // ändrat kod
+        public bool checkCollision(Rectangle rect) 
         {
             Rectangle spriterect = new Rectangle((int)position.X, (int)position.Y, ENEMYWIDTH, ENEMYHEIGHT);
             return spriterect.Intersects(rect);
