@@ -194,7 +194,7 @@ namespace Game1942
 
         private void GameOver()
         {
-            mSpriteBatch.DrawString(gameFont, "Game Over", new Vector2(75, 75), Color.White);
+            mSpriteBatch.DrawString(gameFont, "Game Over", new Vector2(175, 175), Color.Magenta);
             AudioManager.GameOver();
             while (MediaPlayer.State != MediaState.Stopped)
             { }
