@@ -156,7 +156,7 @@ namespace Game1942
                     if (Enemies[y].checkCollision(bulletList[x].GetBounds()))
                     {
                         error++;
-                        Enemies[y].PutinStartPosition();
+                        Enemies[y].isHit();
                         bulletList[x].mPosition.Y = -10;
                     }
                 }

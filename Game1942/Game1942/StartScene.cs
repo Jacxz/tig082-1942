@@ -30,9 +30,6 @@ namespace Game1942
         protected Vector2 pacPosition = new Vector2(300, 0);
 
 
-        // protected Rectangle startRect = new Rectangle(100, 100, 200, 200);
-        // protected Vector2 startPosition;
-
         public StartScene(Game game, SpriteFont smallFont, SpriteFont largeFont, Texture2D background, Texture2D elements)
             : base(game)
         {
@@ -82,15 +79,10 @@ namespace Game1942
         public override void Draw(GameTime gameTime)
         {
 
-            //  mSpriteBatch.Draw(bGround, new Vector2(0, 0), Color.White);
             mSpriteBatch.Begin();
             mSpriteBatch.Draw(elements, pacPosition, pacRect, Color.White);
             mSpriteBatch.End();
             base.Draw(gameTime);
-
-
-            // sBatch.Draw(elements, startPosition, startRect, Color.White);
-
 
         }
 

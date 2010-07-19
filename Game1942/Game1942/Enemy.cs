@@ -22,15 +22,14 @@ namespace Game1942
 
         protected Texture2D texture;
         protected Rectangle spriteRectangle;
-        protected Vector2 position;
-        protected int Yspeed;
-        protected int Xspeed, error;
+        protected Vector2 position, HpPosition;
+        protected int Yspeed, Xspeed, error, HP=100;        
         protected Random random;
         protected SpriteBatch mSpriteBatch;
         protected SpriteFont gameFont;
 
-        protected const int ENEMYWIDTH = 32; // ändrat kod
-        protected const int ENEMYHEIGHT = 32; // ändrat kod
+        protected const int ENEMYWIDTH = 32; // Ska inte vara const
+        protected const int ENEMYHEIGHT = 32; // 
 
         public Enemy(Game game, ref Texture2D theTexture)
             : base(game)
@@ -38,8 +37,7 @@ namespace Game1942
             texture = theTexture;
             position = new Vector2();
             // Get the current spritebatch
-            mSpriteBatch =
-                (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
+            mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
 
             // Create the source rectangle.
             // This represents where is the sprite picture in surface
@@ -53,7 +51,7 @@ namespace Game1942
         }
 
         /// <summary>
-        /// Initialize Meteor Position and Velocity
+        /// Initialize Enemy Position and Velocity
         /// </summary>
         public void PutinStartPosition()
         {
@@ -61,6 +59,7 @@ namespace Game1942
             position.Y = 0;
             Yspeed = 1 + random.Next(3);
             Xspeed = random.Next(3) - 1;
+            reset();
         }
 
         /// <summary>
@@ -74,7 +73,7 @@ namespace Game1942
             for (int x = 0; x < Yspeed; x++)
             {
                 position.Y += 1;
-               // mSpriteBatch.DrawString(gameFont, "X: " + position.X.ToString() + " Y: " + position.Y.ToString()+ " Error: "+error, position, Color.White);
+                mSpriteBatch.DrawString(gameFont, "HP: " + HP.ToString(), HpPosition, Color.White);
                 mSpriteBatch.Draw(texture, position, spriteRectangle, Color.White);
             }
             mSpriteBatch.End();
@@ -87,6 +86,8 @@ namespace Game1942
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
+            HpPosition = position;
+            HpPosition.Y -= 10;
             // Check if the enemy still visible
             if ((position.Y >= Game.Window.ClientBounds.Height) ||
                 (position.X >= Game.Window.ClientBounds.Width) || (position.X <= 0) || (position.X >= 780))
@@ -99,11 +100,16 @@ namespace Game1942
        
             position.X += Xspeed;
 
+            if (HP < 0)
+            {
+                PutinStartPosition();
+            }
+
             base.Update(gameTime);
         }
 
         /// <summary>
-        /// Check if the meteor intersects with the specified rectangle
+        /// Check if the Enemy intersects with the specified rectangle
         /// </summary>
         /// <param name="rect">test rectangle</param>
         /// <returns>true, if has a collision</returns>
@@ -117,6 +123,16 @@ namespace Game1942
         public Rectangle getBounds()
         {            
             return new Rectangle((int)position.X, (int)position.Y, ENEMYWIDTH, ENEMYHEIGHT);
+        }
+
+        public void isHit() 
+        {
+            HP -= 20;
+        }
+
+        private void reset()
+        {
+            HP = 100;
         }
     }
 }
