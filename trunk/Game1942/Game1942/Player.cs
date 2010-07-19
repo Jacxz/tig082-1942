@@ -152,11 +152,11 @@ namespace Game1942
 
             
             // Draw the explosion
-            /*if (mExplosionAnimation.IsPaused)
+            if (mExplosionAnimation.IsPaused)
             {
                 mExplosionAnimation.Draw(gameTime);
               
-            }*/
+            }
             base.Draw(gameTime);
         }
 
