@@ -129,25 +129,27 @@ namespace Game1942
 
             player.PutInStartPosition();
         }
-
+        // check collision enemys vs player and subtracts 5 hp from player each hit.
         public void CheckCollisions()
         {
-            for (int x = 0; x < Enemies.Count - 1; x++)
+            for (int x = 0; x <= Enemies.Count - 1; x++)
             {
                 if (Enemies[x].checkCollision(player.GetBounds()))
                 {                   
                     player.IsHit();                   
                 }
             }
-            for (int x = 0; x < bulletList.Count - 1; x++)
+
+            // check if any enemy has a collision with a weapon, if it collides the position of the weapon is put outside the screen and will be removed in the update.
+            for (int x = 0; x <= bulletList.Count - 1; x++)
             {
-                for (int y = 0; y < Enemies.Count - 1; y++)
+                for (int y = 0; y <= Enemies.Count - 1; y++)
                 {
                     if (Enemies[y].checkCollision(bulletList[x].GetBounds()))
                     {
                         error++;
                         Enemies[y].PutinStartPosition();
-                        bulletList.RemoveAt(x);
+                        bulletList[x].mPosition.Y = -10;
                     }
                 }
             }
@@ -169,7 +171,7 @@ namespace Game1942
                 }
             }
 
-            mSpriteBatch.DrawString(gameFont, "ActionScene Bullets: " + bulletList.Count.ToString() + "\nActionScene Player killed Enemy: " + error.ToString(), new Vector2(15, 15), Color.White);
+            mSpriteBatch.DrawString(gameFont, "ActionScene EnemyCounts: " + Enemies.Count.ToString() + "\nActionScene Player killed Enemy: " + error.ToString(), new Vector2(15, 15), Color.White);
             mSpriteBatch.End();
             base.Draw(gameTime);
 
