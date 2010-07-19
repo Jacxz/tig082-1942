@@ -30,12 +30,12 @@ namespace Game1942
 
         protected Rectangle mScreenBounds;
 
-        private Animation mAnimation;
-
+        private Animation mExplosionAnimation;
+        
         private bool killed;
         SpriteFont font;
-        private int error, error2, lives, HP;
-
+        private int lives, HP;
+        private float error,error2;
 
         public Player(Game game, ref Texture2D theTexture)
             : base(game)
@@ -43,6 +43,8 @@ namespace Game1942
             mTexture = theTexture;
             mPosition = new Vector2();
 
+            mExplosionAnimation = new Animation(game, mTexture, 6, 0.1f, 70, 169,33);
+          
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
 
             mSpriteRectangle = new Rectangle(136, 202, SHIPWIDTH, SHIPHEIGHT);
@@ -51,23 +53,11 @@ namespace Game1942
             lives = 3;
             HP = 100;
            
-            mScreenBounds = new Rectangle(0, 0,
-                Game.Window.ClientBounds.Width,
-                Game.Window.ClientBounds.Height);
-           
-         
-           
-            font = Game.Content.Load<SpriteFont>("font");
-          //  mAnimation = new Animation(Game, mTexture, position, 0, 1.0f, 0.5f, 2, 0.2f, 5); ska göras om
-          //  mAnimation.Initialize();
-            // weapon = new Weapon(Game, ref mTexture, new Vector2(position.X, position.Y));
-        }
+            mScreenBounds = new Rectangle(0, 0, Game.Window.ClientBounds.Width, Game.Window.ClientBounds.Height);
 
-        public void PutInStartPosition()
-        {
-            mPosition.X = mScreenBounds.Width / 2;
-            mPosition.Y = mScreenBounds.Height - SHIPHEIGHT;
+            font = Game.Content.Load<SpriteFont>("font");
         }
+        
 
         /// <summary>
         /// Allows the game component to perform any initialization it needs to before starting
@@ -134,10 +124,10 @@ namespace Game1942
             }
             if (Killed)
             {
-                IsKilled();
+                IsKilled(gameTime);
+                
             }
-           // float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds; ska göras om
-            //mAnimation.UpdateFrame(elapsed);
+         
             base.Update(gameTime);
         }
 
@@ -146,7 +136,6 @@ namespace Game1942
         /// </summary>
         public override void Draw(GameTime gameTime)
         {
-            
             mSpriteBatch.Begin();
             for (int x = 0; x < lives; x++)
             {
@@ -154,16 +143,16 @@ namespace Game1942
                 mSpriteBatch.Draw(mTexture, mLivesPosition, mLivesRectangle, Color.White);
                 mLivesPosition.X += 32;
             }
-           
             // Draw the ship
             mSpriteBatch.Draw(mTexture, mPosition, mSpriteRectangle, Color.White);
-            mSpriteBatch.DrawString(font, "Player IsKilled: "+ error.ToString() + "\nPlayer HP: "+HP.ToString()+"\nPlayer Lives: " + lives.ToString()+"\nError2: "+error2.ToString(), new Vector2(15,60), Color.White);
+            mSpriteBatch.DrawString(font, "Player HP: "+HP.ToString()+"\nPlayer GameTime: "+ (error += (float)gameTime.ElapsedGameTime.TotalSeconds) , new Vector2(15,60), Color.White);
             mSpriteBatch.End();
-          /*  if (Killed)
+
+            // Draw the explosion
+            if (mExplosionAnimation.IsPaused)
             {
-                mAnimation.Draw(gameTime);
-                Killed = false; 
-            }*/
+                mExplosionAnimation.Draw(gameTime);
+            }
             base.Draw(gameTime);
             
         }
@@ -175,7 +164,12 @@ namespace Game1942
         {
             return new Rectangle((int)mPosition.X, (int)mPosition.Y, SHIPWIDTH, SHIPHEIGHT);
         }
-
+        public void PutInStartPosition()
+        { 
+                mPosition.X = mScreenBounds.Width / 2;
+                mPosition.Y = mScreenBounds.Height - SHIPHEIGHT;
+        }
+        
         public Vector2 getPosition()
         {
             return mPosition;
@@ -189,21 +183,25 @@ namespace Game1942
 
         public void IsHit()
         {
-            HP -= 1;
+            HP -= 5;
             if (HP <= 0)
             {
                 Killed = true;
             }
         }
 
-        public void IsKilled()
+        public void IsKilled(GameTime gTime)
         {
             lives -= 1;
-          //  mAnimation = new Animation(Game, mTexture, position, 0, 1.0f, 0.5f, 2, 0.2f, 5);
-           // mAnimation.Initialize();
-            //mAnimation.Draw(gameTime);
-            PutInStartPosition();
-            Killed = false;
+            mExplosionAnimation.SpritePos = mPosition;
+            mExplosionAnimation.Play();
+           // error2 += (float)gTime.ElapsedGameTime.TotalSeconds;
+            //if (error2 > 0.6f)
+            //{
+                PutInStartPosition();
+                Killed = false;
+              //  error2 = 0;
+            //}
             HP = 100;
         }
 
