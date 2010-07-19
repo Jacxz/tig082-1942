@@ -19,10 +19,12 @@ namespace Game1942
     /// </summary>
     public class ActionScene : GameScene
     {
-        protected Texture2D mBackgroundTexture, actionTexture, blockTextureData;
+        protected Texture2D mBackgroundTexture, actionTexture, blockTextureData, actionTextures;
         protected SpriteBatch mSpriteBatch;
         protected Player player;
         private CollisionDetection mCollison;
+        private int screenheight, screenwidth, deltaY, i, j, changeY;
+        
 
         List<Weapon> bulletList = new List<Weapon>();
 
@@ -37,12 +39,14 @@ namespace Game1942
 
         private KeyboardState oldKeyboardState, keyboard;
 
-        public ActionScene(Game game, Texture2D theTexture, Texture2D backGroundTexture, SpriteFont smallFont)
+        public ActionScene(Game game, Texture2D theTexture, Texture2D backGroundTexture, 
+            SpriteFont smallFont)
             : base(game)
         {
             gameFont = smallFont;
             actionTexture = theTexture;
             mBackgroundTexture = backGroundTexture;
+            deltaY = 2;
 
             // creates and puts the player in start position
             Start();
@@ -57,6 +61,7 @@ namespace Game1942
         {
             AudioManager.LoadEffect("luger");
             AudioManager.LoadEffect("implosion");
+            actionTextures = Game.Content.Load<Texture2D>("1945");
             base.LoadContent();
            
         }
@@ -67,6 +72,8 @@ namespace Game1942
         public override void Initialize()
         {
             base.Initialize();
+            screenheight = GraphicsDevice.Viewport.Height;
+            screenwidth = GraphicsDevice.Viewport.Width;
         }
 
         public override void Show()
@@ -91,6 +98,8 @@ namespace Game1942
            keyboard = Keyboard.GetState();
             addBullet();
 
+            changeY += deltaY;
+            changeY = changeY % 32;
 
 
             // removes the bullet when it reached the end of the screen
@@ -150,8 +159,18 @@ namespace Game1942
         {
             GraphicsDevice.Clear(Color.Black);
             mSpriteBatch.Begin();
-            mSpriteBatch.DrawString(gameFont, "ActionScene Bullets: " + bulletList.Count.ToString()+ "\nActionScene Player killed Enemy: "+ error.ToString(), new Vector2(15, 15), Color.White);
-            
+            // Here the scrolling background is printed
+            mSpriteBatch.Draw(actionTextures, screenpos, new Rectangle(268, 367, 32, 32),
+                 Color.White, 0, new Vector2(0, 0), 1, SpriteEffects.None, 0f);
+            for (i = 0; i < screenwidth/32; i++)
+            {
+                for (j = 0; j < (screenheight / 32)+2; j++)
+                {
+                    mSpriteBatch.Draw(actionTextures, new Vector2(32 * i,32 * j + changeY)
+                        , new Rectangle(268, 367, 32, 32),
+                         Color.White, 0, new Vector2(0, 32), 1, SpriteEffects.None, 0f);
+                }
+            }
             mSpriteBatch.End();
         
             base.Draw(gameTime);
