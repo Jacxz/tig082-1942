@@ -30,15 +30,16 @@ namespace Game1942
         SpriteFont font;
         public float error, error2;
 
-        private bool Paused;
+        private bool Paused, mLoop;
 
-        public Animation(Game game, Texture2D theTexture, int FrameCount, float TimePerFrame, int X, int Y, int jump)
+        public Animation(Game game, Texture2D theTexture, int FrameCount, float TimePerFrame, int X, int Y, int jump, bool isLooping)
             : base(game)
         {
             mTexture = theTexture;
             mXpos = X;
             mYpos = Y;
             mJump = jump;
+            mLoop = isLooping;
            // mRotation = rot;
            // mScale = sca;
             //mDepth = dep;
@@ -78,12 +79,12 @@ namespace Game1942
 
             UpdateFrame((float)gameTime.ElapsedGameTime.TotalSeconds);
             mSpriteBatch.Begin();
-            //mSpriteBatch.DrawString(font, "Animation Error: " +error+ "\nAnimation Time: " + mTotalElapsedTime + "\nmElapsed: " + mElapsed + "\nmFrame:" + mFrame + "\nFramCount: " + mFrameCount, new Vector2(30, 120), Color.White);
+            mSpriteBatch.DrawString(font, "Animation Error: " +error+ "\nAnimation Time: " + mTotalElapsedTime + "\nmElapsed: " + mElapsed + "\nmFrame:" + mFrame + "\nFramCount: " + mFrameCount, new Vector2(30, 120), Color.White);
                 Rectangle lSource = new Rectangle(mXpos + (mJump * mFrame), mYpos, 32, 32);
-                if (Paused)
-                {
+              //  if (Paused)
+               // {
                     mSpriteBatch.Draw(mTexture, mSpritePos, lSource, Color.White);
-                }
+                //}
             mSpriteBatch.End();
             
             base.Draw(gameTime);

@@ -30,7 +30,8 @@ namespace Game1942
 
         protected Rectangle mScreenBounds;
 
-        private Animation mExplosionAnimation;
+        private Animation mExplosionAnimation, mPlayerAnimation;
+
         
         private bool killed;
         SpriteFont font;
@@ -43,8 +44,9 @@ namespace Game1942
             mTexture = theTexture;
             mPosition = new Vector2();
 
-            mExplosionAnimation = new Animation(game, mTexture, 6, 0.1f, 70, 169,33);
-          
+            mExplosionAnimation = new Animation(game, mTexture, 6, 0.1f, 70, 169,33,false);
+            mPlayerAnimation = new Animation(game, mTexture, 3, 0.1f, 169, 202, 33, true);
+            
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
 
             mSpriteRectangle = new Rectangle(136, 202, SHIPWIDTH, SHIPHEIGHT);
@@ -143,15 +145,18 @@ namespace Game1942
                 mLivesPosition.X += 32;
             }
             // Draw the ship
+                  
             mSpriteBatch.Draw(mTexture, mPosition, mSpriteRectangle, Color.White);
             mSpriteBatch.DrawString(font, "Player HP: "+HP.ToString()+"\nPlayer GameTime: "+ (error += (float)gameTime.ElapsedGameTime.TotalSeconds) , new Vector2(15,60), Color.White);
             mSpriteBatch.End();
 
+            
             // Draw the explosion
-            if (mExplosionAnimation.IsPaused)
+            /*if (mExplosionAnimation.IsPaused)
             {
                 mExplosionAnimation.Draw(gameTime);
-            }
+              
+            }*/
             base.Draw(gameTime);
         }
 
