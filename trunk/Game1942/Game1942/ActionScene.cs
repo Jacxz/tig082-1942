@@ -25,6 +25,7 @@ namespace Game1942
         private CollisionDetection mCollison;
         private int screenheight, screenwidth, deltaY, i, j, changeY;
         private ScrollingBackground currentBackground;
+        private float mTime, shootRate = 0.3f;
 
         List<Weapon> bulletList = new List<Weapon>();
 
@@ -97,7 +98,8 @@ namespace Game1942
         public override void Update(GameTime gameTime)
         {
             keyboard = Keyboard.GetState();
-            AddBullet();
+
+            AddBullet(gameTime);
 
             //changeY += deltaY;
             //changeY = changeY % 32;
@@ -178,17 +180,22 @@ namespace Game1942
                 mGameOver = true;
         }
 
-        public void AddBullet()
+        public void AddBullet(GameTime gTime)
         {
-            if (keyboard.IsKeyDown(Keys.Space) && !oldKeyboardState.Equals(keyboard))
+            mTime += (float)gTime.ElapsedGameTime.TotalSeconds;
+            if (keyboard.IsKeyDown(Keys.Space) && !oldKeyboardState.IsKeyDown(Keys.Space))
             {
-                bulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 1));
-                Components.Add(bulletList[bulletList.Count - 1]);
-                bulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 2));
-                Components.Add(bulletList[bulletList.Count - 1]);
-                bulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 3));
-                Components.Add(bulletList[bulletList.Count - 1]);
-                AudioManager.Effect("luger");
+                if (mTime > shootRate)
+                {
+                    bulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 1));
+                    Components.Add(bulletList[bulletList.Count - 1]);
+                    bulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 2));
+                    Components.Add(bulletList[bulletList.Count - 1]);
+                    bulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 3));
+                    Components.Add(bulletList[bulletList.Count - 1]);
+                    AudioManager.Effect("luger");
+                    mTime = 0;
+                }
             }
         }
 
