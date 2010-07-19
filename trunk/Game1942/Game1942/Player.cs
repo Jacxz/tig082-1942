@@ -214,5 +214,10 @@ namespace Game1942
         {
             return lives;
         }
+
+        public void ResetLives()
+        {
+            lives = 3;
+        }
     }
 }

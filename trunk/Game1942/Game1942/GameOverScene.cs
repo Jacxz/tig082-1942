@@ -20,13 +20,16 @@ namespace Game1942
     public class GameOverScene : GameScene
     {
         private SpriteBatch spriteBatch;
-        private SpriteFont font;
+        private Texture2D texture;
+        private Rectangle rectangle;
+        private TimeSpan timer;
 
-        public GameOverScene(Game game)
+        public GameOverScene(Game game, Texture2D texture)
             : base(game)
         {
             spriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
-            font = game.Content.Load<SpriteFont>("papyrus");
+            this.texture = texture;
+            rectangle = new Rectangle(303, 503, 96, 12);
         }
 
         /// <summary>
@@ -46,16 +49,28 @@ namespace Game1942
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
+            if ((gameTime.TotalGameTime - timer).Seconds > 1)
+            {
+                if (rectangle.Y == 503)
+                {
+                    rectangle.Y = 520;
+                    timer = gameTime.TotalGameTime;
+                }
+                else
+                {
+                    rectangle.Y = 503;
+                    timer = gameTime.TotalGameTime;
+                }
+            }
+
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
-            spriteBatch.DrawString(font, "Game Over", new Vector2(Game.Window.ClientBounds.Width / 2, Game.Window.ClientBounds.Height / 2), Color.Red);
+            spriteBatch.Draw(texture, new Vector2(Game.Window.ClientBounds.Width / 2 - 50, Game.Window.ClientBounds.Height / 2), rectangle, Color.White);
             spriteBatch.End();
-            AudioManager.GameOver();
-            MediaPlayer.IsRepeating = false;
             base.Draw(gameTime);
         }
     }
