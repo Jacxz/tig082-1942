@@ -209,6 +209,5 @@ namespace Game1942
         {
             return lives;
         }
-
     }
 }

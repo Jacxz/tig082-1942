@@ -49,9 +49,6 @@ namespace Game1942
             mBackgroundTexture = backGroundTexture;
             deltaY = 2;
 
-            // creates and puts the player in start position
-            Start();
-
             oldKeyboardState = Keyboard.GetState();
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
         }
@@ -77,7 +74,10 @@ namespace Game1942
 
         public override void Show()
         {
+            // starts the background music
             AudioManager.PlayMusic("song");
+            // creates and puts the player in start position
+            Start();
             base.Show();
         }
 
@@ -157,10 +157,6 @@ namespace Game1942
         {
             GraphicsDevice.Clear(Color.Black);
             mSpriteBatch.Begin();
-            mSpriteBatch.DrawString(gameFont, "ActionScene Bullets: " + bulletList.Count.ToString()+ "\nActionScene Player killed Enemy: "+ error.ToString(), new Vector2(15, 15), Color.White);
-
-            if (player.GetLives() < 0)
-                GameOver();
 
             // Here the scrolling background is printed
             for (i = 0; i < screenwidth/32; i++)
@@ -173,9 +169,12 @@ namespace Game1942
                 }
             }
 
+            mSpriteBatch.DrawString(gameFont, "ActionScene Bullets: " + bulletList.Count.ToString() + "\nActionScene Player killed Enemy: " + error.ToString(), new Vector2(15, 15), Color.White);
             mSpriteBatch.End();
-        
             base.Draw(gameTime);
+
+            if (player.GetLives() < 0)
+                mGameOver = true;
         }
 
         public void AddBullet()
@@ -192,13 +191,11 @@ namespace Game1942
             }
         }
 
-        private void GameOver()
+        public void ResetScene()
         {
-            mSpriteBatch.DrawString(gameFont, "Game Over", new Vector2(175, 175), Color.Magenta);
-            AudioManager.GameOver();
-            while (MediaPlayer.State != MediaState.Stopped)
-            { }
-            mGameOver = true;
+            player = null;
+            Enemies.RemoveRange(0, Enemies.Count);
+            bulletList.RemoveRange(0, bulletList.Count);
         }
     }
 }

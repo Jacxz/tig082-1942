@@ -24,6 +24,7 @@ namespace Game1942
         //game scenes
         protected StartScene startScene;
         protected ActionScene actionScene;
+        protected GameOverScene gameOverScene;
         //current active scene
         protected GameScene currentScene;
 
@@ -137,8 +138,18 @@ namespace Game1942
                 HandleActionInput();
                 if (actionScene.mGameOver)
                 {
-                    ShowScene(startScene);
                     actionScene.mGameOver = false;
+                    actionScene.ResetScene();
+                    gameOverScene = new GameOverScene(this);
+                    gameOverScene.Initialize();
+                    ShowScene(gameOverScene);
+                }
+            }
+            else if (currentScene == gameOverScene)
+            {
+                if (CheckEnterA())
+                {
+                    ShowScene(startScene);
                 }
             }
         }
