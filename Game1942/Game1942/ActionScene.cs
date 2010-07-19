@@ -169,8 +169,7 @@ namespace Game1942
             mSpriteBatch.Begin();
 
             currentBackground.Draw(mSpriteBatch);
-            if (player.GetLives() < 0)
-                GameOver();
+
             mSpriteBatch.DrawString(gameFont, "ActionScene EnemyCounts: " + Enemies.Count.ToString() + "\nActionScene Player killed Enemy: " + error.ToString(), new Vector2(15, 15), Color.White);
             mSpriteBatch.End();
             base.Draw(gameTime);

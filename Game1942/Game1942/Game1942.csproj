@@ -96,6 +96,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="ScrollingBackground.cs" />
     <Compile Include="StartScene.cs" />
     <Compile Include="Weapon.cs" />
   </ItemGroup>
