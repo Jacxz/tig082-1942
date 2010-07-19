@@ -52,11 +52,10 @@ namespace Game1942
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
-            spriteBatch.DrawString(font, "Game Over", new Vector2(Game.Window.ClientBounds.Center.X, Game.Window.ClientBounds.Center.Y), Color.Red);
+            spriteBatch.DrawString(font, "Game Over", new Vector2(Game.Window.ClientBounds.Width / 2, Game.Window.ClientBounds.Height / 2), Color.Red);
             spriteBatch.End();
             AudioManager.GameOver();
-            while (MediaPlayer.State != MediaState.Stopped)
-            { }
+            MediaPlayer.IsRepeating = false;
             base.Draw(gameTime);
         }
     }
