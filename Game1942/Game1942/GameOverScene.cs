@@ -22,7 +22,7 @@ namespace Game1942
         private SpriteBatch spriteBatch;
         private Texture2D texture;
         private Rectangle rectangle;
-        private TimeSpan timer;
+        private double timer;
 
         public GameOverScene(Game game, Texture2D texture)
             : base(game)
@@ -49,17 +49,17 @@ namespace Game1942
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            if ((gameTime.TotalGameTime - timer).Seconds > 1)
+            if ((gameTime.TotalGameTime.TotalMilliseconds - timer) > 100)
             {
                 if (rectangle.Y == 503)
                 {
                     rectangle.Y = 520;
-                    timer = gameTime.TotalGameTime;
+                    timer = gameTime.TotalGameTime.TotalMilliseconds;
                 }
                 else
                 {
                     rectangle.Y = 503;
-                    timer = gameTime.TotalGameTime;
+                    timer = gameTime.TotalGameTime.TotalMilliseconds;
                 }
             }
 
@@ -69,7 +69,7 @@ namespace Game1942
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(texture, new Vector2(Game.Window.ClientBounds.Width / 2 - 50, Game.Window.ClientBounds.Height / 2), rectangle, Color.White);
+            spriteBatch.Draw(texture, new Vector2(Game.Window.ClientBounds.Width / 2 - 100, Game.Window.ClientBounds.Height / 2), rectangle, Color.White, 0, new Vector2(), 2f, new SpriteEffects(), 0);
             spriteBatch.End();
             base.Draw(gameTime);
         }
