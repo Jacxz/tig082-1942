@@ -19,10 +19,14 @@ namespace Game1942
     /// </summary>
     public class GameOverScene : GameScene
     {
+        private SpriteBatch spriteBatch;
+        private SpriteFont font;
+
         public GameOverScene(Game game)
             : base(game)
         {
-            // TODO: Construct any child components here
+            spriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
+            font = game.Content.Load<SpriteFont>("papyrus");
         }
 
         /// <summary>
@@ -42,14 +46,14 @@ namespace Game1942
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            // TODO: Add your update code here
-
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            //mSpriteBatch.DrawString(gameFont, "Game Over", new Vector2(175, 175), Color.Black);
+            spriteBatch.Begin();
+            spriteBatch.DrawString(font, "Game Over", new Vector2(Game.Window.ClientBounds.Center.X, Game.Window.ClientBounds.Center.Y), Color.Red);
+            spriteBatch.End();
             AudioManager.GameOver();
             while (MediaPlayer.State != MediaState.Stopped)
             { }
