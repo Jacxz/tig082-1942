@@ -125,7 +125,6 @@ namespace Game1942
             if (Killed)
             {
                 IsKilled(gameTime);
-                
             }
          
             base.Update(gameTime);
@@ -154,7 +153,6 @@ namespace Game1942
                 mExplosionAnimation.Draw(gameTime);
             }
             base.Draw(gameTime);
-            
         }
 
         /// <summary>
@@ -166,8 +164,8 @@ namespace Game1942
         }
         public void PutInStartPosition()
         { 
-                mPosition.X = mScreenBounds.Width / 2;
-                mPosition.Y = mScreenBounds.Height - SHIPHEIGHT;
+            mPosition.X = mScreenBounds.Width / 2;
+            mPosition.Y = mScreenBounds.Height - SHIPHEIGHT;
         }
         
         public Vector2 getPosition()
@@ -195,6 +193,8 @@ namespace Game1942
             lives -= 1;
             mExplosionAnimation.SpritePos = mPosition;
             mExplosionAnimation.Play();
+            AudioManager.Effect("implosion");
+
            // error2 += (float)gTime.ElapsedGameTime.TotalSeconds;
             //if (error2 > 0.6f)
             //{
@@ -205,7 +205,10 @@ namespace Game1942
             HP = 100;
         }
 
-
+        public int GetLives()
+        {
+            return lives;
+        }
 
     }
 }

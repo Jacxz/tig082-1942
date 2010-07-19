@@ -108,9 +108,7 @@ namespace Game1942
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-
             KeyboardState keyboard = Keyboard.GetState();
-
 
             // Handle GameScene Inputs
             HandleScenesInput();
@@ -137,6 +135,11 @@ namespace Game1942
             else if (currentScene == actionScene)
             {
                 HandleActionInput();
+                if (actionScene.mGameOver)
+                {
+                    ShowScene(startScene);
+                    actionScene.mGameOver = false;
+                }
             }
         }
 
@@ -208,7 +211,6 @@ namespace Game1942
             
             mSpriteBatch.End();
             base.Draw(gameTime);
-
         }
     }
 }

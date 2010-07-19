@@ -40,5 +40,13 @@ namespace Game1942
             MediaPlayer.Play(currentlyPlaying);
             MediaPlayer.IsRepeating = true;
         }
+
+        public static void GameOver()
+        {
+            MediaPlayer.Stop();
+            currentlyPlaying = soundContent.Load<Song>("gameover");
+            MediaPlayer.Play(currentlyPlaying);
+            MediaPlayer.IsRepeating = false;
+        }
     }
 }

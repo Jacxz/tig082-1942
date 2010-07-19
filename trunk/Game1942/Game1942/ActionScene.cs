@@ -28,7 +28,8 @@ namespace Game1942
 
         List<Weapon> bulletList = new List<Weapon>();
 
-      
+        public bool mGameOver = false;
+
         //font
         private SpriteFont gameFont;
 
@@ -53,8 +54,6 @@ namespace Game1942
 
             oldKeyboardState = Keyboard.GetState();
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
-
-
         }
 
         protected override void LoadContent()
@@ -63,8 +62,8 @@ namespace Game1942
             AudioManager.LoadEffect("implosion");
             actionTextures = Game.Content.Load<Texture2D>("1945");
             base.LoadContent();
-           
         }
+
         /// <summary>
         /// Allows the game component to perform any initialization it needs to before starting
         /// to run.  This is where it can query for any required services and load content.
@@ -88,19 +87,17 @@ namespace Game1942
             base.Hide();
         }
 
-
         /// <summary>
         /// Allows the game component to update itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-           keyboard = Keyboard.GetState();
-            addBullet();
+            keyboard = Keyboard.GetState();
+            AddBullet();
 
             changeY += deltaY;
             changeY = changeY % 32;
-
 
             // removes the bullet when it reached the end of the screen
             for (int i = 0; i < bulletList.Count; i++)
@@ -115,6 +112,7 @@ namespace Game1942
             oldKeyboardState = keyboard;
             base.Update(gameTime);
         }
+
         private void Start() 
         {
             if (player == null)
@@ -159,9 +157,12 @@ namespace Game1942
         {
             GraphicsDevice.Clear(Color.Black);
             mSpriteBatch.Begin();
+            mSpriteBatch.DrawString(gameFont, "ActionScene Bullets: " + bulletList.Count.ToString()+ "\nActionScene Player killed Enemy: "+ error.ToString(), new Vector2(15, 15), Color.White);
+
+            if (player.GetLives() < 0)
+                GameOver();
+
             // Here the scrolling background is printed
-            mSpriteBatch.Draw(actionTextures, screenpos, new Rectangle(268, 367, 32, 32),
-                 Color.White, 0, new Vector2(0, 0), 1, SpriteEffects.None, 0f);
             for (i = 0; i < screenwidth/32; i++)
             {
                 for (j = 0; j < (screenheight / 32)+2; j++)
@@ -171,13 +172,13 @@ namespace Game1942
                          Color.White, 0, new Vector2(0, 32), 1, SpriteEffects.None, 0f);
                 }
             }
+
             mSpriteBatch.End();
         
             base.Draw(gameTime);
-
         }
 
-        public void addBullet()
+        public void AddBullet()
         {
             if (keyboard.IsKeyDown(Keys.Space) && !oldKeyboardState.Equals(keyboard))
             {
@@ -189,6 +190,15 @@ namespace Game1942
                 Components.Add(bulletList[bulletList.Count - 1]);
                 AudioManager.Effect("luger");
             }
+        }
+
+        private void GameOver()
+        {
+            mSpriteBatch.DrawString(gameFont, "Game Over", new Vector2(75, 75), Color.White);
+            AudioManager.GameOver();
+            while (MediaPlayer.State != MediaState.Stopped)
+            { }
+            mGameOver = true;
         }
     }
 }
