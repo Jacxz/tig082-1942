@@ -7,4 +7,6 @@ Content\luger.xnb
 Content\menu.xnb
 Content\song.xnb
 Content\song.wma
+Content\gameover.xnb
+Content\gameover.wma
 Content\implosion.xnb
