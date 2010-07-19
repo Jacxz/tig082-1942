@@ -23,7 +23,7 @@ namespace Game1942
         protected SpriteBatch mSpriteBatch;
         protected Player player;
         private CollisionDetection mCollison;
-        private int screenheight, screenwidth, deltaY, i, j, changeY;
+        private int screenheight, screenwidth, deltaY, i, j, changeY, oldLives;
         private ScrollingBackground currentBackground;
         private float mTime, shootRate = 0.3f;
 
@@ -49,6 +49,7 @@ namespace Game1942
             actionTexture = theTexture;
             mBackgroundTexture = backGroundTexture;
             deltaY = 2;
+            
 
             oldKeyboardState = Keyboard.GetState();
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
@@ -108,9 +109,13 @@ namespace Game1942
 
             // TODO: Add your game logic here.
             currentBackground.Update(elapsed * 100);
-
+            if (oldLives != player.GetLives())
+            {
+                ResetScene();
+                oldLives = player.GetLives();
+            }
             // removes the bullet when it reached the end of the screen
-            for (int i = 0; i < bulletList.Count; i++)
+            for (int i = 0; i <= bulletList.Count-1; i++)
             {
                 if (bulletList[i].mPosition.Y < (0))
                 {
@@ -130,6 +135,7 @@ namespace Game1942
                 player = new Player(Game, ref actionTexture);
                 player.Initialize();
                 Components.Add(player);
+                oldLives = player.GetLives();
             }
             for (int x = 0; x < 10; x++)
             {
@@ -202,13 +208,14 @@ namespace Game1942
         public void ResetScene()
         {
             //player = null;
-            for (int x = 0; x < Enemies.Count - 1; x++)
+            for (int x = 0; x <= Enemies.Count - 1; x++)
             {
                 Enemies[x].PutinStartPosition();
             }
-            for (int x = 0; x < Enemies.Count - 1; x++)
+            for (int x = 0; x <= bulletList.Count - 1; x++)
             {
                 bulletList[x].mPosition.Y = -10;
+                
             }
             
         }
