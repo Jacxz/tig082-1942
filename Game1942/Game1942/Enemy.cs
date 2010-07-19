@@ -24,7 +24,7 @@ namespace Game1942
         protected Rectangle spriteRectangle;
         protected Vector2 position;
         protected int Yspeed;
-        protected int Xspeed;
+        protected int Xspeed, error;
         protected Random random;
         protected SpriteBatch mSpriteBatch;
         protected SpriteFont gameFont;
@@ -74,7 +74,7 @@ namespace Game1942
             for (int x = 0; x < Yspeed; x++)
             {
                 position.Y += 1;
-                mSpriteBatch.DrawString(gameFont, "X: " + position.X.ToString() + " Y: " + position.Y.ToString(), position, Color.White);
+               // mSpriteBatch.DrawString(gameFont, "X: " + position.X.ToString() + " Y: " + position.Y.ToString()+ " Error: "+error, position, Color.White);
                 mSpriteBatch.Draw(texture, position, spriteRectangle, Color.White);
             }
             mSpriteBatch.End();
@@ -91,11 +91,12 @@ namespace Game1942
             if ((position.Y >= Game.Window.ClientBounds.Height) ||
                 (position.X >= Game.Window.ClientBounds.Width) || (position.X <= 0) || (position.X >= 780))
             {
+                
                 PutinStartPosition();
             }
 
             // Move Enemy
-            //  position.Y += Yspeed;
+       
             position.X += Xspeed;
 
             base.Update(gameTime);
@@ -110,12 +111,11 @@ namespace Game1942
         public bool checkCollision(Rectangle rect) 
         {
             Rectangle spriterect = new Rectangle((int)position.X, (int)position.Y, ENEMYWIDTH, ENEMYHEIGHT);
-            return spriterect.Intersects(rect);
-
+            return spriterect.Intersects(rect);            
         }
 
         public Rectangle getBounds()
-        {
+        {            
             return new Rectangle((int)position.X, (int)position.Y, ENEMYWIDTH, ENEMYHEIGHT);
         }
     }
