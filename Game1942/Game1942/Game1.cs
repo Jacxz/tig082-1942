@@ -136,14 +136,14 @@ namespace Game1942
             else if (currentScene == actionScene)
             {
                 HandleActionInput();
-                if (actionScene.mGameOver)
+                if (actionScene.GameOverState())
                 {
-                    actionScene.mGameOver = false;
-                    actionScene.ResetScene();
-                    gameOverScene = new GameOverScene(this);
+                    actionScene.SetGameOver();
+                    gameOverScene = new GameOverScene(this, actionTextures);
                     gameOverScene.Initialize();
                     Components.Add(gameOverScene);
                     ShowScene(gameOverScene);
+                    AudioManager.GameOver();
                 }
             }
             else if (currentScene == gameOverScene)

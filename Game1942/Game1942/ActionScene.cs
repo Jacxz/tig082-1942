@@ -29,7 +29,7 @@ namespace Game1942
 
         List<Weapon> bulletList = new List<Weapon>();
 
-        public bool mGameOver = false;
+        private bool mGameOver = false;
 
         //font
         private SpriteFont gameFont;
@@ -49,7 +49,6 @@ namespace Game1942
             actionTexture = theTexture;
             mBackgroundTexture = backGroundTexture;
             deltaY = 2;
-            
 
             oldKeyboardState = Keyboard.GetState();
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
@@ -72,6 +71,7 @@ namespace Game1942
         public override void Initialize()
         {
             currentBackground = new ScrollingBackground();
+            Start();
             base.Initialize();
             screenheight = GraphicsDevice.Viewport.Height;
             screenwidth = GraphicsDevice.Viewport.Width;
@@ -82,7 +82,6 @@ namespace Game1942
             // starts the background music
             AudioManager.PlayMusic("song");
             // creates and puts the player in start position
-            Start();
             base.Show();
         }
 
@@ -123,6 +122,12 @@ namespace Game1942
                 }
             }
             CheckCollisions(); // checks collition with enemy List
+
+            if (player.GetLives() < 0)
+            {
+                mGameOver = true;
+                player.ResetLives();
+            }
 
             oldKeyboardState = keyboard;
             base.Update(gameTime);
@@ -181,9 +186,6 @@ namespace Game1942
             mSpriteBatch.DrawString(gameFont, "ActionScene EnemyCounts: " + Enemies.Count.ToString() + "\nActionScene Player killed Enemy: " + error.ToString(), new Vector2(15, 15), Color.White);
             mSpriteBatch.End();
             base.Draw(gameTime);
-
-            if (player.GetLives() < 0)
-                mGameOver = true;
         }
 
         public void AddBullet(GameTime gTime)
@@ -207,7 +209,6 @@ namespace Game1942
 
         public void ResetScene()
         {
-            //player = null;
             for (int x = 0; x <= Enemies.Count - 1; x++)
             {
                 Enemies[x].PutinStartPosition();
@@ -215,9 +216,17 @@ namespace Game1942
             for (int x = 0; x <= bulletList.Count - 1; x++)
             {
                 bulletList[x].mPosition.Y = -10;
-                
             }
-            
+        }
+
+        public void SetGameOver()
+        {
+            mGameOver = !mGameOver;
+        }
+
+        public bool GameOverState()
+        {
+            return mGameOver;
         }
     }
 }
