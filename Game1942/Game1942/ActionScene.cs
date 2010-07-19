@@ -24,7 +24,7 @@ namespace Game1942
         protected Player player;
         private CollisionDetection mCollison;
         private int screenheight, screenwidth, deltaY, i, j, changeY;
-        
+        private ScrollingBackground currentBackground;
 
         List<Weapon> bulletList = new List<Weapon>();
 
@@ -58,6 +58,8 @@ namespace Game1942
             AudioManager.LoadEffect("luger");
             AudioManager.LoadEffect("implosion");
             actionTextures = Game.Content.Load<Texture2D>("1945");
+            Texture2D background = Game.Content.Load<Texture2D>("starfield");
+            currentBackground.Load(GraphicsDevice, background);
             base.LoadContent();
         }
 
@@ -67,6 +69,7 @@ namespace Game1942
         /// </summary>
         public override void Initialize()
         {
+            currentBackground = new ScrollingBackground();
             base.Initialize();
             screenheight = GraphicsDevice.Viewport.Height;
             screenwidth = GraphicsDevice.Viewport.Width;
@@ -96,8 +99,13 @@ namespace Game1942
             keyboard = Keyboard.GetState();
             AddBullet();
 
-            changeY += deltaY;
-            changeY = changeY % 32;
+            //changeY += deltaY;
+            //changeY = changeY % 32;
+            // The time since Update was called last.
+            float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            // TODO: Add your game logic here.
+            currentBackground.Update(elapsed * 100);
 
             // removes the bullet when it reached the end of the screen
             for (int i = 0; i < bulletList.Count; i++)
@@ -160,17 +168,9 @@ namespace Game1942
             GraphicsDevice.Clear(Color.Black);
             mSpriteBatch.Begin();
 
-            // Here the scrolling background is printed
-            for (i = 0; i < screenwidth/32; i++)
-            {
-                for (j = 0; j < (screenheight / 32)+2; j++)
-                {
-                    mSpriteBatch.Draw(actionTextures, new Vector2(32 * i,32 * j + changeY)
-                        , new Rectangle(268, 367, 32, 32),
-                         Color.White, 0, new Vector2(0, 32), 1, SpriteEffects.None, 0f);
-                }
-            }
-
+            currentBackground.Draw(mSpriteBatch);
+            if (player.GetLives() < 0)
+                GameOver();
             mSpriteBatch.DrawString(gameFont, "ActionScene EnemyCounts: " + Enemies.Count.ToString() + "\nActionScene Player killed Enemy: " + error.ToString(), new Vector2(15, 15), Color.White);
             mSpriteBatch.End();
             base.Draw(gameTime);
