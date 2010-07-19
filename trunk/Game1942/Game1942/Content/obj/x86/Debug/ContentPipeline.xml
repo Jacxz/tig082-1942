@@ -7,8 +7,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Knan\Documents\SVN\Game1942\Game1942\bin\x86\Debug\Content\1945.xnb</Output>
-      <Time>2010-07-19T02:56:40.335123+02:00</Time>
+      <Output>D:\saker\SVN\Game1942\Game1942\bin\x86\Debug\Content\1945.xnb</Output>
+      <Time>2010-07-19T13:33:52+02:00</Time>
     </Item>
     <Item>
       <Source>MenuTitle.bmp</Source>
@@ -16,8 +16,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Knan\Documents\SVN\Game1942\Game1942\bin\x86\Debug\Content\MenuTitle.xnb</Output>
-      <Time>2010-07-17T14:39:23.5561075+02:00</Time>
+      <Output>D:\saker\SVN\Game1942\Game1942\bin\x86\Debug\Content\MenuTitle.xnb</Output>
+      <Time>2010-07-19T13:33:52+02:00</Time>
     </Item>
     <Item>
       <Source>largeMenuFont.spritefont</Source>
@@ -25,8 +25,8 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Knan\Documents\SVN\Game1942\Game1942\bin\x86\Debug\Content\largeMenuFont.xnb</Output>
-      <Time>2010-07-17T14:39:23.5561075+02:00</Time>
+      <Output>D:\saker\SVN\Game1942\Game1942\bin\x86\Debug\Content\largeMenuFont.xnb</Output>
+      <Time>2010-07-19T13:33:52+02:00</Time>
     </Item>
     <Item>
       <Source>smallMenuFont.spritefont</Source>
@@ -34,8 +34,8 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Knan\Documents\SVN\Game1942\Game1942\bin\x86\Debug\Content\smallMenuFont.xnb</Output>
-      <Time>2010-07-17T14:39:22.6186075+02:00</Time>
+      <Output>D:\saker\SVN\Game1942\Game1942\bin\x86\Debug\Content\smallMenuFont.xnb</Output>
+      <Time>2010-07-19T13:33:52+02:00</Time>
     </Item>
     <Item>
       <Source>font.spritefont</Source>
@@ -43,8 +43,8 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Knan\Documents\SVN\Game1942\Game1942\bin\x86\Debug\Content\font.xnb</Output>
-      <Time>2010-07-17T14:39:23.5404825+02:00</Time>
+      <Output>D:\saker\SVN\Game1942\Game1942\bin\x86\Debug\Content\font.xnb</Output>
+      <Time>2010-07-19T14:20:08+02:00</Time>
     </Item>
     <Item>
       <Source>luger.mp3</Source>
@@ -52,8 +52,8 @@
       <Importer>Mp3Importer</Importer>
       <Processor>SoundEffectProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Knan\Documents\SVN\Game1942\Game1942\bin\x86\Debug\Content\luger.xnb</Output>
-      <Time>2010-07-17T14:39:23.5717325+02:00</Time>
+      <Output>D:\saker\SVN\Game1942\Game1942\bin\x86\Debug\Content\luger.xnb</Output>
+      <Time>2010-07-19T13:33:52+02:00</Time>
     </Item>
     <Item>
       <Source>menu.mp3</Source>
@@ -61,8 +61,8 @@
       <Importer>Mp3Importer</Importer>
       <Processor>SoundEffectProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Knan\Documents\SVN\Game1942\Game1942\bin\x86\Debug\Content\menu.xnb</Output>
-      <Time>2010-07-17T14:39:23.4623575+02:00</Time>
+      <Output>D:\saker\SVN\Game1942\Game1942\bin\x86\Debug\Content\menu.xnb</Output>
+      <Time>2010-07-19T13:33:52+02:00</Time>
     </Item>
     <Item>
       <Source>song.mp3</Source>
@@ -70,9 +70,19 @@
       <Importer>Mp3Importer</Importer>
       <Processor>SongProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Knan\Documents\SVN\Game1942\Game1942\bin\x86\Debug\Content\song.xnb</Output>
-      <Extra>C:\Users\Knan\Documents\SVN\Game1942\Game1942\bin\x86\Debug\Content\song.wma</Extra>
-      <Time>2010-07-17T14:39:23.5561075+02:00</Time>
+      <Output>D:\saker\SVN\Game1942\Game1942\bin\x86\Debug\Content\song.xnb</Output>
+      <Extra>D:\saker\SVN\Game1942\Game1942\bin\x86\Debug\Content\song.wma</Extra>
+      <Time>2010-07-19T13:33:52+02:00</Time>
+    </Item>
+    <Item>
+      <Source>gameover.mp3</Source>
+      <Name>gameover</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\saker\SVN\Game1942\Game1942\bin\x86\Debug\Content\gameover.xnb</Output>
+      <Extra>D:\saker\SVN\Game1942\Game1942\bin\x86\Debug\Content\gameover.wma</Extra>
+      <Time>2010-07-19T13:33:52+02:00</Time>
     </Item>
     <Item>
       <Source>implosion.wav</Source>
@@ -80,18 +90,18 @@
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Knan\Documents\SVN\Game1942\Game1942\bin\x86\Debug\Content\implosion.xnb</Output>
-      <Time>2010-07-17T14:39:23.5717325+02:00</Time>
+      <Output>D:\saker\SVN\Game1942\Game1942\bin\x86\Debug\Content\implosion.xnb</Output>
+      <Time>2010-07-19T13:33:52+02:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\Users\Knan\Documents\SVN\Game1942\Game1942\Content\</RootDirectory>
-      <LoggerRootDirectory>C:\Users\Knan\Documents\SVN\Game1942\Game1942\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Users\Knan\Documents\SVN\Game1942\Game1942\Content\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Users\Knan\Documents\SVN\Game1942\Game1942\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>D:\saker\SVN\Game1942\Game1942\Content\</RootDirectory>
+      <LoggerRootDirectory>D:\saker\SVN\Game1942\Game1942\</LoggerRootDirectory>
+      <IntermediateDirectory>D:\saker\SVN\Game1942\Game1942\Content\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>D:\saker\SVN\Game1942\Game1942\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
@@ -119,8 +129,8 @@
         <Value>2009-05-28T00:16:06+02:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\Windows\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\3.1.0.0__6d5c3888ef60e27d\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2010-06-03T15:06:51.4610874+02:00</Value>
+        <Key>C:\WINDOWS\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\3.1.0.0__6d5c3888ef60e27d\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
+        <Value>2010-06-22T15:00:02+02:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>

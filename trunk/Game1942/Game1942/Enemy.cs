@@ -27,6 +27,7 @@ namespace Game1942
         protected int Xspeed;
         protected Random random;
         protected SpriteBatch mSpriteBatch;
+        protected SpriteFont gameFont;
 
         protected const int ENEMYWIDTH = 32; // ändrat kod
         protected const int ENEMYHEIGHT = 32; // ändrat kod
@@ -48,6 +49,7 @@ namespace Game1942
             // your start position
             random = new Random(this.GetHashCode());
             PutinStartPosition();
+            gameFont = Game.Content.Load<SpriteFont>("font");
         }
 
         /// <summary>
@@ -72,6 +74,7 @@ namespace Game1942
             for (int x = 0; x < Yspeed; x++)
             {
                 position.Y += 1;
+                mSpriteBatch.DrawString(gameFont, "X: " + position.X.ToString() + " Y: " + position.Y.ToString(), position, Color.White);
                 mSpriteBatch.Draw(texture, position, spriteRectangle, Color.White);
             }
             mSpriteBatch.End();
