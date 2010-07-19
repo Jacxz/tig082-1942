@@ -201,9 +201,16 @@ namespace Game1942
 
         public void ResetScene()
         {
-            player = null;
-            Enemies.RemoveRange(0, Enemies.Count);
-            bulletList.RemoveRange(0, bulletList.Count);
+            //player = null;
+            for (int x = 0; x < Enemies.Count - 1; x++)
+            {
+                Enemies[x].PutinStartPosition();
+            }
+            for (int x = 0; x < Enemies.Count - 1; x++)
+            {
+                bulletList[x].mPosition.Y = -10;
+            }
+            
         }
     }
 }
