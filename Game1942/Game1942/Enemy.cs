@@ -22,13 +22,13 @@ namespace Game1942
 
         protected Texture2D mTexture;
         protected Rectangle spriteRectangle;
-        protected Vector2 position, HpPosition;
+        protected Vector2 mPosition, HpPosition;
         protected int Yspeed, Xspeed, error, HP=100, mStartX, mStartY;        
         protected Random random;
         protected SpriteBatch mSpriteBatch;
         protected SpriteFont gameFont;
 
-        protected int mEnemyWidth, mEnemyHeight; // Ska inte vara const
+        protected int mEnemyWidth, mEnemyHeight;
          
 
         public Enemy(Game game, ref Texture2D theTexture, int width, int height, int startX, int startY)
@@ -39,13 +39,13 @@ namespace Game1942
             mEnemyHeight = height;
             mStartX = startX;
             mStartY = startY;
-            position = new Vector2();
+            mPosition = new Vector2();
             // Get the current spritebatch
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
 
             // Create the source rectangle.
             // This represents where is the sprite picture in surface
-            spriteRectangle = new Rectangle(mStartX, mStartY, mEnemyWidth, mEnemyHeight); //// ändrat kod
+            spriteRectangle = new Rectangle(mStartX, mStartY, mEnemyWidth, mEnemyHeight); 
 
             // Initialize the random number generator and put the enemy in 
             // your start position
@@ -59,8 +59,8 @@ namespace Game1942
         /// </summary>
         public void PutinStartPosition()
         {
-            position.X = random.Next(Game.Window.ClientBounds.Width - mEnemyWidth); // ändrat kod
-            position.Y = 0;
+            mPosition.X = random.Next(Game.Window.ClientBounds.Width - mEnemyWidth); 
+            mPosition.Y = 0;
             Yspeed = 1 + random.Next(3);
             Xspeed = random.Next(3) - 1;
             reset();
@@ -76,9 +76,9 @@ namespace Game1942
 
             for (int x = 0; x < Yspeed; x++)
             {
-                position.Y += 1;
+                mPosition.Y += 1;
                 mSpriteBatch.DrawString(gameFont, "HP: " + HP.ToString(), HpPosition, Color.White);
-                mSpriteBatch.Draw(mTexture, position, spriteRectangle, Color.White);
+                mSpriteBatch.Draw(mTexture, mPosition, spriteRectangle, Color.White);
             }
             mSpriteBatch.End();
             base.Draw(gameTime);
@@ -90,24 +90,13 @@ namespace Game1942
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            HpPosition = position;
+            //Sets the position for the HP bar on top of the enemy
+            HpPosition = mPosition;
             HpPosition.Y -= 10;
-            // Check if the enemy still visible
-            if ((position.Y >= Game.Window.ClientBounds.Height) ||
-                (position.X >= Game.Window.ClientBounds.Width) || (position.X <= 0) || (position.X >= 780))
-            {
-                
-                PutinStartPosition();
-            }
 
-            // Move Enemy
-       
-            position.X += Xspeed;
-
-            if (HP <= 0)
-            {
-                PutinStartPosition();
-            }
+            DoMovment();
+            DoChecks();
+            
 
             base.Update(gameTime);
         }
@@ -120,13 +109,13 @@ namespace Game1942
         /// 
         public bool checkCollision(Rectangle rect) 
         {
-            Rectangle spriterect = new Rectangle((int)position.X, (int)position.Y, mEnemyWidth, mEnemyHeight);
+            Rectangle spriterect = new Rectangle((int)mPosition.X, (int)mPosition.Y, mEnemyWidth, mEnemyHeight);
             return spriterect.Intersects(rect);            
         }
 
         public Rectangle getBounds()
         {            
-            return new Rectangle((int)position.X, (int)position.Y, mEnemyWidth, mEnemyHeight);
+            return new Rectangle((int)mPosition.X, (int)mPosition.Y, mEnemyWidth, mEnemyHeight);
         }
 
         public void isHit() 
@@ -137,6 +126,28 @@ namespace Game1942
         private void reset()
         {
             HP = 100;
+        }
+
+        private void DoMovment()
+        {
+            // Move Enemy
+            mPosition.X += Xspeed;
+        }
+
+        private void DoChecks()
+        {
+            // Check if the Enemy is dead
+            if (HP <= 0)
+            {
+                PutinStartPosition();
+            }
+
+            // Check if the enemy still visible
+            if ((mPosition.Y >= Game.Window.ClientBounds.Height) ||
+                (mPosition.X >= Game.Window.ClientBounds.Width) || (mPosition.X <= 0) || (mPosition.X >= 780))
+            {
+                PutinStartPosition();
+            }
         }
     }
 }
