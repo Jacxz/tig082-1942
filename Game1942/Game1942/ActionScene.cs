@@ -49,13 +49,7 @@ namespace Game1942
             actionTexture = theTexture;
             mBackgroundTexture = backGroundTexture;
             deltaY = 2;
-
-            // Puts in two battle cruisers.
-            for (int x = Enemies.Count; x < 2; x++)
-            {
-                mEnemy = new Enemy(game, ref actionTexture, 40, 196, 466, 301);
-                Enemies.Add(mEnemy);
-            }
+            
             for (int x = Enemies.Count; x <= 10; x++)
             {
                 mEnemy1 = new Enemy(game, ref actionTexture, 32, 32, 4, 4);
@@ -114,13 +108,11 @@ namespace Game1942
 
             AddBullet(gameTime);
 
-            //changeY += deltaY;
-            //changeY = changeY % 32;
+           
             // The time since Update was called last.
             float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            // TODO: Add your game logic here.
             currentBackground.Update(elapsed * 100);
+           
             if (oldLives != player.GetLives())
             {
                 ResetScene();
@@ -170,7 +162,8 @@ namespace Game1942
             {
                 if (Enemies[x].checkCollision(player.GetBounds()))
                 {                   
-                    player.IsHit();                   
+                    player.IsHit();
+                    Enemies[x].isHit();
                 }
             }
 

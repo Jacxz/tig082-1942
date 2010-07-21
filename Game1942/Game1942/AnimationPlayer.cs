@@ -100,7 +100,7 @@ namespace Game1942
             // Calculate the source rectangle of the current frame.
             Rectangle source = new Rectangle(FrameIndex * (mCurrentAnimation.FrameWidth+1) + mCurrentAnimation.StartX , mCurrentAnimation.StartY, mCurrentAnimation.FrameHeight, mCurrentAnimation.FrameWidth);
             spriteBatch.Begin();
-            spriteBatch.DrawString(gameFont, "Error AnPlayer: "+(FrameIndex * (mCurrentAnimation.Texture.Width+1) + mCurrentAnimation.StartX), new Vector2(150, 150), Color.White);
+           // spriteBatch.DrawString(gameFont, "Error AnPlayer: "+(FrameIndex * (mCurrentAnimation.Texture.Width+1) + mCurrentAnimation.StartX), new Vector2(150, 150), Color.White);
             // Draw the current frame.
             spriteBatch.Draw(mCurrentAnimation.Texture, position, source, Color.White);
             spriteBatch.End();

@@ -87,7 +87,7 @@ namespace Game1942
             }
             else if (mKind == 2)
             {
-                // updates bullet position
+                
                 mPosition.Y -= speed;
             }
             else if (mKind == 3)
