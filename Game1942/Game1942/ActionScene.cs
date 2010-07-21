@@ -19,7 +19,7 @@ namespace Game1942
     /// </summary>
     public class ActionScene : GameScene
     {
-        protected Texture2D mBackgroundTexture, actionTexture, blockTextureData, actionTextures;
+        protected Texture2D mBackgroundTexture, actionTexture, blockTextureData;
         protected SpriteBatch mSpriteBatch;
         protected Player player;
         private CollisionDetection mCollison;
@@ -65,7 +65,6 @@ namespace Game1942
         {
             AudioManager.LoadEffect("luger");
             AudioManager.LoadEffect("implosion");
-            actionTextures = Game.Content.Load<Texture2D>("1945");
             Texture2D background = Game.Content.Load<Texture2D>("starfield");
             currentBackground.Load(GraphicsDevice, background);
             base.LoadContent();
@@ -77,7 +76,7 @@ namespace Game1942
         /// </summary>
         public override void Initialize()
         {
-            currentBackground = new ScrollingBackground();
+            currentBackground = new ScrollingBackground("water", actionTexture);
             Start();
             base.Initialize();
             screenheight = GraphicsDevice.Viewport.Height;
@@ -108,10 +107,7 @@ namespace Game1942
 
             AddBullet(gameTime);
 
-           
-            // The time since Update was called last.
-            float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            currentBackground.Update(elapsed * 100);
+            currentBackground.Update(gameTime);
            
             if (oldLives != player.GetLives())
             {
