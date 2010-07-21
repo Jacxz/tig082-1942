@@ -27,8 +27,10 @@ namespace Game1942
         protected Random random;
         protected SpriteBatch mSpriteBatch;
         protected SpriteFont gameFont;
-
         protected int mEnemyWidth, mEnemyHeight;
+        private float timePassed;
+        private AnimationPlayer AnimationPlayer;
+        private AnimationTest EnemyAnimation, EnemyExplosion;
          
 
         public Enemy(Game game, ref Texture2D theTexture, int width, int height, int startX, int startY)
@@ -43,6 +45,12 @@ namespace Game1942
             // Get the current spritebatch
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
 
+            // creates the animationplayer
+            AnimationPlayer = new AnimationPlayer(game);
+            // creates the animations
+            EnemyAnimation = new AnimationTest(game, theTexture, 0.1f, true, 3, mEnemyWidth, mEnemyHeight, mStartX, mStartY);
+            EnemyExplosion = new AnimationTest(game, theTexture, 0.1f, false, 6, 32, 32, 70, 169);
+            
             // Create the source rectangle.
             // This represents where is the sprite picture in surface
             spriteRectangle = new Rectangle(mStartX, mStartY, mEnemyWidth, mEnemyHeight); 
@@ -51,6 +59,7 @@ namespace Game1942
             // your start position
             random = new Random(this.GetHashCode());
             PutinStartPosition();
+            AnimationPlayer.PlayAnimation(EnemyAnimation);
             gameFont = Game.Content.Load<SpriteFont>("font");
         }
 
@@ -73,14 +82,19 @@ namespace Game1942
         {
 
             mSpriteBatch.Begin();
-
-            for (int x = 0; x < Yspeed; x++)
-            {
-                mPosition.Y += 1;
-                mSpriteBatch.DrawString(gameFont, "HP: " + HP.ToString(), HpPosition, Color.White);
-                mSpriteBatch.Draw(mTexture, mPosition, spriteRectangle, Color.White);
+            
+            
+                for (int x = 0; x < Yspeed; x++)
+                {
+                    mPosition.Y += 1;
+                    if (HP >= 0)    
+                    {
+                    mSpriteBatch.DrawString(gameFont, "HP: " + HP.ToString(), HpPosition, Color.White);
+                    //mSpriteBatch.Draw(mTexture, mPosition, spriteRectangle, Color.White);                
+                    }           
             }
             mSpriteBatch.End();
+            AnimationPlayer.Draw(gameTime, mSpriteBatch, mPosition);
             base.Draw(gameTime);
         }
 
@@ -95,7 +109,7 @@ namespace Game1942
             HpPosition.Y -= 10;
 
             DoMovment();
-            DoChecks();
+            DoChecks(gameTime);
             
 
             base.Update(gameTime);
@@ -134,12 +148,22 @@ namespace Game1942
             mPosition.X += Xspeed;
         }
 
-        private void DoChecks()
+        private void DoChecks(GameTime gTime)
         {
             // Check if the Enemy is dead
-            if (HP <= 0)
+            if (HP <= 1)
             {
-                PutinStartPosition();
+                // if dead load the explosion animation
+                AnimationPlayer.PlayAnimation(EnemyExplosion);
+                timePassed += (float)gTime.ElapsedGameTime.TotalSeconds;
+                //resets the animation to EnemyAnimation when the explosion animation is done playing and puts it in the start position
+                if (timePassed > EnemyExplosion.FrameTime * EnemyExplosion.FrameCount)
+                {
+                    PutinStartPosition();
+                    AnimationPlayer.PlayAnimation(EnemyAnimation);
+                    timePassed = 0;
+                }
+                
             }
 
             // Check if the enemy still visible

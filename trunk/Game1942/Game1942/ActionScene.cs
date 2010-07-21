@@ -52,7 +52,7 @@ namespace Game1942
             
             for (int x = Enemies.Count; x <= 10; x++)
             {
-                mEnemy1 = new Enemy(game, ref actionTexture, 32, 32, 4, 4);
+                mEnemy1 = new Enemy(game, ref actionTexture, 32, 32, 4, 499);
                 Enemies.Add(mEnemy1);
             }
             
