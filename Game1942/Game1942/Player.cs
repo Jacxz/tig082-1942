@@ -11,7 +11,6 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 
-
 namespace Game1942
 {
     /// <summary>
@@ -89,8 +88,6 @@ namespace Game1942
         public override void Update(GameTime gameTime)
         {
             mLivesPosition.X = mScreenBounds.Width - SHIPWIDTH*lives;
-          
-            
             // Move the ship with keyboard
             
             KeyboardState keyboard = Keyboard.GetState();
@@ -153,7 +150,7 @@ namespace Game1942
             // Draw the ship
                   
            // mSpriteBatch.Draw(mTexture, mPosition, mSpriteRectangle, Color.White);
-            mSpriteBatch.DrawString(font, "Player HP: "+HP.ToString()+"\nPlayer GameTime: "+ (error += (float)gameTime.ElapsedGameTime.TotalSeconds) , new Vector2(15,60), Color.White);
+            mSpriteBatch.DrawString(font, "Player HP: "+HP.ToString()+"\nPlayer GameTime: "+ (error +=(float)gameTime.ElapsedGameTime.TotalSeconds) , new Vector2(15,60), Color.White);
             mSpriteBatch.End();
             
             

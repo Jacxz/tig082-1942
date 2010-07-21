@@ -92,6 +92,7 @@
     <Compile Include="Core\GameScene.cs" />
     <Compile Include="Core\TextMenuComponent.cs" />
     <Compile Include="Enemy.cs" />
+    <Compile Include="EnemyManager.cs" />
     <Compile Include="GameOverScene.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
