@@ -44,7 +44,7 @@ namespace Game1942
             if (type.Equals("water"))
             {
                 screenpos.Y += elapsedTime;
-                screenpos.Y = screenpos.Y % 31;
+                screenpos.Y = screenpos.Y % 32;
             }
             else if (type.Equals("space"))
             {
@@ -69,13 +69,13 @@ namespace Game1942
         {
             int i, j;
             // Here the scrolling background is printed
-            for (i = 0; i <= screenwidth / 31; i++)
+            for (i = 0; i <= screenwidth / 32; i++)
             {
-                for (j = 0; j <= (screenheight / 31) + 2; j++)
+                for (j = 0; j <= (screenheight / 32) + 2; j++)
                 {
-                    batch.Draw(actionTexture, new Vector2(31 * i, 31 * j + screenpos.Y)
-                        , new Rectangle(268, 367, 31, 31),
-                         Color.White, 0, new Vector2(0, 31), 1, SpriteEffects.None, 0f);
+                    batch.Draw(actionTexture, new Vector2(32 * i, 32 * j + screenpos.Y)
+                        , new Rectangle(268, 367, 32, 32),
+                         Color.White, 0, new Vector2(0, 32), 1, SpriteEffects.None, 0f);
                 }
             }
         }
