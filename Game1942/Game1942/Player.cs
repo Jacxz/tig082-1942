@@ -36,7 +36,7 @@ namespace Game1942
         private bool killed;
         SpriteFont font;
         private int lives, HP;
-        private float error,error2;
+        private float error,error2, lTime;
 
         public Player(Game game, ref Texture2D theTexture)
             : base(game)
@@ -44,7 +44,7 @@ namespace Game1942
             mTexture = theTexture;
             mPosition = new Vector2();
 
-            mExplosionAnimation = new Animation(game, mTexture, 6, 0.1f, 70, 169,33,false);
+            //mExplosionAnimation = new Animation(game, mTexture, 6, 0.1f, 70, 169,33,false);
            // mPlayerAnimation = new Animation(game, mTexture, 3, 0.1f, 169, 202, 33, true);
             playerAnimation = new AnimationTest(game, theTexture, 0.1f, true, 3, 32, 32, 169, 202);
             explosionAnimation = new AnimationTest(game, theTexture, 0.1f, false, 6, 32, 32, 70, 169);
@@ -203,24 +203,21 @@ namespace Game1942
 
         public void IsKilled(GameTime gTime)
         {
-            
             //mExplosionAnimation.SpritePos = mPosition;
             //mExplosionAnimation.Play();
             
             
-            error2+=(float)gTime.ElapsedGameTime.TotalSeconds;
-            if (error2 > explosionAnimation.FrameTime*explosionAnimation.FrameCount)
+            lTime+=(float)gTime.ElapsedGameTime.TotalSeconds;
+            if (lTime > explosionAnimation.FrameTime*explosionAnimation.FrameCount)
             {
-                Killed = false;
-                HP = 100;
-                PutInStartPosition();
                 lives -= 1;
+                Killed = false;
+                PutInStartPosition();
                 playerAnimationPlayer.PlayAnimation(playerAnimation);
-                error2 = 0;
+                lTime = 0;
             }
             
-            
-            
+            HP = 100;  
         }
 
         public int GetLives()
