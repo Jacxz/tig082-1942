@@ -25,8 +25,9 @@ namespace Game1942
         private CollisionDetection mCollison;
         private int screenheight, screenwidth, deltaY, i, j, changeY, oldLives;
         private ScrollingBackground currentBackground;
-        private float mTime, shootRate = 0.25f;
-        private Enemy mEnemy, mEnemy1;
+
+        private float lTime, shootRate = 0.25f;
+
         
 
         private bool mGameOver = false;
@@ -148,7 +149,7 @@ namespace Game1942
                
                 Components.Add(Enemies[x]);
             }
-
+           
             player.PutInStartPosition();
         }
         // check collision enemys vs player and subtracts 5 hp from player each hit.
@@ -191,10 +192,10 @@ namespace Game1942
 
         public void AddBullet(GameTime gTime)
         {
-            mTime += (float)gTime.ElapsedGameTime.TotalSeconds;
+            lTime += (float)gTime.ElapsedGameTime.TotalSeconds;
             if (keyboard.IsKeyDown(Keys.Space) && !oldKeyboardState.IsKeyDown(Keys.Space))
             {
-                if (mTime > shootRate)
+                if (lTime > shootRate)
                 {
                     BulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 1));
                     Components.Add(BulletList[BulletList.Count - 1]);
@@ -203,7 +204,7 @@ namespace Game1942
                     BulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 3));
                     Components.Add(BulletList[BulletList.Count - 1]);
                     AudioManager.Effect("luger");
-                    mTime = 0;
+                    lTime = 0;
                 }
             }
         }
