@@ -19,7 +19,6 @@ namespace Game1942
     /// </summary>
     public class Weapon : Microsoft.Xna.Framework.DrawableGameComponent
     {
-
         protected Texture2D mTexture;
         protected Rectangle mSpriteRectangle;
         public Vector2 mPosition;
@@ -49,8 +48,6 @@ namespace Game1942
             {
                 mSpriteRectangle = new Rectangle(37, 169, BULLETWIDTH, BULLETHEIGHT);
             }
-
-
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
 
         }
@@ -70,9 +67,7 @@ namespace Game1942
             mSpriteBatch.Draw(mTexture, mPosition, mSpriteRectangle, Color.White);
             mSpriteBatch.End();
             base.Draw(gameTime);
-
         }
-
 
         /// <summary>
         /// Allows the game component to update itself.
@@ -86,8 +81,7 @@ namespace Game1942
                 mPosition.X -= speed / 2;
             }
             else if (mKind == 2)
-            {
-                
+            { 
                 mPosition.Y -= speed;
             }
             else if (mKind == 3)
@@ -95,7 +89,6 @@ namespace Game1942
                 mPosition.Y -= speed;
                 mPosition.X += speed / 2;
             }
-
             base.Update(gameTime);
         }
         public Rectangle GetBounds()
