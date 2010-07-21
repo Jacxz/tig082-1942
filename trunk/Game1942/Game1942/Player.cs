@@ -36,7 +36,7 @@ namespace Game1942
         private bool killed;
         SpriteFont font;
         private int lives, HP;
-        private float error,error2, lTime;
+        private float error, error2, lTime, playerSpeed;
 
         public Player(Game game, ref Texture2D theTexture)
             : base(game)
@@ -45,7 +45,7 @@ namespace Game1942
             mPosition = new Vector2();
 
             //mExplosionAnimation = new Animation(game, mTexture, 6, 0.1f, 70, 169,33,false);
-           // mPlayerAnimation = new Animation(game, mTexture, 3, 0.1f, 169, 202, 33, true);
+            //mPlayerAnimation = new Animation(game, mTexture, 3, 0.1f, 169, 202, 33, true);
             playerAnimation = new AnimationTest(game, theTexture, 0.1f, true, 3, 32, 32, 169, 202);
             explosionAnimation = new AnimationTest(game, theTexture, 0.1f, false, 6, 32, 32, 70, 169);
            
@@ -57,6 +57,7 @@ namespace Game1942
             playerAnimationPlayer.PlayAnimation(playerAnimation);
             lives = 3;
             HP = 100;
+            playerSpeed = 2;
            
             mScreenBounds = new Rectangle(0, 0, Game.Window.ClientBounds.Width, Game.Window.ClientBounds.Height);
 
@@ -95,19 +96,19 @@ namespace Game1942
             KeyboardState keyboard = Keyboard.GetState();
             if (keyboard.IsKeyDown(Keys.Up))
             {
-                mPosition.Y -= 3;
+                mPosition.Y -= playerSpeed;
             }
             if (keyboard.IsKeyDown(Keys.Down))
             {
-                mPosition.Y += 3;
+                mPosition.Y += playerSpeed;
             }
             if (keyboard.IsKeyDown(Keys.Left))
             {
-                mPosition.X -= 3;
+                mPosition.X -= playerSpeed;
             }
             if (keyboard.IsKeyDown(Keys.Right))
             {
-                mPosition.X += 3;
+                mPosition.X += playerSpeed;
             }
 
 

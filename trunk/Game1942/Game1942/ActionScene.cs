@@ -25,7 +25,7 @@ namespace Game1942
         private CollisionDetection mCollison;
         private int screenheight, screenwidth, deltaY, i, j, changeY, oldLives;
         private ScrollingBackground currentBackground;
-        private float mTime, shootRate = 0.3f;
+        private float mTime, shootRate = 0.25f;
         private Enemy mEnemy, mEnemy1;
         
 
