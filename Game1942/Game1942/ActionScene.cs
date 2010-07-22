@@ -30,7 +30,7 @@ namespace Game1942
         private int screenheight, screenwidth, deltaY, i, j, changeY, oldLives;
         private ScrollingBackground currentBackground;
 
-        private float lTime, shootRate = 0.25f;
+        private float lTime, shootRate = 0.15f;
 
         
 
@@ -55,14 +55,6 @@ namespace Game1942
             mBackgroundTexture = backGroundTexture;
             deltaY = 2;
             enemyManager = new EnemyManager(game, actionTexture);
-            enemyManager.AddEnemy(1, 10);
-          /*  for (int x = Enemies.Count; x <= 10; x++)
-            {
-                mEnemy1 = new Enemy(game, actionTexture, 32, 32, 4, 499);
-                Enemies.Add(mEnemy1);
-            }*/
-            Enemies = enemyManager.GetEnemyList();
-
 
             oldKeyboardState = Keyboard.GetState();
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
@@ -88,7 +80,7 @@ namespace Game1942
             base.Initialize();
             screenheight = GraphicsDevice.Viewport.Height;
             screenwidth = GraphicsDevice.Viewport.Width;
-            ReadXML(1);
+            
         }
 
         public override void Show()
@@ -111,6 +103,7 @@ namespace Game1942
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
+            CheckCollisions(); // checks collition with enemy List
             keyboard = Keyboard.GetState();
 
             AddBullet(gameTime);
@@ -130,7 +123,7 @@ namespace Game1942
                     BulletList.RemoveAt(i);
                 }
             }
-            CheckCollisions(); // checks collition with enemy List
+            
 
             if (player.GetLives() < 0)
             {
@@ -151,7 +144,14 @@ namespace Game1942
                 Components.Add(player);
                 oldLives = player.GetLives();
             }
-            for (int x = 0; x < Enemies.Count-1; x++)
+            enemyManager.AddEnemy(1, 3);
+            enemyManager.AddEnemy(2, 2);
+            enemyManager.AddEnemy(3, 1);
+            enemyManager.AddEnemy(4, 1);
+            enemyManager.AddEnemy(5, 4);
+            Enemies = enemyManager.GetEnemyList();
+
+            for (int x = 0; x < Enemies.Count; x++)
             {
                
                 Components.Add(Enemies[x]);
@@ -168,6 +168,7 @@ namespace Game1942
                 {                   
                     player.IsHit();
                     Enemies[x].isHit();
+                    
                 }
             }
 
@@ -191,8 +192,12 @@ namespace Game1942
             mSpriteBatch.Begin();
 
             currentBackground.Draw(mSpriteBatch);
-
-            mSpriteBatch.DrawString(gameFont, "ActionScene EnemyCounts: " + j + "\nActionScene Player killed Enemy: " + i, new Vector2(15, 15), Color.White);
+            for(int x = 0; x < Enemies.Count-1; x++)  
+            {
+                mSpriteBatch.Draw(actionTexture, new Vector2(Enemies[x].getBounds().X, Enemies[x].getBounds().Y), new Rectangle(697, 203, 32, 32), Color.White);
+            }
+            mSpriteBatch.Draw(actionTexture, new Vector2(player.GetBounds().X, player.GetBounds().Y), new Rectangle(697, 203, 32, 32), Color.White);
+            mSpriteBatch.DrawString(gameFont, "ActionScene EnemyCounts: " + (Enemies.Count-1) + "\nActionScene : " + enemyManager.getError(), new Vector2(15, 15), Color.White);
             mSpriteBatch.End();
             base.Draw(gameTime);
         }
@@ -238,38 +243,6 @@ namespace Game1942
             return mGameOver;
         }
 
-        public void ReadXML(int type)
-        {
-            XmlTextReader txtRead = new XmlTextReader( @"..\..\..\Content/XMLFile1.xml");
-            List<string> data = new List<string>(); 
-            while (txtRead.Read())
-            {
-                if (txtRead.Name == "type")
-                {
-
-                    if (txtRead.ReadElementContentAsInt() == 1)
-                    {
-                      string k = txtRead.Value;
-                        //while(txtRead.AttributeCount
-                        //txtRead.Read();
-                        
-                        /*while (txtRead.Read())
-                        {
-                            if (txtRead.Name == "hp")
-                            {
-                                j = txtRead.ReadElementContentAsInt();
-                                break;
-                                
-                            }
-                        }
-                        break;
-                         */
-                    }
-                    
-                }
-              
-            }
-
-        }
+       
     }
 }

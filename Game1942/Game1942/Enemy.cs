@@ -23,40 +23,39 @@ namespace Game1942
         protected Texture2D mTexture;
         protected Rectangle spriteRectangle;
         protected Vector2 mPosition, HpPosition;
-        protected int Yspeed, Xspeed, error, HP=100, mStartX, mStartY;        
+        protected int Yspeed, Xspeed, error, mHP, mStartX, mStartY, mStartHP, mType, mEnemyWidth, mEnemyHeight, exptype;
+
+    
         protected Random random;
         protected SpriteBatch mSpriteBatch;
         protected SpriteFont gameFont;
-        protected int mEnemyWidth, mEnemyHeight;
+      
         private float timePassed;
         private AnimationPlayer AnimationPlayer;
         private AnimationTest EnemyAnimation, EnemyExplosion;
          
 
-        public Enemy(Game game, Texture2D theTexture, int width, int height, int startX, int startY)
+        public Enemy(Game game, Texture2D theTexture, int HP, int type)
             : base(game)
         {
             mTexture = theTexture;
-            mEnemyWidth = width;
-            mEnemyHeight = height;
-            mStartX = startX;
-            mStartY = startY;
+            mType = type;
+            mStartHP = HP;
             mPosition = new Vector2();
             // Get the current spritebatch
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
 
             // creates the animationplayer
-            AnimationPlayer = new AnimationPlayer(game);
+            AnimationPlayer = new AnimationPlayer(game);            
             // creates the animations
-            EnemyAnimation = new AnimationTest(game, theTexture, 0.1f, true, 3, mEnemyWidth, mEnemyHeight, mStartX, mStartY);
-            EnemyExplosion = new AnimationTest(game, theTexture, 0.1f, false, 6, 32, 32, 70, 169);
+            EnemyAnimation = new AnimationTest(game, theTexture, mType);
+            EnemyExplosion = new AnimationTest(game, theTexture, EnemyAnimation.Dietype);
             
             // Create the source rectangle.
             // This represents where is the sprite picture in surface
             spriteRectangle = new Rectangle(mStartX, mStartY, mEnemyWidth, mEnemyHeight); 
 
-            // Initialize the random number generator and put the enemy in 
-            // your start position
+            // Initialize the random number generator and put the enemy in the start position
             random = new Random(this.GetHashCode());
             PutinStartPosition();
             AnimationPlayer.PlayAnimation(EnemyAnimation);
@@ -70,7 +69,7 @@ namespace Game1942
         {
             mPosition.X = random.Next(Game.Window.ClientBounds.Width - mEnemyWidth); 
             mPosition.Y = 0;
-            Yspeed = 1 + random.Next(3);
+            Yspeed = 1 + random.Next(2);
             Xspeed = random.Next(3) - 1;
             reset();
         }
@@ -80,19 +79,16 @@ namespace Game1942
         /// </summary>
         public override void Draw(GameTime gameTime)
         {
-
             mSpriteBatch.Begin();
-            
-            
                 for (int x = 0; x < Yspeed; x++)
                 {
                     mPosition.Y += 1;
-                    if (HP >= 0)    
+                    if (mHP >= 0)    
                     {
-                    mSpriteBatch.DrawString(gameFont, "HP: " + HP.ToString(), HpPosition, Color.White);
-                    //mSpriteBatch.Draw(mTexture, mPosition, spriteRectangle, Color.White);                
+                    mSpriteBatch.DrawString(gameFont, "HP: " + mHP.ToString(), HpPosition, Color.White);
                     }           
             }
+           
             mSpriteBatch.End();
             AnimationPlayer.Draw(gameTime, mSpriteBatch, mPosition);
             base.Draw(gameTime);
@@ -123,23 +119,23 @@ namespace Game1942
         /// 
         public bool checkCollision(Rectangle rect) 
         {
-            Rectangle spriterect = new Rectangle((int)mPosition.X, (int)mPosition.Y, mEnemyWidth, mEnemyHeight);
-            return spriterect.Intersects(rect);            
+           // Rectangle spriterect = new Rectangle((int)mPosition.X, (int)mPosition.Y, mEnemyWidth, mEnemyHeight);
+            return getBounds().Intersects(rect);            
         }
 
         public Rectangle getBounds()
         {            
-            return new Rectangle((int)mPosition.X, (int)mPosition.Y, mEnemyWidth, mEnemyHeight);
+            return new Rectangle((int)mPosition.X, (int)mPosition.Y, EnemyAnimation.FrameWidth, EnemyAnimation.FrameHeight);
         }
 
         public void isHit() 
         {
-            HP -= 20;
+            mHP -= 20;
         }
 
         private void reset()
         {
-            HP = 100;
+            mHP = mStartHP;
         }
 
         private void DoMovment()
@@ -151,7 +147,7 @@ namespace Game1942
         private void DoChecks(GameTime gTime)
         {
             // Check if the Enemy is dead
-            if (HP <= 1)
+            if (mHP <= 1)
             {
                 // if dead load the explosion animation
                 AnimationPlayer.PlayAnimation(EnemyExplosion);
@@ -173,5 +169,6 @@ namespace Game1942
                 PutinStartPosition();
             }
         }
+        
     }
 }

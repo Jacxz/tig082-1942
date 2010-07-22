@@ -24,34 +24,9 @@ namespace Game1942
         private Texture2D mTexture;
         private Enemy mEnemy;
         private List<Enemy> mEnemyList;
-        private int mWidth, mHeight, mStartX, mStartY;
+        private int mWidth, mHeight, mStartX, mStartY, mHP, error;
 
-        // ska kanske användas
-        //public int StartY
-        //{
-        //    get { return mStartY; }
-        //    set { mStartY = value; }
-        //}
-
-        //public int StartX
-        //{
-        //    get { return mStartX; }
-        //    set { mStartX = value; }
-        //}
-
-        //public int Height
-        //{
-        //    get { return mHeight; }
-        //    set { mHeight = value; }
-        //}
-
-        //public int Width
-        //{
-        //    get { return mWidth; }
-        //    set { mWidth = value; }
-        //} 
-
-
+       
         public EnemyManager(Game game, Texture2D texture)
             : base(game)
         {
@@ -83,26 +58,22 @@ namespace Game1942
             base.Update(gameTime);
         }
 
-        public void AddEnemy(int kind, int amount)
+        public void AddEnemy(int type, int amount)
         {
-
-            // read and set the variables from the xml with the kind variabel as a identifier.
-
-            if (kind == 1)
-            {
-                Width = 32;
-                Height = 32;
-                StartX = 4;
-                StartY = 499;
-            }
-
-            for (int x = 0; x < amount; x++)
-            {
-                mEnemy = new Enemy(Game, mTexture, mWidth, mHeight, mStartX, mStartY);               
-                mEnemyList.Add(mEnemy);
-            }
+            
+            // read and set the variables from the xml with the type variabel as a identifier.
+            ReadXML(type);
+                for (int x = 0; x < amount; x++)
+                {
+                    mEnemy = new Enemy(Game, mTexture, mHP, type);
+                    mEnemyList.Add(mEnemy);
+                }
         }
 
+        public int getError()
+        {
+            return error;
+        }
 
         public List<Enemy> GetEnemyList()
         {
@@ -128,7 +99,38 @@ namespace Game1942
         {
             set { mWidth = value; }
         }
+        public int HP
+        {
+            set { mHP = value; }
+        }
+        
+        // reads from XML File
+        public void ReadXML(int type)
+        {
+            // loads the xml file
+            XmlTextReader txtRead = new XmlTextReader(@"..\..\..\Content/Enemies.xml");
+            //while it reads
+            while (txtRead.Read())
+            {   
+                // if the type matches the node "type" in the xml
+                if (txtRead.Name == "type")
+                {
+                    // if the value type is holding equals the type we want
+                    if (txtRead.ReadElementContentAsInt() == type)
+                    {
+                        //moves one element and reads the value, does so for all the elements in the node.
+                        txtRead.Read();
+                        HP = txtRead.ReadElementContentAsInt();
+                       
+                        break;
+                    }
+                    
 
+                }
+
+            }
+
+        }
     }
 }
 
