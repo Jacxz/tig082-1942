@@ -10,6 +10,8 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
+using System.Xml;
+using System.IO;
 
 
 namespace Game1942
@@ -54,6 +56,7 @@ namespace Game1942
             : base(game)
         {
             mTexture = texture;
+            mEnemyList = new List<Enemy>();
         }
 
         /// <summary>
@@ -67,7 +70,7 @@ namespace Game1942
             base.Initialize();
         }
 
-        
+
 
         /// <summary>
         /// Allows the game component to update itself.
@@ -85,39 +88,47 @@ namespace Game1942
 
             // read and set the variables from the xml with the kind variabel as a identifier.
 
+            if (kind == 1)
+            {
+                Width = 32;
+                Height = 32;
+                StartX = 4;
+                StartY = 499;
+            }
+
             for (int x = 0; x < amount; x++)
             {
-                mEnemy = new Enemy(Game, ref mTexture, mWidth, mHeight, mStartX, mStartY);
-                Game.Components.Add(mEnemy);
+                mEnemy = new Enemy(Game, mTexture, mWidth, mHeight, mStartX, mStartY);               
                 mEnemyList.Add(mEnemy);
             }
         }
 
 
-
-        public List<Enemy> EnemyList()
+        public List<Enemy> GetEnemyList()
         {
             return mEnemyList;
         }
 
         public int StartY
-        {            
+        {
             set { mStartY = value; }
         }
 
         public int StartX
-        {            
+        {
             set { mStartX = value; }
         }
 
         public int Height
-        {         
+        {
             set { mHeight = value; }
         }
 
         public int Width
-        {         
+        {
             set { mWidth = value; }
         }
+
     }
 }
+
