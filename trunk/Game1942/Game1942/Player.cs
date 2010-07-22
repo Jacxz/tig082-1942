@@ -19,7 +19,7 @@ namespace Game1942
     public class Player : Microsoft.Xna.Framework.DrawableGameComponent
     {
         protected Texture2D mTexture;
-        protected Rectangle mSpriteRectangle, mLivesRectangle;
+        protected Rectangle mLivesRectangle;
         protected Vector2 mPosition;
         protected Vector2 mLivesPosition;
         protected SpriteBatch mSpriteBatch;
@@ -29,7 +29,7 @@ namespace Game1942
 
         protected Rectangle mScreenBounds;
 
-        private Animation mExplosionAnimation, mPlayerAnimation;
+      //  private Animation mExplosionAnimation, mPlayerAnimation;
         private AnimationTest playerAnimation, explosionAnimation;
         private AnimationPlayer playerAnimationPlayer;
         private bool killed;
@@ -45,13 +45,12 @@ namespace Game1942
 
             //mExplosionAnimation = new Animation(game, mTexture, 6, 0.1f, 70, 169,33,false);
             //mPlayerAnimation = new Animation(game, mTexture, 3, 0.1f, 169, 202, 33, true);
-            playerAnimation = new AnimationTest(game, theTexture, 0.1f, true, 3, 32, 32, 169, 202);
-            explosionAnimation = new AnimationTest(game, theTexture, 0.1f, false, 6, 32, 32, 70, 169);
+            playerAnimation = new AnimationTest(game, theTexture, 7);
+            explosionAnimation = new AnimationTest(game, theTexture, 6);
            
             playerAnimationPlayer = new AnimationPlayer(game);
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
 
-            mSpriteRectangle = new Rectangle(136, 202, SHIPWIDTH, SHIPHEIGHT);
             mLivesRectangle = new Rectangle(169, 268, SHIPWIDTH, SHIPHEIGHT);
             playerAnimationPlayer.PlayAnimation(playerAnimation);
             lives = 3;
@@ -147,19 +146,14 @@ namespace Game1942
                 mSpriteBatch.Draw(mTexture, mLivesPosition, mLivesRectangle, Color.White);
                 mLivesPosition.X += 32;
             }
-            // Draw the ship
+             
                   
            // mSpriteBatch.Draw(mTexture, mPosition, mSpriteRectangle, Color.White);
             mSpriteBatch.DrawString(font, "Player HP: "+HP.ToString()+"\nPlayer GameTime: "+ (error +=(float)gameTime.ElapsedGameTime.TotalSeconds) , new Vector2(15,60), Color.White);
             mSpriteBatch.End();
             
             
-            // Draw the explosion
-           /* if (mExplosionAnimation.IsPaused)
-            {
-                mExplosionAnimation.Draw(gameTime);
-              
-            }*/
+          
             playerAnimationPlayer.Draw(gameTime, mSpriteBatch, getPosition());
             base.Draw(gameTime);
         }

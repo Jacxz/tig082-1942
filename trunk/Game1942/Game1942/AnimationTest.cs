@@ -10,7 +10,8 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
-
+using System.IO;
+using System.Xml;
 
 namespace Game1942
 {
@@ -22,19 +23,19 @@ namespace Game1942
         private Texture2D texture;
         private float frameTime;
         private bool isLooping;
-        private int frameCount, frameWidth, frameHeight, startX, startY;
+        private int frameCount, frameWidth, frameHeight, startX, startY, dietype;
 
-        public AnimationTest(Game game, Texture2D texture, float frameTime, bool isLooping, int frameCount, int frameWidth, int frameHeight, int startX, int startY)
+        public int Dietype
+        {
+            get { return dietype; }
+            
+        }
+
+        public AnimationTest(Game game, Texture2D texture, int type)
             : base(game)
         {
             this.texture = texture;
-            this.frameTime = frameTime;
-            this.isLooping = isLooping;
-            this.frameCount = frameCount;
-            this.frameWidth = frameWidth;
-            this.frameHeight = frameHeight;
-            this.startX = startX;
-            this.startY = startY;
+            ReadXML(type);         
         }
 
         public Texture2D Texture
@@ -108,9 +109,43 @@ namespace Game1942
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            // TODO: Add your update code here
-
             base.Update(gameTime);
+        }
+        // reads from XML File
+        public void ReadXML(int type)
+        {
+            // loads the xml file
+            XmlTextReader txtRead = new XmlTextReader(@"..\..\..\Content/Animations.xml");
+
+            while (txtRead.Read())
+            {
+                // if the type matches the node "type" in the xml
+                if (txtRead.Name == "type")
+                {
+                    // if the value type is holding equals the type we want
+                    if (txtRead.ReadElementContentAsInt() == type)
+                    {
+                        //moves one element and reads the value, does so for all the elements in the node.
+                        txtRead.Read();
+                        frameTime = txtRead.ReadElementContentAsFloat();
+                        txtRead.Read();
+                        frameCount = txtRead.ReadElementContentAsInt();
+                        txtRead.Read();
+                        dietype = txtRead.ReadElementContentAsInt();
+                        txtRead.Read();
+                        isLooping = txtRead.ReadElementContentAsBoolean();
+                        txtRead.Read();
+                        frameWidth = txtRead.ReadElementContentAsInt();
+                        txtRead.Read();
+                        frameHeight = txtRead.ReadElementContentAsInt();
+                        txtRead.Read();
+                        startX = txtRead.ReadElementContentAsInt();
+                        txtRead.Read();
+                        startY = txtRead.ReadElementContentAsInt();
+                        break;
+                    }
+                }
+            }
         }
     }
 }

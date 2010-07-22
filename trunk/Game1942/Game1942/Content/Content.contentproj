@@ -111,8 +111,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="XMLFile1.xml">
-      <Name>XMLFile1</Name>
+    <None Include="Enemies.xml">
+      <Name>Enemies</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Animations.xml">
+      <Name>Animations</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
     </None>

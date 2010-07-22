@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<XnaContent>
+  <Enemy>
+    <type>1</type>
+    <HP>50</HP>
+  </Enemy>
+  <Enemy>
+    <type>2</type>
+    <HP>100</HP>
+  </Enemy>
+  <Enemy>
+    <type>3</type>
+    <HP>150</HP>
+  </Enemy>
+  <Enemy>
+    <type>4</type>
+    <HP>200</HP>
+  </Enemy>
+  <Enemy>
+    <type>5</type>
+    <HP>250</HP>
+  </Enemy>
+</XnaContent>
