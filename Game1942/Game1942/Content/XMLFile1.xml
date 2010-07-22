@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<XnaContent>
+  <Enemy>
+    <type>1</type>
+    <width>9</width>
+    <height>100</height>
+    <posX>4</posX>
+    <posY>499</posY>
+  </Enemy>
+  
+</XnaContent>

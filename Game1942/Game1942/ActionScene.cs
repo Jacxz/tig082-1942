@@ -11,6 +11,8 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 using Game1942.Core;
+using System.Xml;
+using System.IO;
 
 namespace Game1942
 {
@@ -22,6 +24,8 @@ namespace Game1942
         protected Texture2D mBackgroundTexture, actionTexture, blockTextureData;
         protected SpriteBatch mSpriteBatch;
         protected Player player;
+        private Enemy mEnemy1;
+        private EnemyManager enemyManager;
         private CollisionDetection mCollison;
         private int screenheight, screenwidth, deltaY, i, j, changeY, oldLives;
         private ScrollingBackground currentBackground;
@@ -50,13 +54,15 @@ namespace Game1942
             actionTexture = theTexture;
             mBackgroundTexture = backGroundTexture;
             deltaY = 2;
-            
-            for (int x = Enemies.Count; x <= 10; x++)
+            enemyManager = new EnemyManager(game, actionTexture);
+            enemyManager.AddEnemy(1, 10);
+          /*  for (int x = Enemies.Count; x <= 10; x++)
             {
-                mEnemy1 = new Enemy(game, ref actionTexture, 32, 32, 4, 499);
+                mEnemy1 = new Enemy(game, actionTexture, 32, 32, 4, 499);
                 Enemies.Add(mEnemy1);
-            }
-            
+            }*/
+            Enemies = enemyManager.GetEnemyList();
+
 
             oldKeyboardState = Keyboard.GetState();
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
@@ -82,6 +88,7 @@ namespace Game1942
             base.Initialize();
             screenheight = GraphicsDevice.Viewport.Height;
             screenwidth = GraphicsDevice.Viewport.Width;
+            ReadXML(1);
         }
 
         public override void Show()
@@ -185,7 +192,7 @@ namespace Game1942
 
             currentBackground.Draw(mSpriteBatch);
 
-            mSpriteBatch.DrawString(gameFont, "ActionScene EnemyCounts: " + Enemies.Count + "\nActionScene Player killed Enemy: " + error.ToString(), new Vector2(15, 15), Color.White);
+            mSpriteBatch.DrawString(gameFont, "ActionScene EnemyCounts: " + j + "\nActionScene Player killed Enemy: " + i, new Vector2(15, 15), Color.White);
             mSpriteBatch.End();
             base.Draw(gameTime);
         }
@@ -229,6 +236,40 @@ namespace Game1942
         public bool GameOverState()
         {
             return mGameOver;
+        }
+
+        public void ReadXML(int type)
+        {
+            XmlTextReader txtRead = new XmlTextReader( @"..\..\..\Content/XMLFile1.xml");
+            List<string> data = new List<string>(); 
+            while (txtRead.Read())
+            {
+                if (txtRead.Name == "type")
+                {
+
+                    if (txtRead.ReadElementContentAsInt() == 1)
+                    {
+                      string k = txtRead.Value;
+                        //while(txtRead.AttributeCount
+                        //txtRead.Read();
+                        
+                        /*while (txtRead.Read())
+                        {
+                            if (txtRead.Name == "hp")
+                            {
+                                j = txtRead.ReadElementContentAsInt();
+                                break;
+                                
+                            }
+                        }
+                        break;
+                         */
+                    }
+                    
+                }
+              
+            }
+
         }
     }
 }

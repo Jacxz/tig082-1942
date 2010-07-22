@@ -33,7 +33,7 @@ namespace Game1942
         private AnimationTest EnemyAnimation, EnemyExplosion;
          
 
-        public Enemy(Game game, ref Texture2D theTexture, int width, int height, int startX, int startY)
+        public Enemy(Game game, Texture2D theTexture, int width, int height, int startX, int startY)
             : base(game)
         {
             mTexture = theTexture;
