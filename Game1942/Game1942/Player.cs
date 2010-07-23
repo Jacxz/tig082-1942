@@ -35,7 +35,7 @@ namespace Game1942
         private bool killed;
         SpriteFont font;
         private int lives, HP, score;
-        private float error, error2, lTime, playerSpeed;
+        private float error, lTime, playerSpeed;
 
         public Player(Game game, ref Texture2D theTexture)
             : base(game)
@@ -77,7 +77,6 @@ namespace Game1942
 
         protected override void LoadContent()
         {
-            
             base.LoadContent();
         }
 
@@ -128,7 +127,6 @@ namespace Game1942
             }
             if (Killed)
             {
-
                 IsKilled(gameTime);
             }
          

@@ -130,9 +130,9 @@ namespace Game1942
             return new Rectangle((int)mPosition.X, (int)mPosition.Y, EnemyAnimation.FrameWidth, EnemyAnimation.FrameHeight);
         }
 
-        public void isHit() 
+        public void isHit(int dmg) 
         {
-            mHP -= 20;
+            mHP -= dmg;
         }
 
         private void reset()
