@@ -83,13 +83,13 @@ namespace Game1942
         public override void Draw(GameTime gameTime)
         {
             mSpriteBatch.Begin();
-                for (int x = 0; x < Yspeed; x++)
+            for (int x = 0; x < Yspeed; x++)
+            {
+                mPosition.Y += 1;
+                if (mHP >= 0)    
                 {
-                    mPosition.Y += 1;
-                    if (mHP >= 0)    
-                    {
                     mSpriteBatch.DrawString(gameFont, "HP: " + mHP.ToString(), HpPosition, Color.White);
-                    }           
+                }           
                 }
            
             mSpriteBatch.End();
@@ -110,7 +110,7 @@ namespace Game1942
             DoMovment();
             DoChecks(gameTime);
 
-                AddBullets(gameTime);
+            AddBullets(gameTime);
 
             base.Update(gameTime);
         }
@@ -121,7 +121,7 @@ namespace Game1942
             //time left until next shot
             if (mType == 8 && lTime > 1)
             {
-                EnemyBulletList.Add(new Weapon(Game, ref mTexture, mPosition, new Vector2(37, 202), new Vector2(0, 4), 50));
+                EnemyBulletList.Add(new Weapon(Game, ref mTexture, new Vector2(mPosition.X + 16, mPosition.Y + 64), new Vector2(37, 202), new Vector2(0, 4), 50));
                 Game.Components.Add(EnemyBulletList[EnemyBulletList.Count - 1]);
                 lTime = 0;
             }
