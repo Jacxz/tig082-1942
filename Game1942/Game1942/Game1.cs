@@ -95,8 +95,6 @@ namespace Game1942
             highScoreScene = new HighScoreScene(this, smallFont, largeFont, startBackgroundTexture);
             highScoreScene.Initialize();
             Components.Add(highScoreScene);
-
-
         }
 
         /// <summary>
@@ -161,15 +159,17 @@ namespace Game1942
                 {
                     string tmp = GetHighScoreName(path);
                     
-                    if (CheckEnterA()) { }
-                    }                    
+                    if (CheckEnterA())
+                    {
+                        ShowScene(highScoreScene);
+                    }
+                }                    
                     
                 if (CheckEnterA())
                 {
                     ShowScene(highScoreScene);
                 }
             }
-            
             
             else if (currentScene == highScoreScene)
             {
@@ -178,7 +178,6 @@ namespace Game1942
                     ShowScene(startScene);
                 }
             }
-
         }
 
         private string GetHighScoreName(string path)
