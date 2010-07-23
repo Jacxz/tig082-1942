@@ -24,6 +24,7 @@ namespace Game1942
         //game scenes
         protected StartScene startScene;
         protected ActionScene actionScene;
+        protected HighScoreScene highScoreScene;
         protected GameOverScene gameOverScene;
         //current active scene
         protected GameScene currentScene;
@@ -88,6 +89,10 @@ namespace Game1942
             actionScene = new ActionScene(this, actionTextures, startBackgroundTexture, smallFont);
             actionScene.Initialize();
             Components.Add(actionScene);
+            // highscore scene
+            highScoreScene = new HighScoreScene(this, smallFont, largeFont, startBackgroundTexture);
+            highScoreScene.Initialize();
+            Components.Add(highScoreScene);
 
 
         }
@@ -199,7 +204,7 @@ namespace Game1942
                         ShowScene(actionScene);
                         break;
                     case 1:
-                        ShowScene(actionScene);
+                        ShowScene(highScoreScene);
                         break;
                     case 2:
                         ShowScene(actionScene);
