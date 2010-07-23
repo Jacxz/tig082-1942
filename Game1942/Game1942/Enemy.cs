@@ -119,7 +119,7 @@ namespace Game1942
         /// 
         public bool checkCollision(Rectangle rect) 
         {
-           // Rectangle spriterect = new Rectangle((int)mPosition.X, (int)mPosition.Y, mEnemyWidth, mEnemyHeight);
+          
             return getBounds().Intersects(rect);            
         }
 
@@ -164,7 +164,7 @@ namespace Game1942
 
             // Check if the enemy still visible
             if ((mPosition.Y >= Game.Window.ClientBounds.Height) ||
-                (mPosition.X >= Game.Window.ClientBounds.Width) || (mPosition.X <= -mEnemyWidth))//|| (mPosition.X >= 780))
+                (mPosition.X >= Game.Window.ClientBounds.Width) || (mPosition.X <= -EnemyAnimation.FrameWidth))//|| (mPosition.X >= 780))
             {
                 PutinStartPosition();
             }

@@ -144,11 +144,11 @@ namespace Game1942
                 Components.Add(player);
                 oldLives = player.GetLives();
             }
-            enemyManager.AddEnemy(1, 3);
-            enemyManager.AddEnemy(2, 2);
+            enemyManager.AddEnemy(1, 1);
+            enemyManager.AddEnemy(2, 1);
             enemyManager.AddEnemy(3, 1);
             enemyManager.AddEnemy(4, 1);
-            enemyManager.AddEnemy(5, 4);
+            enemyManager.AddEnemy(5, 1);
             Enemies = enemyManager.GetEnemyList();
 
             for (int x = 0; x < Enemies.Count; x++)
@@ -192,11 +192,7 @@ namespace Game1942
             mSpriteBatch.Begin();
 
             currentBackground.Draw(mSpriteBatch);
-            for(int x = 0; x < Enemies.Count-1; x++)  
-            {
-                mSpriteBatch.Draw(actionTexture, new Vector2(Enemies[x].getBounds().X, Enemies[x].getBounds().Y), new Rectangle(697, 203, 32, 32), Color.White);
-            }
-            mSpriteBatch.Draw(actionTexture, new Vector2(player.GetBounds().X, player.GetBounds().Y), new Rectangle(697, 203, 32, 32), Color.White);
+            
             mSpriteBatch.DrawString(gameFont, "ActionScene EnemyCounts: " + (Enemies.Count-1) + "\nActionScene : " + enemyManager.getError(), new Vector2(15, 15), Color.White);
             mSpriteBatch.End();
             base.Draw(gameTime);
