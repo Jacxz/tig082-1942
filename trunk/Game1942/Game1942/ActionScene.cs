@@ -33,7 +33,7 @@ namespace Game1942
         private float lTime, shootRate = 0.15f;
 
         private WeaponManager weaponManager;
-	private int score = 0;
+	    private int score = 0;
         private bool mGameOver = false;
 
         //font
@@ -113,14 +113,7 @@ namespace Game1942
                 ResetScene();
                 oldLives = player.GetLives();
             }
-            // removes the bullet when it reached the end of the screen
-            for (int i = 0; i <= bulletList.Count-1; i++)
-            {
-                if (bulletList[i].mPosition.Y < (0))
-                {
-                    bulletList.RemoveAt(i);
-                }
-            }
+
             for (int x = 0; x <= enemies.Count - 1; x++)
             {
                 enemyBulletList = enemies[x].GetBulletList();
@@ -248,7 +241,6 @@ namespace Game1942
             }
         }
 
-
         public void ResetScene()
         {
             for (int x = 0; x <= enemies.Count - 1; x++)
@@ -260,8 +252,6 @@ namespace Game1942
                 bulletList[x].mPosition.Y = -10;
             } 
         }
-
-        
 
         public void SetGameOver()
         {
