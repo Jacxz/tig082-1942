@@ -145,6 +145,7 @@ namespace Game1942
                 mSpriteBatch.Draw(mTexture, mLivesPosition, mLivesRectangle, Color.White);
                 mLivesPosition.X += 32;
             }
+            //draws hp for player above the player sprite
             for (int x = 0; x < playerSpeed; x++)
             {
                 
@@ -152,11 +153,7 @@ namespace Game1942
                 {
                     mSpriteBatch.DrawString(font, "HP: " + HP.ToString(), new Vector2(mPosition.X, mPosition.Y-15), Color.White);
                 }
-            }
-             
-                  
-           // mSpriteBatch.Draw(mTexture, mPosition, mSpriteRectangle, Color.White);
-            mSpriteBatch.DrawString(font, "Player HP: "+HP.ToString()+"\nPlayer GameTime: "+ (error +=(float)gameTime.ElapsedGameTime.TotalSeconds) , new Vector2(15,60), Color.White);
+            }             
             mSpriteBatch.End();
             
             
