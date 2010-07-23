@@ -156,8 +156,8 @@ namespace Game1942
             enemyManager.AddEnemy(2, 0);
             enemyManager.AddEnemy(3, 0);
             enemyManager.AddEnemy(4, 0);
-            enemyManager.AddEnemy(5, 2);
-            enemyManager.AddEnemy(8, 4);
+            enemyManager.AddEnemy(5, 0);
+            enemyManager.AddEnemy(8, 1);
             enemies = enemyManager.GetEnemyList();
 
             for (int x = 0; x < enemies.Count; x++)

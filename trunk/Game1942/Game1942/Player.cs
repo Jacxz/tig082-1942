@@ -145,6 +145,14 @@ namespace Game1942
                 mSpriteBatch.Draw(mTexture, mLivesPosition, mLivesRectangle, Color.White);
                 mLivesPosition.X += 32;
             }
+            for (int x = 0; x < playerSpeed; x++)
+            {
+                
+                if (HP >= 0)
+                {
+                    mSpriteBatch.DrawString(font, "HP: " + HP.ToString(), new Vector2(mPosition.X, mPosition.Y-15), Color.White);
+                }
+            }
              
                   
            // mSpriteBatch.Draw(mTexture, mPosition, mSpriteRectangle, Color.White);
