@@ -68,7 +68,7 @@ namespace Game1942
         public void PutinStartPosition()
         {
             mPosition.X = random.Next(Game.Window.ClientBounds.Width - mEnemyWidth); 
-            mPosition.Y = 0;
+            mPosition.Y = -20;
             Yspeed = 1 + random.Next(2);
             Xspeed = random.Next(3) - 1;
             reset();
@@ -164,7 +164,7 @@ namespace Game1942
 
             // Check if the enemy still visible
             if ((mPosition.Y >= Game.Window.ClientBounds.Height) ||
-                (mPosition.X >= Game.Window.ClientBounds.Width) || (mPosition.X <= 0) || (mPosition.X >= 780))
+                (mPosition.X >= Game.Window.ClientBounds.Width) || (mPosition.X <= -mEnemyWidth))//|| (mPosition.X >= 780))
             {
                 PutinStartPosition();
             }
