@@ -34,6 +34,8 @@ namespace Game1942
             mTexture = theTexture;
             mPosition = newPosition + new Vector2(0, -22.0f);
 
+            mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
+
             mSpriteRectangle = new Rectangle((int)texturePos.X, (int)texturePos.Y, BULLETWIDTH, BULLETHEIGHT);
             mMovement = movement;
             this.dmg = dmg;
@@ -72,6 +74,11 @@ namespace Game1942
         public Rectangle GetBounds()
         {
             return new Rectangle((int)mPosition.X, (int)mPosition.Y, BULLETWIDTH, BULLETHEIGHT);
+        }
+
+        public bool checkCollision(Rectangle rect)
+        {
+            return GetBounds().Intersects(rect);
         }
 
         public int GetDmg()

@@ -10,103 +10,97 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
-
+using System.IO;
+using System.Xml;
 
 namespace Game1942
 {
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class Animation : Microsoft.Xna.Framework.DrawableGameComponent
+    public class Animation : Microsoft.Xna.Framework.GameComponent
     {
-        SpriteBatch mSpriteBatch;
+        private Texture2D texture;
+        private float frameTime, frameRotation;
+        private bool isLooping;
+        private int frameCount, frameWidth, frameHeight, startX, startY, dietype;
 
-        public float mRotation, mScale, mDepth;
-        
-        private Vector2 mSpritePos;
-        private Texture2D mTexture;
-        private float mTimePerFrame, mTotalElapsedTime, mElapsed;
-        private int mFrameCount, mFrame=1, mXpos, mYpos, mJump;
-        SpriteFont font;
-        public float error, error2;
+        public int Dietype
+        {
+            get { return dietype; }
+            
+        }
 
-        private bool Paused, mLoop;
-
-        public Animation(Game game, Texture2D theTexture, int FrameCount, float TimePerFrame, int X, int Y, int jump, bool isLooping)
+        public Animation(Game game, Texture2D texture, int type)
             : base(game)
         {
-            mTexture = theTexture;
-            mXpos = X;
-            mYpos = Y;
-            mJump = jump;
-            mLoop = isLooping;
-           // mRotation = rot;
-           // mScale = sca;
-            //mDepth = dep;
-            mFrameCount = FrameCount;
-            mTimePerFrame = TimePerFrame;
-            //mKind = kindOf;
-            mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
-
-            font = Game.Content.Load<SpriteFont>("font"); // ska denna ligga här?
+            this.texture = texture;
+            ReadXML(type);         
         }
 
-
-        public void UpdateFrame(float elapsed)
+        public Texture2D Texture
         {
-            if (IsPaused)
-            {
-                // return;
-                mTotalElapsedTime += elapsed;
-                if (mTotalElapsedTime > mTimePerFrame)
-                {
-                    mFrame++;
-                    mTotalElapsedTime -= mTimePerFrame;
-                    error++;
-                }
-                if (mFrame >= mFrameCount)
-                {
-                    
-                    Pause();
-                    Reset();
-                    
-                }
-            }
+            get { return texture; }
         }
-
-        public override void Draw(GameTime gameTime)
+        /// <summary>
+        /// Duration of time to show each frame.
+        /// </summary>
+        public float FrameTime
         {
-
-            UpdateFrame((float)gameTime.ElapsedGameTime.TotalSeconds);
-            mSpriteBatch.Begin();
-            mSpriteBatch.DrawString(font, "Animation Error: " +error+ "\nAnimation Time: " + mTotalElapsedTime + "\nmElapsed: " + mElapsed + "\nmFrame:" + mFrame + "\nFramCount: " + mFrameCount, new Vector2(30, 120), Color.White);
-                Rectangle lSource = new Rectangle(mXpos + (mJump * mFrame), mYpos, 32, 32);
-              //  if (Paused)
-               // {
-                    mSpriteBatch.Draw(mTexture, mSpritePos, lSource, Color.White);
-                //}
-            mSpriteBatch.End();
+            get { return frameTime; }
+        }
+        
+        /// <summary>
+        /// When the end of the animation is reached, should it
+        /// continue playing from the beginning?
+        /// </summary>
+        public bool IsLooping
+        {
+            get { return isLooping; }
+        }
+        /// <summary>
+        /// Gets the number of frames in the animation.
+        /// </summary>
+        public int FrameCount
+        {
+            get { return frameCount; }
             
-            base.Draw(gameTime);
-        }
-        /*
-        public int getWidth()
-        {
-            return mTexture.Width / 14;
         }
 
-        public int getHeight()
+        /// <summary>
+        /// Gets the width of a frame in the animation.
+        /// </summary>
+        public int FrameWidth
         {
-            return mTexture.Height / 4;
+            // Assume square frames.
+            get { return frameWidth; }
         }
-        */
-      
+
+        /// <summary>
+        /// Gets the height of a frame in the animation.
+        /// </summary>
+        public int FrameHeight
+        {
+            get { return frameWidth; }
+        }
+
+        public int StartX
+        {
+            get { return startX; }
+        }
+
+        public int StartY
+        {
+            get { return startY; }
+        }
         /// <summary>
         /// Allows the game component to perform any initialization it needs to before starting
         /// to run.  This is where it can query for any required services and load content.
         /// </summary>
         public override void Initialize()
         {
+            // TODO: Add your initialization code here
+
             base.Initialize();
         }
 
@@ -116,42 +110,59 @@ namespace Game1942
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-
-           
             base.Update(gameTime);
         }
 
-        public bool IsPaused
+        public SpriteEffects getEffect()
         {
-            get { return Paused; }
+            SpriteEffects fx;
+            if (frameRotation == 1)
+            {
+                fx = SpriteEffects.FlipVertically;
+            }
+            else
+            {
+                fx = SpriteEffects.None;
+            }
+            return fx;
         }
-        public void Reset()
+        // reads from XML File
+        public void ReadXML(int type)
         {
-            mFrame = 0;
-            mTotalElapsedTime = 0f;
-        }
-        public void Stop()
-        {
-            Pause();
-            Reset();
-        }
-        public void Play()
-        {
-            Paused = true;
-        }
-        public void Pause()
-        {
-            Paused = false;
-        }
+            // loads the xml file
+            XmlTextReader txtRead = new XmlTextReader(@"..\..\..\Content/Animations.xml");
 
-        public Vector2 SpritePos
-        {
-            get { return mSpritePos; }
-            set { mSpritePos = value; }
-        }
-        public float getError()
-        {
-            return error;
+            while (txtRead.Read())
+            {
+                // if the type matches the node "type" in the xml
+                if (txtRead.Name == "type")
+                {
+                    // if the value type is holding equals the type we want
+                    if (txtRead.ReadElementContentAsInt() == type)
+                    {
+                        //moves one element and reads the value, does so for all the elements in the node.
+                        txtRead.Read();
+                        frameRotation = txtRead.ReadElementContentAsFloat();
+                        txtRead.Read();
+                        frameTime = txtRead.ReadElementContentAsFloat();
+                        txtRead.Read();
+                        frameCount = txtRead.ReadElementContentAsInt();
+                        txtRead.Read();
+                        dietype = txtRead.ReadElementContentAsInt();
+                        txtRead.Read();
+                        isLooping = txtRead.ReadElementContentAsBoolean();
+                        txtRead.Read();
+                        frameWidth = txtRead.ReadElementContentAsInt();
+                        txtRead.Read();
+                        frameHeight = txtRead.ReadElementContentAsInt();
+                        txtRead.Read();
+                        startX = txtRead.ReadElementContentAsInt();
+                        txtRead.Read();
+                        startY = txtRead.ReadElementContentAsInt();
+                        break;
+                    }
+                }
+            }
         }
     }
 }

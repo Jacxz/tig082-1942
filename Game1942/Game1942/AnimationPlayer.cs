@@ -20,7 +20,7 @@ namespace Game1942
     public class AnimationPlayer : Microsoft.Xna.Framework.DrawableGameComponent
     {
 
-        private AnimationTest mCurrentAnimation;
+        private Animation mCurrentAnimation;
         private int frameIndex;
         private float time;
         private SpriteFont gameFont;
@@ -31,7 +31,7 @@ namespace Game1942
             gameFont = game.Content.Load<SpriteFont>("font");
         }
 
-        public AnimationTest CurrentAnimation
+        public Animation CurrentAnimation
         {
             get { return mCurrentAnimation; }
         }
@@ -41,7 +41,7 @@ namespace Game1942
             get { return frameIndex; }
         }
 
-        public void PlayAnimation(AnimationTest animation)
+        public void PlayAnimation(Animation animation)
         {
             // If this animation is already running, do not restart it.
             if (mCurrentAnimation == animation)
@@ -86,7 +86,7 @@ namespace Game1942
             {
                 time -= mCurrentAnimation.FrameTime;
 
-                // Advance the frame index; looping or clamping as appropriate.
+                // Advance the frame index looping or clamping as appropriate.
                 if (mCurrentAnimation.IsLooping)
                 {
                     frameIndex = (frameIndex + 1) % mCurrentAnimation.FrameCount;
@@ -96,13 +96,15 @@ namespace Game1942
                     frameIndex = Math.Min(frameIndex + 1, mCurrentAnimation.FrameCount - 1);
                 }
             }
-
+           
+            
             // Calculate the source rectangle of the current frame.
             Rectangle source = new Rectangle(FrameIndex * (mCurrentAnimation.FrameWidth+1) + mCurrentAnimation.StartX , mCurrentAnimation.StartY, mCurrentAnimation.FrameHeight, mCurrentAnimation.FrameWidth);
-            spriteBatch.Begin();
-           // spriteBatch.DrawString(gameFont, "Error AnPlayer: "+(FrameIndex * (mCurrentAnimation.Texture.Width+1) + mCurrentAnimation.StartX), new Vector2(150, 150), Color.White);
+            spriteBatch.Begin();          
             // Draw the current frame.
-            spriteBatch.Draw(mCurrentAnimation.Texture, position, source, Color.White);
+            //spriteBatch.Draw(mCurrentAnimation.Texture, position, source, Color.White);
+            spriteBatch.Draw(mCurrentAnimation.Texture, position, new Rectangle(697, 203, mCurrentAnimation.FrameHeight, mCurrentAnimation.FrameWidth), Color.White);
+            spriteBatch.Draw(mCurrentAnimation.Texture, position, source, Color.White, 0, new Vector2(0, 0), new Vector2(1, 1), mCurrentAnimation.getEffect(), 1.0f);
             spriteBatch.End();
         }
     }

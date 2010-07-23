@@ -40,7 +40,7 @@ namespace Game1942
         private SpriteFont gameFont;
 
         private List<Enemy> enemies = new List<Enemy>();
-        private List<Weapon> bulletList = new List<Weapon>();
+        private List<Weapon> bulletList = new List<Weapon>(), enemyBulletList = new List<Weapon>();
 
         private KeyboardState oldKeyboardState, keyboard;
 
@@ -113,6 +113,25 @@ namespace Game1942
                 ResetScene();
                 oldLives = player.GetLives();
             }
+            // removes the bullet when it reached the end of the screen
+            for (int i = 0; i <= bulletList.Count-1; i++)
+            {
+                if (bulletList[i].mPosition.Y < (0))
+                {
+                    bulletList.RemoveAt(i);
+                }
+            }
+            for (int x = 0; x <= enemies.Count - 1; x++)
+            {
+                enemyBulletList = enemies[x].GetBulletList();
+                for (int i = 0; i <= enemyBulletList.Count - 1; i++)
+                {
+                    if (enemyBulletList[i].mPosition.Y > screenheight)
+                    {
+                        enemyBulletList.RemoveAt(i);
+                    }
+                }
+            }
 
             if (player.GetLives() < 0)
             {
@@ -133,11 +152,12 @@ namespace Game1942
                 Components.Add(player);
                 oldLives = player.GetLives();
             }
-            enemyManager.AddEnemy(1, 1);
-            enemyManager.AddEnemy(2, 1);
-            enemyManager.AddEnemy(3, 1);
-            enemyManager.AddEnemy(4, 1);
-            enemyManager.AddEnemy(5, 1);
+            enemyManager.AddEnemy(1, 4);
+            enemyManager.AddEnemy(2, 0);
+            enemyManager.AddEnemy(3, 0);
+            enemyManager.AddEnemy(4, 0);
+            enemyManager.AddEnemy(5, 2);
+            enemyManager.AddEnemy(8, 4);
             enemies = enemyManager.GetEnemyList();
 
             for (int x = 0; x < enemies.Count; x++)
@@ -155,9 +175,24 @@ namespace Game1942
             for (int x = 0; x <= enemies.Count - 1; x++)
             {
                 if (enemies[x].checkCollision(player.GetBounds()))
-                {                   
-                    player.IsHit();
-                    enemies[x].isHit(10);
+                {              
+                    player.IsHit(5);
+                    enemies[x].isHit(10); 
+                }
+            }
+            for (int x = 0; x <= enemies.Count - 1; x++)
+            {
+                enemyBulletList = enemies[x].GetBulletList();
+                if (enemyBulletList != null)
+                {
+                    for (int y = 0; y <= enemyBulletList.Count - 1; y++)
+                    {
+                        if (enemyBulletList[y].checkCollision(player.GetBounds()))
+                        {
+                            player.IsHit(40);
+                            enemies[x].killBullet(y);
+                        }
+                    }
                 }
             }
 
@@ -168,7 +203,7 @@ namespace Game1942
                 for (int y = 0; y <= enemies.Count - 1; y++)
                 {
                     if (enemies[y].checkCollision(bulletList[x].GetBounds()))
-                    {                        
+                    {
                         enemies[y].isHit(bulletList[x].GetDmg());
                         bulletList[x].mPosition.Y = -100;
                         score += enemies[y].IsDead();
@@ -194,6 +229,7 @@ namespace Game1942
             currentBackground.Draw(mSpriteBatch);
             
             mSpriteBatch.DrawString(gameFont, "ActionScene EnemyCounts: " + (enemies.Count-1) + "\nActionScene : " + enemyManager.getError(), new Vector2(15, 15), Color.White);
+
             mSpriteBatch.End();
             base.Draw(gameTime);
         }
@@ -224,6 +260,8 @@ namespace Game1942
                 bulletList[x].mPosition.Y = -10;
             } 
         }
+
+        
 
         public void SetGameOver()
         {

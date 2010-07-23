@@ -30,7 +30,7 @@ namespace Game1942
         protected Rectangle mScreenBounds;
 
       //  private Animation mExplosionAnimation, mPlayerAnimation;
-        private AnimationTest playerAnimation, explosionAnimation;
+        private Animation playerAnimation, explosionAnimation;
         private AnimationPlayer playerAnimationPlayer;
         private bool killed;
         SpriteFont font;
@@ -45,8 +45,8 @@ namespace Game1942
 
             //mExplosionAnimation = new Animation(game, mTexture, 6, 0.1f, 70, 169,33,false);
             //mPlayerAnimation = new Animation(game, mTexture, 3, 0.1f, 169, 202, 33, true);
-            playerAnimation = new AnimationTest(game, theTexture, 7);
-            explosionAnimation = new AnimationTest(game, theTexture, 6);
+            playerAnimation = new Animation(game, theTexture, 7);
+            explosionAnimation = new Animation(game, theTexture, 6);
            
             playerAnimationPlayer = new AnimationPlayer(game);
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
@@ -181,9 +181,9 @@ namespace Game1942
             set { killed = value; }
         }
 
-        public void IsHit()
+        public void IsHit(int dmg)
         {
-            HP -= 5;
+            HP -= dmg;
             if (HP <= 0)
             {
                 Killed = true;

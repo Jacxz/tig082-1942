@@ -2,6 +2,7 @@
 <XnaContent>
   <Animations>
     <type>1</type>
+    <rotation>0</rotation>
     <frametime>0.1</frametime>
     <framecount>3</framecount>
     <dieAnimation>6</dieAnimation>
@@ -13,6 +14,7 @@
   </Animations>
   <Animations>
     <type>2</type>
+    <rotation>0</rotation>
     <frametime>0.1</frametime>
     <framecount>3</framecount>
     <dieAnimation>6</dieAnimation>
@@ -24,6 +26,7 @@
   </Animations>
   <Animations>
     <type>3</type>
+    <rotation>0</rotation>
     <frametime>0.1</frametime>
     <framecount>3</framecount>
     <dieAnimation>6</dieAnimation>
@@ -35,6 +38,7 @@
   </Animations>
   <Animations>
     <type>4</type>
+    <rotation>0</rotation>
     <frametime>0.1</frametime>
     <framecount>3</framecount>
     <dieAnimation>6</dieAnimation>
@@ -46,6 +50,7 @@
   </Animations>
   <Animations>
     <type>5</type>
+    <rotation>0</rotation>
     <frametime>0.1</frametime>
     <framecount>3</framecount>
     <dieAnimation>6</dieAnimation>
@@ -57,6 +62,7 @@
   </Animations>
   <Animations>
     <type>6</type>
+    <rotation>0</rotation>
     <frametime>0.1</frametime>
     <framecount>6</framecount>
     <dieAnimation>0</dieAnimation>
@@ -68,6 +74,7 @@
   </Animations>
   <Animations>
     <type>7</type>
+    <rotation>0</rotation>
     <frametime>0.1</frametime>
     <framecount>3</framecount>
     <dieAnimation>6</dieAnimation>
@@ -76,5 +83,29 @@
     <height>32</height>
     <posX>169</posX>
     <posY>202</posY>
+  </Animations>
+  <Animations>
+    <type>8</type>
+    <rotation>1</rotation>
+    <frametime>0.1</frametime>
+    <framecount>3</framecount>
+    <dieAnimation>9</dieAnimation>
+    <loop>true</loop>
+    <width>65</width>
+    <height>65</height>
+    <posX>4</posX>
+    <posY>400</posY>
+  </Animations>
+  <Animations>
+    <type>9</type>
+    <rotation>0</rotation>
+    <frametime>0.1</frametime>
+    <framecount>6</framecount>
+    <dieAnimation>0</dieAnimation>
+    <loop>false</loop>
+    <width>65</width>
+    <height>65</height>
+    <posX>4</posX>
+    <posY>301</posY>
   </Animations>
 </XnaContent>
