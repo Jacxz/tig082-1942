@@ -90,7 +90,7 @@ namespace Game1942
                 {
                     mSpriteBatch.DrawString(gameFont, "HP: " + mHP.ToString(), HpPosition, Color.White);
                 }           
-                }
+            }
            
             mSpriteBatch.End();
             AnimationPlayer.Draw(gameTime, mSpriteBatch, mPosition);
@@ -135,7 +135,6 @@ namespace Game1942
         /// 
         public bool checkCollision(Rectangle rect) 
         {
-          
             return getBounds().Intersects(rect);            
         }
 
@@ -180,7 +179,6 @@ namespace Game1942
             // Check if the Enemy is dead
             if (mHP <= 1)
             {
-                
                 // if dead load the explosion animation
                 animationFlag = true;
                 AnimationPlayer.PlayAnimation(EnemyExplosion);
@@ -198,7 +196,8 @@ namespace Game1942
 
             // Check if the enemy still visible
             if ((mPosition.Y >= Game.Window.ClientBounds.Height) ||
-                (mPosition.X >= Game.Window.ClientBounds.Width) || (mPosition.X <= -EnemyAnimation.FrameWidth))//|| (mPosition.X >= 780))
+                (mPosition.X >= Game.Window.ClientBounds.Width) ||
+                (mPosition.X <= -EnemyAnimation.FrameWidth))//|| (mPosition.X >= 780))
             {
                 PutinStartPosition();
             }
@@ -216,7 +215,6 @@ namespace Game1942
         public void killBullet(int i)
         {
             EnemyBulletList[i].mPosition.Y = -100;
-
         }
     }
 }
