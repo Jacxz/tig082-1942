@@ -25,6 +25,8 @@ namespace Game1942
         protected Vector2 mPosition, HpPosition;
         protected int Yspeed, Xspeed, error, mHP, mStartX, mStartY, mStartHP, mType, mEnemyWidth, mEnemyHeight, exptype;
 
+        protected bool animationFlag = false;
+        protected int score = 5;
     
         protected Random random;
         protected SpriteBatch mSpriteBatch;
@@ -144,12 +146,28 @@ namespace Game1942
             mPosition.X += Xspeed;
         }
 
+        public int Score
+        {
+            get { return score; }
+        }
+
+        public int IsDead()
+        {
+            if ((mHP <= 1) && !animationFlag)
+            {
+                return 5 ;
+            }
+            else return 0;
+        }
+
         private void DoChecks(GameTime gTime)
         {
             // Check if the Enemy is dead
             if (mHP <= 1)
             {
+                
                 // if dead load the explosion animation
+                animationFlag = true;
                 AnimationPlayer.PlayAnimation(EnemyExplosion);
                 timePassed += (float)gTime.ElapsedGameTime.TotalSeconds;
                 //resets the animation to EnemyAnimation when the explosion animation is done playing and puts it in the start position
@@ -158,6 +176,7 @@ namespace Game1942
                     PutinStartPosition();
                     AnimationPlayer.PlayAnimation(EnemyAnimation);
                     timePassed = 0;
+                    animationFlag = false;
                 }
                 
             }

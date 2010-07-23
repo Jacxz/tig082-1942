@@ -32,7 +32,7 @@ namespace Game1942
 
         private float lTime, shootRate = 0.15f;
 
-        
+        private int score = 0;        
 
         private bool mGameOver = false;
 
@@ -168,7 +168,6 @@ namespace Game1942
                 {                   
                     player.IsHit();
                     Enemies[x].isHit();
-                    
                 }
             }
 
@@ -178,8 +177,9 @@ namespace Game1942
                 for (int y = 0; y <= Enemies.Count - 1; y++)
                 {
                     if (Enemies[y].checkCollision(BulletList[x].GetBounds()))
-                    {                        
+                    {
                         Enemies[y].isHit();
+                        score += Enemies[y].IsDead();
                         BulletList[x].mPosition.Y = -10;
                     }
                 }
@@ -192,8 +192,8 @@ namespace Game1942
             mSpriteBatch.Begin();
 
             currentBackground.Draw(mSpriteBatch);
-            
-            mSpriteBatch.DrawString(gameFont, "ActionScene EnemyCounts: " + (Enemies.Count-1) + "\nActionScene : " + enemyManager.getError(), new Vector2(15, 15), Color.White);
+
+            mSpriteBatch.DrawString(gameFont, "Player Score: " + score + "\nActionScene EnemyCounts: " + (Enemies.Count - 1) + "\nActionScene : " + enemyManager.getError(), new Vector2(15, 15), Color.White);
             mSpriteBatch.End();
             base.Draw(gameTime);
         }
@@ -205,17 +205,18 @@ namespace Game1942
             {
                 if (lTime > shootRate)
                 {
-                    BulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 1));
-                    Components.Add(BulletList[BulletList.Count - 1]);
+//                    BulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 1));
+//                    Components.Add(BulletList[BulletList.Count - 1]);
                     BulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 2));
                     Components.Add(BulletList[BulletList.Count - 1]);
-                    BulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 3));
-                    Components.Add(BulletList[BulletList.Count - 1]);
+//                    BulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 3));
+//                    Components.Add(BulletList[BulletList.Count - 1]);
                     AudioManager.Effect("luger");
                     lTime = 0;
                 }
             }
         }
+
 
         public void ResetScene()
         {
