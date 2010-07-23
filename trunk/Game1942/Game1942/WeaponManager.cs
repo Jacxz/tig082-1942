@@ -45,6 +45,13 @@ namespace Game1942
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
+            for (int i = 0; i < weaponList.Count; i++)
+            {
+                if (weaponList[i].mPosition.Y < 0 || weaponList[i].mPosition.Y > 800)
+                {
+                    weaponList.RemoveAt(i);
+                }
+            }
             base.Update(gameTime);
         }
 

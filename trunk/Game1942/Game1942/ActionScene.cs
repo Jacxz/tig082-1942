@@ -194,15 +194,6 @@ namespace Game1942
                     }
                 }
             }
-
-            // removes the players bullets which are outside of the screen
-            for (int i = 0; i <= bulletList.Count - 1; i++)
-            {
-                if (bulletList[i].mPosition.Y < 0)
-                {
-                    bulletList.RemoveAt(i);
-                }
-            }
         }
 
         public override void Draw(GameTime gameTime)
