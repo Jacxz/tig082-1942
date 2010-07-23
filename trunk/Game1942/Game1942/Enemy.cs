@@ -31,10 +31,11 @@ namespace Game1942
         protected Random random;
         protected SpriteBatch mSpriteBatch;
         protected SpriteFont gameFont;
-      
-        private float timePassed;
+       
+        private float timePassed, lTime = 0;
         private AnimationPlayer AnimationPlayer;
-        private AnimationTest EnemyAnimation, EnemyExplosion;
+        private Animation EnemyAnimation, EnemyExplosion;
+        private List<Weapon> EnemyBulletList = new List<Weapon>();
          
 
         public Enemy(Game game, Texture2D theTexture, int HP, int type)
@@ -50,8 +51,8 @@ namespace Game1942
             // creates the animationplayer
             AnimationPlayer = new AnimationPlayer(game);            
             // creates the animations
-            EnemyAnimation = new AnimationTest(game, theTexture, mType);
-            EnemyExplosion = new AnimationTest(game, theTexture, EnemyAnimation.Dietype);
+            EnemyAnimation = new Animation(game, theTexture, mType);
+            EnemyExplosion = new Animation(game, theTexture, EnemyAnimation.Dietype);
             
             // Create the source rectangle.
             // This represents where is the sprite picture in surface
@@ -108,9 +109,22 @@ namespace Game1942
 
             DoMovment();
             DoChecks(gameTime);
-            
+
+                AddBullets(gameTime);
 
             base.Update(gameTime);
+        }
+
+        protected void AddBullets(GameTime gTime)
+        {
+            lTime += (float)gTime.ElapsedGameTime.TotalSeconds;
+            //time left until next shot
+            if (mType == 8 && lTime > 1)
+            {
+                EnemyBulletList.Add(new Weapon(Game, ref mTexture, mPosition, new Vector2(37, 202), new Vector2(0, 4), 50));
+                Game.Components.Add(EnemyBulletList[EnemyBulletList.Count - 1]);
+                lTime = 0;
+            }
         }
 
         /// <summary>
@@ -138,6 +152,7 @@ namespace Game1942
         private void reset()
         {
             mHP = mStartHP;
+            AnimationPlayer.PlayAnimation(EnemyAnimation);
         }
 
         private void DoMovment()
@@ -174,7 +189,7 @@ namespace Game1942
                 if (timePassed > EnemyExplosion.FrameTime * EnemyExplosion.FrameCount)
                 {
                     PutinStartPosition();
-                    AnimationPlayer.PlayAnimation(EnemyAnimation);
+                    
                     timePassed = 0;
                     animationFlag = false;
                 }
@@ -188,6 +203,20 @@ namespace Game1942
                 PutinStartPosition();
             }
         }
-        
+
+        public void SetBulletList(List<Weapon> bulletList)
+        {
+            EnemyBulletList = bulletList;
+        }
+
+        public List<Weapon> GetBulletList()
+        {
+            return EnemyBulletList;
+        }
+        public void killBullet(int i)
+        {
+            EnemyBulletList[i].mPosition.Y = -100;
+
+        }
     }
 }

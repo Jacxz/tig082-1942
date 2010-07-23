@@ -20,4 +20,8 @@
     <type>5</type>
     <HP>250</HP>
   </Enemy>
+  <Enemy>
+    <type>8</type>
+    <HP>500</HP>
+  </Enemy>
 </XnaContent>

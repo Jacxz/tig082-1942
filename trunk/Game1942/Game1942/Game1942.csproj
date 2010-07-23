@@ -84,9 +84,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScene.cs" />
-    <Compile Include="Animation.cs" />
     <Compile Include="AnimationPlayer.cs" />
-    <Compile Include="AnimationTest.cs" />
+    <Compile Include="Animation.cs" />
     <Compile Include="AudioManager.cs" />
     <Compile Include="CollisionDetection.cs" />
     <Compile Include="WeaponManager.cs" />
