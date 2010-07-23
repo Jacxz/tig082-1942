@@ -90,7 +90,7 @@ namespace Game1942
                     {
                     mSpriteBatch.DrawString(gameFont, "HP: " + mHP.ToString(), HpPosition, Color.White);
                     }           
-            }
+                }
            
             mSpriteBatch.End();
             AnimationPlayer.Draw(gameTime, mSpriteBatch, mPosition);
