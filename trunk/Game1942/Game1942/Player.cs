@@ -34,7 +34,7 @@ namespace Game1942
         private AnimationPlayer playerAnimationPlayer;
         private bool killed;
         SpriteFont font;
-        private int lives, HP;
+        private int lives, HP, score;
         private float error, error2, lTime, playerSpeed;
 
         public Player(Game game, ref Texture2D theTexture)
@@ -55,6 +55,7 @@ namespace Game1942
             playerAnimationPlayer.PlayAnimation(playerAnimation);
             lives = 3;
             HP = 100;
+            score = 0;
             playerSpeed = 2;
            
             mScreenBounds = new Rectangle(0, 0, Game.Window.ClientBounds.Width, Game.Window.ClientBounds.Height);
@@ -210,6 +211,11 @@ namespace Game1942
             }
             
             HP = 100;  
+        }
+
+        public int GetScore()
+        {
+            return score;
         }
 
         public int GetLives()
