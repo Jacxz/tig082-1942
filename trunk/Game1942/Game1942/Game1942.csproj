@@ -94,6 +94,8 @@
     <Compile Include="Enemy.cs" />
     <Compile Include="EnemyManager.cs" />
     <Compile Include="GameOverScene.cs" />
+    <Compile Include="highscoreObject.cs" />
+    <Compile Include="HighScoreScene.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
@@ -101,6 +103,7 @@
     <Compile Include="ScrollingBackground.cs" />
     <Compile Include="StartScene.cs" />
     <Compile Include="Weapon.cs" />
+    <Compile Include="XMLHandling.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
