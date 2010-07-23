@@ -154,7 +154,7 @@ namespace Game1942
         public void CheckCollisions()
         {
             // check collision enemys vs player and subtracts 5 hp from player each hit.
-            for (int x = 0; x <= enemies.Count - 1; x++)
+            for (int x = 0; x < enemies.Count; x++)
             {
                 if (enemies[x].checkCollision(player.GetBounds()))
                 {              
@@ -181,7 +181,7 @@ namespace Game1942
             }
 
             bulletList = weaponManager.GetWeaponList();
-            // check if enemy collides with a weapon, if it collides move the weapon outside of the screen.
+            // check if enemy collides with a player bullet, if it collides move the weapon outside of the screen.
             for (int x = 0; x <= bulletList.Count - 1; x++)
             {
                 for (int y = 0; y <= enemies.Count - 1; y++)
@@ -195,7 +195,7 @@ namespace Game1942
                 }
             }
 
-            // removes the bullet when it reached the end of the screen
+            // removes the players bullets which are outside of the screen
             for (int i = 0; i <= bulletList.Count - 1; i++)
             {
                 if (bulletList[i].mPosition.Y < 0)

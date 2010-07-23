@@ -191,7 +191,6 @@ namespace Game1942
                     timePassed = 0;
                     animationFlag = false;
                 }
-                
             }
 
             // Check if the enemy still visible
