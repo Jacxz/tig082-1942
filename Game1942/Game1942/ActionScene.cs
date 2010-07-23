@@ -102,7 +102,8 @@ namespace Game1942
         public override void Update(GameTime gameTime)
         {
             CheckCollisions(); // checks collition with enemy List
-            
+            weaponManager.Update(gameTime);
+
             keyboard = Keyboard.GetState();
 
             AddBullet(gameTime);
@@ -148,7 +149,7 @@ namespace Game1942
             }
            
             player.PutInStartPosition();
-            currentWeapon = 4;
+            currentWeapon = 1;
         }
 
         public void CheckCollisions()
@@ -173,15 +174,15 @@ namespace Game1942
                     {
                         if (enemyBulletList[y].checkCollision(player.GetBounds()))
                         {
-                            player.IsHit(10);
-                            enemies[x].killBullet(y);
+                            player.IsHit(enemyBulletList[y].GetDmg());
+                            enemyBulletList[y].mPosition.Y = 900;
                         }
                     }
                 }
             }
 
-            bulletList = weaponManager.GetWeaponList();
             // check if enemy collides with a player bullet, if it collides move the weapon outside of the screen.
+            bulletList = weaponManager.GetWeaponList();
             for (int x = 0; x <= bulletList.Count - 1; x++)
             {
                 for (int y = 0; y <= enemies.Count - 1; y++)
@@ -203,7 +204,10 @@ namespace Game1942
 
             currentBackground.Draw(mSpriteBatch);
 
-            mSpriteBatch.DrawString(gameFont, "Player Score: " + score + "\nActionScene EnemyCounts: " + enemies.Count + "\nActionScene : " + enemyManager.getError(), new Vector2(15, 15), Color.White);
+            mSpriteBatch.DrawString(gameFont, "Player Score: " + score +
+                "\nActionScene EnemyCounts: " + enemies.Count +
+                "\nActionScene : " + enemyManager.getError() +
+                "\nBullet count: " + weaponManager.GetWeaponList().Count, new Vector2(15, 15), Color.White);
 
             mSpriteBatch.End();
             base.Draw(gameTime);
@@ -212,7 +216,7 @@ namespace Game1942
         public void AddBullet(GameTime gTime)
         {
             lTime += (float)gTime.ElapsedGameTime.TotalSeconds;
-            if (keyboard.IsKeyDown(Keys.Space) && !oldKeyboardState.IsKeyDown(Keys.Space) && !player.Killed)
+            if (keyboard.IsKeyDown(Keys.Space) && !player.Killed)
             {
                 if (lTime > shootRate)
                 {
