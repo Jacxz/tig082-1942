@@ -26,7 +26,7 @@ namespace Game1942
         private Vector2 mSpritePos;
         private Texture2D mTexture;
         private float mTimePerFrame, mTotalElapsedTime, mElapsed;
-        private int mFrameCount, mFrame=1, mLookDirection, mKind, mXpos, mYpos, mJump;
+        private int mFrameCount, mFrame=1, mXpos, mYpos, mJump;
         SpriteFont font;
         public float error, error2;
 

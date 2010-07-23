@@ -27,22 +27,20 @@ namespace Game1942
         private Enemy mEnemy1;
         private EnemyManager enemyManager;
         private CollisionDetection mCollison;
-        private int screenheight, screenwidth, deltaY, i, j, changeY, oldLives;
+        private int screenheight, screenwidth, deltaY, changeY, oldLives, currentWeapon;
         private ScrollingBackground currentBackground;
 
         private float lTime, shootRate = 0.15f;
 
-        private int score = 0;        
-
+        private WeaponManager weaponManager;
+	private int score = 0;
         private bool mGameOver = false;
 
         //font
         private SpriteFont gameFont;
 
-        private List<Enemy> Enemies = new List<Enemy>();
-        private List<Weapon> BulletList = new List<Weapon>();
-        // error variables
-        int error;
+        private List<Enemy> enemies = new List<Enemy>();
+        private List<Weapon> bulletList = new List<Weapon>();
 
         private KeyboardState oldKeyboardState, keyboard;
 
@@ -55,6 +53,7 @@ namespace Game1942
             mBackgroundTexture = backGroundTexture;
             deltaY = 2;
             enemyManager = new EnemyManager(game, actionTexture);
+            weaponManager = new WeaponManager(game, actionTexture);
 
             oldKeyboardState = Keyboard.GetState();
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
@@ -80,7 +79,6 @@ namespace Game1942
             base.Initialize();
             screenheight = GraphicsDevice.Viewport.Height;
             screenwidth = GraphicsDevice.Viewport.Width;
-            
         }
 
         public override void Show()
@@ -115,15 +113,6 @@ namespace Game1942
                 ResetScene();
                 oldLives = player.GetLives();
             }
-            // removes the bullet when it reached the end of the screen
-            for (int i = 0; i <= BulletList.Count-1; i++)
-            {
-                if (BulletList[i].mPosition.Y < (0))
-                {
-                    BulletList.RemoveAt(i);
-                }
-            }
-            
 
             if (player.GetLives() < 0)
             {
@@ -149,39 +138,50 @@ namespace Game1942
             enemyManager.AddEnemy(3, 1);
             enemyManager.AddEnemy(4, 1);
             enemyManager.AddEnemy(5, 1);
-            Enemies = enemyManager.GetEnemyList();
+            enemies = enemyManager.GetEnemyList();
 
-            for (int x = 0; x < Enemies.Count; x++)
+            for (int x = 0; x < enemies.Count; x++)
             {
-               
-                Components.Add(Enemies[x]);
+                Components.Add(enemies[x]);
             }
            
             player.PutInStartPosition();
+            currentWeapon = 4;
         }
+
         // check collision enemys vs player and subtracts 5 hp from player each hit.
         public void CheckCollisions()
         {
-            for (int x = 0; x <= Enemies.Count - 1; x++)
+            for (int x = 0; x <= enemies.Count - 1; x++)
             {
-                if (Enemies[x].checkCollision(player.GetBounds()))
+                if (enemies[x].checkCollision(player.GetBounds()))
                 {                   
                     player.IsHit();
-                    Enemies[x].isHit();
+                    enemies[x].isHit(10);
                 }
             }
 
-            // check if any enemy has a collision with a weapon, if it collides the position of the weapon is put outside the screen and will be removed in the update.
-            for (int x = 0; x <= BulletList.Count - 1; x++)
+            bulletList = weaponManager.GetWeaponList();
+            // check if enemy collides with a weapon, if it collides move the weapon outside of the screen.
+            for (int x = 0; x <= bulletList.Count - 1; x++)
             {
-                for (int y = 0; y <= Enemies.Count - 1; y++)
+                for (int y = 0; y <= enemies.Count - 1; y++)
                 {
-                    if (Enemies[y].checkCollision(BulletList[x].GetBounds()))
-                    {
-                        Enemies[y].isHit();
-                        score += Enemies[y].IsDead();
-                        BulletList[x].mPosition.Y = -10;
+                    if (enemies[y].checkCollision(bulletList[x].GetBounds()))
+                    {                        
+                        enemies[y].isHit(bulletList[x].GetDmg());
+                        bulletList[x].mPosition.Y = -100;
+                        score += enemies[y].IsDead();
                     }
+                }
+            }
+
+            // removes the bullet when it reached the end of the screen
+            for (int i = 0; i <= bulletList.Count - 1; i++)
+            {
+                if (bulletList[i].mPosition.Y < 0)
+                {
+                    bulletList.RemoveAt(i);
                 }
             }
         }
@@ -192,8 +192,8 @@ namespace Game1942
             mSpriteBatch.Begin();
 
             currentBackground.Draw(mSpriteBatch);
-
-            mSpriteBatch.DrawString(gameFont, "Player Score: " + score + "\nActionScene EnemyCounts: " + (Enemies.Count - 1) + "\nActionScene : " + enemyManager.getError(), new Vector2(15, 15), Color.White);
+            
+            mSpriteBatch.DrawString(gameFont, "ActionScene EnemyCounts: " + (enemies.Count-1) + "\nActionScene : " + enemyManager.getError(), new Vector2(15, 15), Color.White);
             mSpriteBatch.End();
             base.Draw(gameTime);
         }
@@ -201,16 +201,11 @@ namespace Game1942
         public void AddBullet(GameTime gTime)
         {
             lTime += (float)gTime.ElapsedGameTime.TotalSeconds;
-            if (keyboard.IsKeyDown(Keys.Space) && !oldKeyboardState.IsKeyDown(Keys.Space))
+            if (keyboard.IsKeyDown(Keys.Space) && !oldKeyboardState.IsKeyDown(Keys.Space) && !player.Killed)
             {
                 if (lTime > shootRate)
                 {
-//                    BulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 1));
-//                    Components.Add(BulletList[BulletList.Count - 1]);
-                    BulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 2));
-                    Components.Add(BulletList[BulletList.Count - 1]);
-//                    BulletList.Add(new Weapon(Game, ref actionTexture, player.getPosition(), 3));
-//                    Components.Add(BulletList[BulletList.Count - 1]);
+                    weaponManager.AddBullet(currentWeapon, player.getPosition());
                     AudioManager.Effect("luger");
                     lTime = 0;
                 }
@@ -220,13 +215,13 @@ namespace Game1942
 
         public void ResetScene()
         {
-            for (int x = 0; x <= Enemies.Count - 1; x++)
+            for (int x = 0; x <= enemies.Count - 1; x++)
             {
-                Enemies[x].PutinStartPosition();
+                enemies[x].PutinStartPosition();
             }
-            for (int x = 0; x <= BulletList.Count - 1; x++)
+            for (int x = 0; x <= bulletList.Count - 1; x++)
             {
-                BulletList[x].mPosition.Y = -10;
+                bulletList[x].mPosition.Y = -10;
             } 
         }
 
@@ -239,7 +234,5 @@ namespace Game1942
         {
             return mGameOver;
         }
-
-       
     }
 }

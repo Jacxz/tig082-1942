@@ -89,6 +89,7 @@
     <Compile Include="AnimationTest.cs" />
     <Compile Include="AudioManager.cs" />
     <Compile Include="CollisionDetection.cs" />
+    <Compile Include="WeaponManager.cs" />
     <Compile Include="Core\GameScene.cs" />
     <Compile Include="Core\TextMenuComponent.cs" />
     <Compile Include="Enemy.cs" />

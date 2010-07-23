@@ -11,7 +11,6 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 
-
 namespace Game1942
 {
     /// <summary>
@@ -21,35 +20,25 @@ namespace Game1942
     {
         protected Texture2D mTexture;
         protected Rectangle mSpriteRectangle;
-        public Vector2 mPosition;
-        protected int speed = 4;
-        private int mKind;
+        public Vector2 mPosition, mMovement;
 
         protected SpriteBatch mSpriteBatch;
+        private int dmg;
 
         protected const int BULLETWIDTH = 32;
         protected const int BULLETHEIGHT = 32;
 
-        public Weapon(Game game, ref Texture2D theTexture, Vector2 newPosition, int kindOf)
+        public Weapon(Game game, ref Texture2D theTexture, Vector2 newPosition, Vector2 texturePos, Vector2 movement, int dmg)
             : base(game)
         {
             mTexture = theTexture;
-            mPosition = newPosition + new Vector2(0, -16.0f);
-            mKind = kindOf;
-            if (mKind == 1)
-            {
-                mSpriteRectangle = new Rectangle(37, 169, BULLETWIDTH, BULLETHEIGHT);
-            }
-            else if (mKind == 2)
-            {
-                mSpriteRectangle = new Rectangle(4, 169, BULLETWIDTH, BULLETHEIGHT);
-            }
-            else if (mKind == 3)
-            {
-                mSpriteRectangle = new Rectangle(37, 169, BULLETWIDTH, BULLETHEIGHT);
-            }
-            mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
+            mPosition = newPosition + new Vector2(0, -22.0f);
 
+            mSpriteRectangle = new Rectangle((int)texturePos.X, (int)texturePos.Y, BULLETWIDTH, BULLETHEIGHT);
+            mMovement = movement;
+            this.dmg = dmg;
+            
+            mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
         }
 
         /// <summary>
@@ -75,25 +64,19 @@ namespace Game1942
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            if (mKind == 1)
-            {
-                mPosition.Y -= speed;
-                mPosition.X -= speed / 2;
-            }
-            else if (mKind == 2)
-            { 
-                mPosition.Y -= speed;
-            }
-            else if (mKind == 3)
-            {
-                mPosition.Y -= speed;
-                mPosition.X += speed / 2;
-            }
+            mPosition.X += mMovement.X;
+            mPosition.Y += mMovement.Y;
             base.Update(gameTime);
         }
+
         public Rectangle GetBounds()
         {
             return new Rectangle((int)mPosition.X, (int)mPosition.Y, BULLETWIDTH, BULLETHEIGHT);
+        }
+
+        public int GetDmg()
+        {
+            return dmg;
         }
     }
 }
