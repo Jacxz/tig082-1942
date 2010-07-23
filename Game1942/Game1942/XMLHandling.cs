@@ -15,7 +15,7 @@ using System.Text;
 using System.IO;
 using System.Xml;
 
-namespace Project1
+namespace Game1942
 {
     /// <summary>
     /// This Class handles XML files and stuff linked to that...
