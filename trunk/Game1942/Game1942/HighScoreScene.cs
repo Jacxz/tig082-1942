@@ -42,27 +42,11 @@ namespace Game1942
             {
                 items[i] = temp[i].PlayerName + " " + temp[i].PlayerScore + "p";
             }
-            string[] itemsEnd = { "", "Press <ESC> to leave" };
-            items = MergeArrays(items, itemsEnd);
-
             menu = new TextMenuComponent(game, smallFont, largeFont);
             menu.SetMenuItems(items);
             Components.Add(menu);
 
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
-        }
-
-        private string[] MergeArrays(string[] array1, string[] array2)
-        {
-            int index;
-            int array1Length = array1.Length;
-            if (array2.Length > 0)
-                Array.Resize(ref array1, array1.Length + array2.Length);
-            for (index = 0; index <= array2.Length-1; index++)
-            {
-                array1[array1Length + index] = array2[index];
-            }
-            return array1;
         }
 
         protected override void LoadContent()
@@ -97,6 +81,36 @@ namespace Game1942
             currentScene.Show();
         }
 
+        private bool CheckEnterA()
+        {
+            // Get the Keyboard state
+            KeyboardState keyboardState = Keyboard.GetState();
+            bool result = (oldKeyboardState.IsKeyDown(Keys.Enter) &&
+                (keyboardState.IsKeyUp(Keys.Enter)));
+            oldKeyboardState = keyboardState;
+            return result;
+        }
+
+        /// <summary>
+        /// Check if the Enter Key ou 'A' button was pressed
+        /// </summary>
+        /// <returns>true, if enter key ou 'A' button was pressed</returns>
+        private void HandleActionInput()
+        {
+            // Get the Keyboard state
+
+            KeyboardState keyboardState = Keyboard.GetState();
+
+            bool backKey = (oldKeyboardState.IsKeyDown(Keys.Escape) &&
+                (keyboardState.IsKeyUp(Keys.Escape)));
+            bool enterKey = (oldKeyboardState.IsKeyDown(Keys.Enter) &&
+                (keyboardState.IsKeyUp(Keys.Enter)));
+            oldKeyboardState = keyboardState;
+            if (backKey)
+            {
+                ShowScene(startScene);
+            }
+        }
 
 
         public override void Draw(GameTime gameTime)

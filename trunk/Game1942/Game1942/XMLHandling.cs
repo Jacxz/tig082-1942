@@ -130,6 +130,20 @@ namespace Project1
         }
 
         /// <summary>
+        /// Checks if score is a highscore. Returns true if so..
+        /// </summary>
+        /// <param name="highScoreList"></param>
+        /// <param name="Score"></param>
+        /// <returns></returns>
+        public static bool CheckInsertHighscore(highscoreObject[] highScoreList, int Score)
+        {
+            bool tmp = false;
+            if (Score > highScoreList[9].PlayerScore) { tmp = true; }
+            return tmp;
+        }
+
+
+        /// <summary>
         /// Saves a given sorted highscorelist as a XML file at the chosen path. If file doesn't exist it will create a
         /// new file on given path and then save the highscorelist
         /// </summary>

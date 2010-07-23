@@ -158,6 +158,14 @@ namespace Game1942
                     ShowScene(startScene);
                 }
             }
+            else if (currentScene == highScoreScene)
+            {
+                if (CheckEnterA())
+                {
+                    ShowScene(startScene);
+                }
+            }
+
         }
 
         private bool CheckEnterA()
