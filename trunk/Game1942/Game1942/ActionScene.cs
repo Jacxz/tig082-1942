@@ -203,7 +203,7 @@ namespace Game1942
 
             currentBackground.Draw(mSpriteBatch);
 
-            mSpriteBatch.DrawString(gameFont, "Player Score: " + score + "\nActionScene EnemyCounts: " + (enemies.Count - 1) + "\nActionScene : " + enemyManager.getError(), new Vector2(15, 15), Color.White);
+            mSpriteBatch.DrawString(gameFont, "Player Score: " + score + "\nActionScene EnemyCounts: " + enemies.Count + "\nActionScene : " + enemyManager.getError(), new Vector2(15, 15), Color.White);
 
             mSpriteBatch.End();
             base.Draw(gameTime);
