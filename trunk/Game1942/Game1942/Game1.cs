@@ -39,6 +39,8 @@ namespace Game1942
 
         protected KeyboardState oldKeyboardState = Keyboard.GetState();
 
+        protected int score;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -143,6 +145,7 @@ namespace Game1942
                 HandleActionInput();
                 if (actionScene.GameOverState())
                 {
+                    score = actionScene.ResultScore;
                     actionScene.SetGameOver();
                     gameOverScene = new GameOverScene(this, actionTextures);
                     gameOverScene.Initialize();
@@ -153,11 +156,21 @@ namespace Game1942
             }
             else if (currentScene == gameOverScene)
             {
+                string path = (@"..\..\..\Content/Highscore.txt");
+                if (XmlHandling.CheckInsertHighscore(XmlHandling.ReadFromXML(path), score))
+                {
+                    string tmp = GetHighScoreName(path);
+                    
+                    if (CheckEnterA()) { }
+                    }                    
+                    
                 if (CheckEnterA())
                 {
-                    ShowScene(startScene);
+                    ShowScene(highScoreScene);
                 }
             }
+            
+            
             else if (currentScene == highScoreScene)
             {
                 if (CheckEnterA())
@@ -166,6 +179,25 @@ namespace Game1942
                 }
             }
 
+        }
+
+        private string GetHighScoreName(string path)
+        {
+            string playerName = "";
+            
+            {
+                KeyboardState CurrentKey = Keyboard.GetState();
+                if (CurrentKey.GetPressedKeys().Length == 0)
+                {
+                    foreach (Keys Current in CurrentKey.GetPressedKeys())
+                        playerName += Current.ToString();
+                }
+            }
+            highscoreObject tmp = new highscoreObject();
+            tmp.PlayerName = playerName;
+            tmp.PlayerScore = score;
+            XmlHandling.CheckInsertHighscore(XmlHandling.ReadFromXML(path), tmp);
+            return playerName;
         }
 
         private bool CheckEnterA()

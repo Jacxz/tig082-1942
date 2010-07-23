@@ -35,8 +35,8 @@ namespace Game1942
         {
             string path = (@"..\..\..\Content/Highscore.txt");
 
-            Project1.highscoreObject[] temp = Project1.XmlHandling.ReadFromXML(path);
-            temp = Project1.XmlHandling.SortHighscore(temp);
+            Game1942.highscoreObject[] temp = Game1942.XmlHandling.ReadFromXML(path);
+            temp = Game1942.XmlHandling.SortHighscore(temp);
             string[] items = new string[temp.Length - 1];
             for (int i = 0; i < temp.Length - 1; i++)
             {

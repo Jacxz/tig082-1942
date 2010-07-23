@@ -14,7 +14,7 @@ using Microsoft.Xna.Framework.Storage;
 using Game1942.Core;
 
 
-namespace Project1
+namespace Game1942
 {
     struct highscoreObject
     {

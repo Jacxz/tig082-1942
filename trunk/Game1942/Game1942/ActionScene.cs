@@ -211,8 +211,8 @@ namespace Game1942
             mSpriteBatch.Begin();
 
             currentBackground.Draw(mSpriteBatch);
-            
-            mSpriteBatch.DrawString(gameFont, "ActionScene EnemyCounts: " + (enemies.Count-1) + "\nActionScene : " + enemyManager.getError(), new Vector2(15, 15), Color.White);
+
+            mSpriteBatch.DrawString(gameFont, "Player Score: " + score + "\nActionScene EnemyCounts: " + (enemies.Count - 1) + "\nActionScene : " + enemyManager.getError(), new Vector2(15, 15), Color.White);
 
             mSpriteBatch.End();
             base.Draw(gameTime);
@@ -242,6 +242,10 @@ namespace Game1942
             {
                 bulletList[x].mPosition.Y = -10;
             } 
+        }
+        public int ResultScore
+        {
+            get { return score; }
         }
 
         public void SetGameOver()
