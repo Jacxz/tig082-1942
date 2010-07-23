@@ -102,6 +102,7 @@ namespace Game1942
         public override void Update(GameTime gameTime)
         {
             CheckCollisions(); // checks collition with enemy List
+            
             keyboard = Keyboard.GetState();
 
             AddBullet(gameTime);
@@ -112,18 +113,6 @@ namespace Game1942
             {
                 ResetScene();
                 oldLives = player.GetLives();
-            }
-
-            for (int x = 0; x <= enemies.Count - 1; x++)
-            {
-                enemyBulletList = enemies[x].GetBulletList();
-                for (int i = 0; i <= enemyBulletList.Count - 1; i++)
-                {
-                    if (enemyBulletList[i].mPosition.Y > screenheight)
-                    {
-                        enemyBulletList.RemoveAt(i);
-                    }
-                }
             }
 
             if (player.GetLives() < 0)
@@ -162,9 +151,9 @@ namespace Game1942
             currentWeapon = 4;
         }
 
-        // check collision enemys vs player and subtracts 5 hp from player each hit.
         public void CheckCollisions()
         {
+            // check collision enemys vs player and subtracts 5 hp from player each hit.
             for (int x = 0; x <= enemies.Count - 1; x++)
             {
                 if (enemies[x].checkCollision(player.GetBounds()))
@@ -173,16 +162,18 @@ namespace Game1942
                     enemies[x].isHit(10); 
                 }
             }
-            for (int x = 0; x <= enemies.Count - 1; x++)
+
+            // check collision between player and enemybullets
+            for (int x = 0; x < enemies.Count; x++)
             {
                 enemyBulletList = enemies[x].GetBulletList();
                 if (enemyBulletList != null)
                 {
-                    for (int y = 0; y <= enemyBulletList.Count - 1; y++)
+                    for (int y = 0; y < enemyBulletList.Count; y++)
                     {
                         if (enemyBulletList[y].checkCollision(player.GetBounds()))
                         {
-                            player.IsHit(40);
+                            player.IsHit(10);
                             enemies[x].killBullet(y);
                         }
                     }
