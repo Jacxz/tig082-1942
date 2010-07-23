@@ -36,7 +36,7 @@ namespace Game1942
         private AnimationPlayer AnimationPlayer;
         private Animation EnemyAnimation, EnemyExplosion;
         private List<Weapon> EnemyBulletList = new List<Weapon>();
-         
+        private WeaponManager weaponManager;
 
         public Enemy(Game game, Texture2D theTexture, int HP, int type)
             : base(game)
@@ -63,6 +63,9 @@ namespace Game1942
             PutinStartPosition();
             AnimationPlayer.PlayAnimation(EnemyAnimation);
             gameFont = Game.Content.Load<SpriteFont>("font");
+
+            weaponManager = new WeaponManager(Game, mTexture);
+            weaponManager.Initialize();
         }
 
         /// <summary>
@@ -88,7 +91,7 @@ namespace Game1942
                 mPosition.Y += 1;
                 if (mHP >= 0)    
                 {
-                    mSpriteBatch.DrawString(gameFont, "HP: " + mHP.ToString(), HpPosition, Color.White);
+                    mSpriteBatch.DrawString(gameFont, "HP: " + mHP.ToString() + " Bullet count: " + weaponManager.GetWeaponList().Count, HpPosition, Color.White);
                 }           
             }
            
@@ -111,6 +114,7 @@ namespace Game1942
             DoChecks(gameTime);
 
             AddBullets(gameTime);
+            weaponManager.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -121,8 +125,7 @@ namespace Game1942
             //time left until next shot
             if (mType == 8 && lTime > 1)
             {
-                EnemyBulletList.Add(new Weapon(Game, ref mTexture, new Vector2(mPosition.X + 16, mPosition.Y + 64), new Vector2(37, 202), new Vector2(0, 4), 50));
-                Game.Components.Add(EnemyBulletList[EnemyBulletList.Count - 1]);
+                weaponManager.AddBullet(10, mPosition);
                 lTime = 0;
             }
         }
@@ -202,18 +205,9 @@ namespace Game1942
             }
         }
 
-        public void SetBulletList(List<Weapon> bulletList)
-        {
-            EnemyBulletList = bulletList;
-        }
-
         public List<Weapon> GetBulletList()
         {
-            return EnemyBulletList;
-        }
-        public void killBullet(int i)
-        {
-            EnemyBulletList[i].mPosition.Y = -100;
+            return weaponManager.GetWeaponList();
         }
     }
 }

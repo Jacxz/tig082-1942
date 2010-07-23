@@ -55,6 +55,8 @@ namespace Game1942
             base.Update(gameTime);
         }
 
+        // Adds a bullet
+        // @position: the position of the ship that shoots
         public void AddBullet(int type, Vector2 position)
         {
             switch (type)
@@ -81,6 +83,10 @@ namespace Game1942
                     weaponList.Add(new Weapon(Game, ref mTexture, position, new Vector2(4, 169), new Vector2(0, -4), 10));
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
                     weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 10, position.Y), new Vector2(37, 235), new Vector2(2, -4), 5));
+                    Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
+                    break;
+                case 10:
+                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 16, position.Y + 64), new Vector2(37, 202), new Vector2(0, 4), 50));
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
                     break;
             }
