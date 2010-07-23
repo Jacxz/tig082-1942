@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 using Game1942.Core;
+using System.Xml;
 
 namespace Game1942
 {
@@ -32,7 +33,8 @@ namespace Game1942
         public HighScoreScene(Game game, SpriteFont smallFont, SpriteFont largeFont, Texture2D background) 
             : base(game)
         {
-            string path = "C:\\Temp/highscore.txt";
+            string path = (@"..\..\..\Content/Highscore.txt");
+
             Project1.highscoreObject[] temp = Project1.XmlHandling.ReadFromXML(path);
             temp = Project1.XmlHandling.SortHighscore(temp);
             string[] items = new string[temp.Length - 1];
@@ -65,6 +67,8 @@ namespace Game1942
 
         protected override void LoadContent()
         {
+            // loads the xml file
+            
             highscoreLogo = Game.Content.Load<Texture2D>("Highscore");       // sceneSprite
         } 
 
