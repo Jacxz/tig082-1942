@@ -93,7 +93,7 @@ namespace Game1942
         public override void Draw(GameTime gameTime)
         {
             mSpriteBatch.Begin();
-		if (mType < 10)
+            if (mType < 10 || mPosition.Y < 80)
 		{
               for (int x = 0; x < Yspeed; x++)
               {
@@ -104,23 +104,13 @@ namespace Game1942
                 }           
               }
 		}
-		else if (mType = 10)
+		else if (mType == 10)
 		{
-           	    if (mPosition.Y < 80)
-		    {
-			 for (int x = 0; x < Yspeed; x++)
-              	 {
-                		mPosition.Y += 1;
-                		if (mHP >= 0)    
-                		{
-                       		mSpriteBatch.DrawString(gameFont, "HP: " + mHP.ToString() + " Bullet count: " + weaponManager.GetWeaponList().Count, HpPosition, Color.White);
-                		}           
-              	 }
-		    }
-		    else
-		    {
-			 mPosition.X = 400 + Math.Sin((float)gameTime.ElapsedGameTime.TotalSeconds) * 300; 
-		    }
+            mPosition.X = (float)(400 + Math.Sin(gameTime.ElapsedGameTime.TotalSeconds * 40) * 300);
+            if (mHP >= 0)
+            {
+                mSpriteBatch.DrawString(gameFont, "HP: " + mHP.ToString() + " Bullet count: " + weaponManager.GetWeaponList().Count, HpPosition, Color.White);
+            }   		    
 		}
 
             mSpriteBatch.End();
@@ -217,10 +207,10 @@ namespace Game1942
                 //resets the animation to EnemyAnimation when the explosion animation is done playing and puts it in the start position
                 if (timePassed > EnemyExplosion.FrameTime * EnemyExplosion.FrameCount)
                 {
-			  if ( bossMode == false)
-			  {
-                    	PutinStartPosition();
-                    }
+			    if ( bossMode == false)
+			    {
+                    PutinStartPosition();
+                }
                     timePassed = 0;
                     animationFlag = false;
                 }
@@ -231,7 +221,10 @@ namespace Game1942
                 (mPosition.X >= Game.Window.ClientBounds.Width) ||
                 (mPosition.X <= -EnemyAnimation.FrameWidth))//|| (mPosition.X >= 780))
             {
-                PutinStartPosition();
+                if (bossMode == false)
+                {
+                    PutinStartPosition();
+                }
             }
         }
 
