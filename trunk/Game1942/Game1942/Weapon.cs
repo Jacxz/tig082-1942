@@ -25,29 +25,59 @@ namespace Game1942
         protected SpriteBatch mSpriteBatch;
         private int dmg;
 
-        private double sinValue;
-        private float xBoundary;
+        private float xBoundary, xSpeed;
         private bool xMovement = true;
 
-        protected const int BULLETWIDTH = 32;
-        protected const int BULLETHEIGHT = 32;
-
+        // constructor for weapons with only Y-axis movement
         public Weapon(Game game, ref Texture2D theTexture, Vector2 newPosition,
-            Vector2 texturePos, Vector2 movement, int dmg, double sinValue, float xBoundary)
+            Vector2 texturePos, int width, int height, float y, int dmg)
             : base(game)
         {
             mTexture = theTexture;
-            mPosition = newPosition + new Vector2(0, -22.0f);
-            initPos = mPosition;
-            this.xBoundary = xBoundary;
+            mPosition = newPosition;
+
+            mSpriteRectangle = new Rectangle((int)texturePos.X, (int)texturePos.Y, width, height);
+            mMovement = new Vector2(0, y);
+            this.dmg = dmg;
 
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
+        }
 
-            mSpriteRectangle = new Rectangle((int)texturePos.X, (int)texturePos.Y, BULLETWIDTH, BULLETHEIGHT);
+        // constructor for weapons with basic movements
+        public Weapon(Game game, ref Texture2D theTexture, Vector2 newPosition,
+            Vector2 texturePos, int width, int height, Vector2 movement, int dmg)
+            : base(game)
+        {
+            mTexture = theTexture;
+            mPosition = newPosition;
+            initPos = mPosition;
+
+            mSpriteRectangle = new Rectangle((int)texturePos.X, (int)texturePos.Y, width, height);
             mMovement = movement;
             this.dmg = dmg;
 
-            this.sinValue = sinValue;
+            xSpeed = 1;
+            xBoundary = 300;
+
+            mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
+        }
+
+        // constructor for weapons with sinus movement in X-axis
+        public Weapon(Game game, ref Texture2D theTexture, Vector2 newPosition,
+            Vector2 texturePos, int width, int height, Vector2 movement, int dmg,
+            double sinValue, float xBoundary)
+            : base(game)
+        {
+            mTexture = theTexture;
+            mPosition = newPosition;
+            initPos = mPosition;
+            this.xBoundary = xBoundary;
+
+            mSpriteRectangle = new Rectangle((int)texturePos.X, (int)texturePos.Y, width, height);
+            mMovement = movement;
+            this.dmg = dmg;
+
+            xSpeed = (float)Math.Sin(sinValue);
             
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
         }
@@ -77,13 +107,13 @@ namespace Game1942
         {
             if (xMovement)
             {
-                mPosition.X += mMovement.X * (float)Math.Sin(sinValue);
+                mPosition.X += mMovement.X * xSpeed;
                 if (mPosition.X > initPos.X + xBoundary || mPosition.X < initPos.X - xBoundary)
                     xMovement = false;
             }
             else if (!xMovement)
             {
-                mPosition.X -= mMovement.X * (float)Math.Sin(sinValue);
+                mPosition.X -= mMovement.X * xSpeed;
                 if (mPosition.X > initPos.X + xBoundary || mPosition.X < initPos.X - xBoundary)
                     xMovement = true;
             }
@@ -94,7 +124,7 @@ namespace Game1942
 
         public Rectangle GetBounds()
         {
-            return new Rectangle((int)mPosition.X, (int)mPosition.Y, BULLETWIDTH, BULLETHEIGHT);
+            return new Rectangle((int)mPosition.X, (int)mPosition.Y, mSpriteRectangle.Width, mSpriteRectangle.Height);
         }
 
         public bool checkCollision(Rectangle rect)
