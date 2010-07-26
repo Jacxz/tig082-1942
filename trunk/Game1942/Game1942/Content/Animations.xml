@@ -111,11 +111,11 @@
     <type>10</type>
     <rotation>0</rotation>
     <frametime>0.1</frametime>
-    <framecount>6</framecount>
+    <framecount>3</framecount>
     <dieAnimation>0</dieAnimation>
     <loop>false</loop>
-    <width>65</width>
-    <height>65</height>
+    <width>99</width>
+    <height>99</height>
     <posX>598</posX>
     <posY>4</posY>
   </Animations>

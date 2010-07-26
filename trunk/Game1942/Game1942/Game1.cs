@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 using Game1942.Core;
+
 namespace Game1942
 {
     /// <summary>
@@ -168,9 +169,10 @@ namespace Game1942
                             tmpList = XmlHandling.ReadFromXML(path);
                             tmpList = XmlHandling.CheckInsertHighscore(tmpList, tmp);
                             tmpBool = false;
+                            XmlHandling.WriteHighScoreToXML(tmpList, path);
                         }
                     
-                    if (XmlHandling.WriteHighScoreToXML(tmpList, path) && CheckEnterA())
+                    if (CheckEnterA())
 
                     {
                         tmpBool = true;
@@ -196,7 +198,7 @@ namespace Game1942
         private highscoreObject GetHighScoreName(string path, int tmpScore)
         {
             highscoreObject tmp = new highscoreObject();
-            tmp.PlayerName = "Jonsson";
+            XmlHandling.InsertNameToHighscoreList();
             tmp.PlayerScore = tmpScore;
             return tmp;
         }
