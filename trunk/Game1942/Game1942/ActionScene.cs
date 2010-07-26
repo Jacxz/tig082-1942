@@ -121,7 +121,7 @@ namespace Game1942
                 mGameOver = true;
                 player.ResetLives();
             }
-		if (timeOnLevel > 3 && bossMode == false)
+		if (timeOnLevel > 1 && bossMode == false)
 		{
 		    BossMode();
             bossMode = true;

@@ -32,7 +32,7 @@ namespace Game1942
         protected SpriteBatch mSpriteBatch;
         protected SpriteFont gameFont;
        
-        private float timePassed, lTime = 0;
+        private float timePassed, lTime = 0, moveTime = 0;
         private AnimationPlayer AnimationPlayer;
         private Animation EnemyAnimation, EnemyExplosion;
         private List<Weapon> EnemyBulletList = new List<Weapon>();
@@ -80,8 +80,9 @@ namespace Game1942
             Xspeed = random.Next(3) - 1;
             reset();		
 		if (mType == 10)
-		{
-		   mPosition.X = 400;
+        {
+		   mPosition.X = 350;
+           moveTime = 0;
 		   Yspeed = 2;
 		   Xspeed = 0;
 		}
@@ -93,7 +94,7 @@ namespace Game1942
         public override void Draw(GameTime gameTime)
         {
             mSpriteBatch.Begin();
-            if (mType < 10 || mPosition.Y < 80)
+            if (mType != 10 || mPosition.Y < 80)
 		{
               for (int x = 0; x < Yspeed; x++)
               {
@@ -105,8 +106,9 @@ namespace Game1942
               }
 		}
 		else if (mType == 10)
-		{
-            mPosition.X = (float)(400 + Math.Sin(gameTime.ElapsedGameTime.TotalSeconds * 40) * 300);
+        {
+            moveTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            mPosition.X = (float)(350.0f + 300.0f * Math.Sin(moveTime / 2000.0f));
             if (mHP >= 0)
             {
                 mSpriteBatch.DrawString(gameFont, "HP: " + mHP.ToString() + " Bullet count: " + weaponManager.GetWeaponList().Count, HpPosition, Color.White);
@@ -142,6 +144,11 @@ namespace Game1942
             lTime += (float)gTime.ElapsedGameTime.TotalSeconds;
             //time left until next shot
             if (mType == 8 && lTime > 1)
+            {
+                weaponManager.AddBullet(10, mPosition);
+                lTime = 0;
+            }
+            if (mType == 10 && lTime > 0.5)
             {
                 weaponManager.AddBullet(10, mPosition);
                 lTime = 0;
