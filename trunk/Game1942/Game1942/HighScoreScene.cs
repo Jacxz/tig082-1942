@@ -28,23 +28,17 @@ namespace Game1942
         protected HighScoreScene     highscoreScene;
         protected StartScene         startScene;
         protected GameScene          currentScene;
+        private string path = (@"..\..\..\Content/highscore.txt");
         
 
         public HighScoreScene(Game game, SpriteFont smallFont, SpriteFont largeFont, Texture2D background) 
             : base(game)
         {
-            string path = (@"..\..\..\Content/Highscore.txt");
 
-            Game1942.highscoreObject[] temp = Game1942.XmlHandling.ReadFromXML(path);
-            temp = Game1942.XmlHandling.SortHighscore(temp);
-            string[] items = new string[temp.Length - 1];
-            for (int i = 0; i < temp.Length - 1; i++)
-            {
-                items[i] = temp[i].PlayerName + " " + temp[i].PlayerScore + "p";
-            }
             menu = new TextMenuComponent(game, smallFont, largeFont);
-            menu.SetMenuItems(items);
+            updateScore();
             Components.Add(menu);
+
 
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
         }
@@ -126,6 +120,7 @@ namespace Game1942
         {
             menu.Position = new Vector2((Game.Window.ClientBounds.Width - menu.WidthMenu) / 2, 
                                             Game.Window.ClientBounds.Height - menu.HeightMenu - 10);
+            updateScore();
             base.Show();
         }
 
@@ -133,7 +128,19 @@ namespace Game1942
         {
             base.Hide();
         }
- 
+
+        private void updateScore()
+        {
+            highscoreObject[] temp = Game1942.XmlHandling.ReadFromXML(path);
+            temp = XmlHandling.SortHighscore(temp);
+            string[] items = new string[temp.Length - 1];
+            for (int i = 0; i < temp.Length - 1; i++)
+            {
+                items[i] = temp[i].PlayerName + " " + temp[i].PlayerScore + "p";
+            }
+            
+            menu.SetMenuItems(items);
+        }
     }
 }
 

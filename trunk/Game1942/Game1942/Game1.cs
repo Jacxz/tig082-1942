@@ -154,20 +154,27 @@ namespace Game1942
             }
             else if (currentScene == gameOverScene)
             {
-                string path = (@"..\..\..\Content/Highscore.txt");
-                if (XmlHandling.CheckInsertHighscore(XmlHandling.ReadFromXML(path), score))
+                string path = (@"..\..\..\Content/highscore.txt");
+                int tmpScore = 1000;
+                highscoreObject[] tmpList = new highscoreObject[10];
+                highscoreObject playerName = new highscoreObject();
+                // tillfälligt bytt score mot tmpScore
+                if (XmlHandling.CheckInsertHighscoreBool(XmlHandling.ReadFromXML(path), tmpScore))
                 {
-                    string tmp = GetHighScoreName(path);
-                    
-                    if (CheckEnterA())
+                        highscoreObject tmp = GetHighScoreName(path, tmpScore);
+                        tmpList = XmlHandling.ReadFromXML(path);
+                        tmpList = XmlHandling.CheckInsertHighscore(tmpList, tmp);
+                
+                    if (XmlHandling.WriteHighScoreToXML(tmpList, path) && CheckEnterA())
+
                     {
                         ShowScene(highScoreScene);
                     }
                 }                    
                     
-                if (CheckEnterA())
+                else if (CheckEnterA())
                 {
-                    ShowScene(highScoreScene);
+                    ShowScene(startScene);
                 }
             }
             
@@ -180,23 +187,12 @@ namespace Game1942
             }
         }
 
-        private string GetHighScoreName(string path)
+        private highscoreObject GetHighScoreName(string path, int tmpScore)
         {
-            string playerName = "";
-            
-            {
-                KeyboardState CurrentKey = Keyboard.GetState();
-                if (CurrentKey.GetPressedKeys().Length == 0)
-                {
-                    foreach (Keys Current in CurrentKey.GetPressedKeys())
-                        playerName += Current.ToString();
-                }
-            }
             highscoreObject tmp = new highscoreObject();
-            tmp.PlayerName = playerName;
-            tmp.PlayerScore = score;
-            XmlHandling.CheckInsertHighscore(XmlHandling.ReadFromXML(path), tmp);
-            return playerName;
+            tmp.PlayerName = "Jonsson";
+            tmp.PlayerScore = tmpScore;
+            return tmp;
         }
 
         private bool CheckEnterA()
@@ -246,7 +242,12 @@ namespace Game1942
                         ShowScene(highScoreScene);
                         break;
                     case 2:
-                        ShowScene(actionScene);
+                        gameOverScene = new GameOverScene(this, actionTextures);
+                        gameOverScene.Initialize();
+                        Components.Add(gameOverScene);
+                        ShowScene(gameOverScene);
+                        AudioManager.GameOver();
+                        ShowScene(gameOverScene);
                         break;
                     case 3:
                         Exit();
