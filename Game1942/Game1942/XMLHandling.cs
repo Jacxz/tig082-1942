@@ -22,7 +22,6 @@ namespace Game1942
     /// </summary>
     class XmlHandling 
     {
-        protected KeyboardState oldKeyboardState = Keyboard.GetState();
 
         /// <summary>
         /// readFromXML takes the path to the XML file and returns an array of highscoreObject, 
@@ -190,15 +189,5 @@ namespace Game1942
             file.Close();
         }
 
-        public static string InsertNameToHighscoreList()
-        {                
-            // Get the Keyboard state
-            KeyboardState keyboardState = Keyboard.GetState();
-            bool result = (oldKeyboardState.IsKeyDown(Keys.A) &&
-                (keyboardState.IsKeyUp(Keys.A)));
-            oldKeyboardState = keyboardState;
-            
-            return "tmp";
-        }
     }
 }

@@ -42,6 +42,7 @@ namespace Game1942
 
         protected int score;
         protected bool tmpBool = true;
+        protected string playerName = "";
 
         public Game1()
         {
@@ -159,23 +160,18 @@ namespace Game1942
                 string path = (@"..\..\..\Content/highscore.txt");
                 int tmpScore = 1000;
                 highscoreObject[] tmpList = new highscoreObject[10];
-                highscoreObject playerName = new highscoreObject();
+                highscoreObject playerObject = new highscoreObject();
+                tmpBool = false;
                 // tillfälligt bytt score mot tmpScore
                 if (XmlHandling.CheckInsertHighscoreBool(XmlHandling.ReadFromXML(path), tmpScore))
                 {
-                        highscoreObject tmp = GetHighScoreName(path, tmpScore);
-                        if (tmpBool)
-                        {
-                            tmpList = XmlHandling.ReadFromXML(path);
-                            tmpList = XmlHandling.CheckInsertHighscore(tmpList, tmp);
-                            tmpBool = false;
-                            XmlHandling.WriteHighScoreToXML(tmpList, path);
-                        }
-                    
-                    if (CheckEnterA())
-
+                    if (GetHighScoreName())
                     {
-                        tmpBool = true;
+                        tmpList = XmlHandling.ReadFromXML(path);
+                        playerObject.PlayerName = playerName;
+                        playerObject.PlayerScore = tmpScore;
+                        tmpList = XmlHandling.CheckInsertHighscore(tmpList, playerObject);
+                        XmlHandling.WriteHighScoreToXML(tmpList, path);
                         ShowScene(highScoreScene);
                     }
                 }                    
@@ -195,12 +191,15 @@ namespace Game1942
             }
         }
 
-        private highscoreObject GetHighScoreName(string path, int tmpScore)
+        private bool GetHighScoreName()
         {
-            highscoreObject tmp = new highscoreObject();
-            XmlHandling.InsertNameToHighscoreList();
-            tmp.PlayerScore = tmpScore;
-            return tmp;
+            KeyboardState keyboardState = Keyboard.GetState();
+            bool result = false;
+            result = (oldKeyboardState.IsKeyDown(Keys.A) && (keyboardState.IsKeyUp(Keys.A))); 
+            oldKeyboardState = keyboardState;
+            playerName += "A";
+            tmpBool = false;
+            return result;
         }
 
         private bool CheckEnterA()
@@ -212,6 +211,7 @@ namespace Game1942
             oldKeyboardState = keyboardState;
             return result;
         }
+
 
         /// <summary>
         /// Check if the Enter Key ou 'A' button was pressed
