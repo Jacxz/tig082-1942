@@ -121,9 +121,10 @@ namespace Game1942
                 mGameOver = true;
                 player.ResetLives();
             }
-		if (timeOnLevel > 10000 && bossMode == false)
+		if (timeOnLevel > 3 && bossMode == false)
 		{
 		    BossMode();
+            bossMode = true;
 		}
 
             oldKeyboardState = keyboard;
@@ -242,7 +243,7 @@ namespace Game1942
             }
             enemyManager.AddEnemy(10, 1);
             enemies = enemyManager.GetEnemyList();
-		Components.Add(enemies[enemies.Cound-1]);
+		Components.Add(enemies[enemies.Count-1]);
 	  }
 
         public void ResetScene()
