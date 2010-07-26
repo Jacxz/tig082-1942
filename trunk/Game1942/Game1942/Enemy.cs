@@ -106,13 +106,17 @@ namespace Game1942
               }
 		}
 		else if (mType == 10)
-        {
-            moveTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            mPosition.X = (float)(350.0f + 300.0f * Math.Sin(moveTime / 2000.0f));
-            if (mHP >= 0)
-            {
-                mSpriteBatch.DrawString(gameFont, "HP: " + mHP.ToString() + " Bullet count: " + weaponManager.GetWeaponList().Count, HpPosition, Color.White);
-            }   		    
+        	{
+            	moveTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            	mPosition.X = (float)(350.0f + 300.0f * Math.Sin(moveTime / 2000.0f));
+			if (mHP <= 500 && mPosition.Y < 130)
+			{
+				mPosition.Y += 1;
+			}
+            	if (mHP >= 0)
+            	{
+            		mSpriteBatch.DrawString(gameFont, "HP: " + mHP.ToString() + " Bullet count: " + weaponManager.GetWeaponList().Count, HpPosition, Color.White);
+            	}    
 		}
 
             mSpriteBatch.End();
@@ -148,10 +152,13 @@ namespace Game1942
                 weaponManager.AddBullet(10, mPosition);
                 lTime = 0;
             }
-            if (mType == 10 && lTime > 0.5)
+            if (mType == 10 && moveTime > 0)
             {
-                weaponManager.AddBullet(10, mPosition);
-                lTime = 0;
+			if ((lTime > 0.7 && mHP > 500) && (lTime > 0.35 && mHP <= 500))
+			{
+                		weaponManager.AddBullet(10, new Vector2(mPosition.X + 30, mPosition.Y + 50) );
+                		lTime = 0;
+			}
             }
         }
 
