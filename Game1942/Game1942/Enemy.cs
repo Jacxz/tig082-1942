@@ -157,12 +157,12 @@ namespace Game1942
             {
 			    if (lTime > 0.5)
                 {
-                    weaponManager.AddBullet(10, mPosition);
+                    weaponManager.AddBullet(11, mPosition);
                     lTime = 0;
                     if (lTime2 > 1 && mHP <= 500)
                     {
-                        weaponManager.AddBullet(11, new Vector2(mPosition.X + 30, mPosition.Y + 50));
-                        weaponManager.AddBullet(12, new Vector2(mPosition.X + 30, mPosition.Y + 50));
+                        weaponManager.AddBullet(12, mPosition);
+                        weaponManager.AddBullet(13, mPosition);
                         lTime2 = 0;
                     }
                 }

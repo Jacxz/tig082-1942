@@ -151,7 +151,7 @@ namespace Game1942
                 
                 if (HP >= 0)
                 {
-                    mSpriteBatch.DrawString(font, "HP: " + HP.ToString(), new Vector2(mPosition.X, mPosition.Y-15), Color.White);
+                    mSpriteBatch.DrawString(font, "HP: " + HP.ToString(), new Vector2(mPosition.X, mPosition.Y + 32), Color.White);
                 }
             }             
             mSpriteBatch.End();

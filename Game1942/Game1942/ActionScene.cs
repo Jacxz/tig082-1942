@@ -158,7 +158,7 @@ namespace Game1942
             player.PutInStartPosition();
             currentWeapon = 6;
 
-		timeOnLevel = 0.0f;
+		    timeOnLevel = 0.0f;
         }
 
         public void CheckCollisions()
