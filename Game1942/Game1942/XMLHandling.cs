@@ -20,7 +20,7 @@ namespace Game1942
     /// <summary>
     /// This Class handles XML files and stuff linked to that...
     /// </summary>
-    class XmlHandling
+    class XmlHandling 
     {
         protected KeyboardState oldKeyboardState = Keyboard.GetState();
 
@@ -151,7 +151,7 @@ namespace Game1942
         /// </summary>
         /// <param name="highscoreList"></param>
         /// <param name="path"></param>
-        public static bool WriteHighScoreToXML(highscoreObject[] highscoreList, string path)
+        public static void WriteHighScoreToXML(highscoreObject[] highscoreList, string path)
         {
             if (!File.Exists(path)) { CreateDefaultHighScoreList(path); }
             StreamWriter file = new StreamWriter(path);
@@ -165,7 +165,6 @@ namespace Game1942
                 file.WriteLine("</PlayerName>");
             }
             file.Close();
-            return true;
         }
 
         /// <summary>
@@ -179,7 +178,7 @@ namespace Game1942
             newFile.Formatting = Formatting.Indented;
             newFile.Close();
             StreamWriter file = new StreamWriter(path);
-            for (int i = 0; i < 9; i++)
+            for (int i = 0; i < 10; i++)
             {
                 file.Write("<Score>");
                 file.Write("0");
@@ -191,15 +190,15 @@ namespace Game1942
             file.Close();
         }
 
-        public string InsertNameToHighscoreList()
+        public static string InsertNameToHighscoreList()
         {                
             // Get the Keyboard state
             KeyboardState keyboardState = Keyboard.GetState();
             bool result = (oldKeyboardState.IsKeyDown(Keys.A) &&
                 (keyboardState.IsKeyUp(Keys.A)));
             oldKeyboardState = keyboardState;
-            string tmp = "A";
-            return tmp;
+            
+            return "tmp";
         }
     }
 }

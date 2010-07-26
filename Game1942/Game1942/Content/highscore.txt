@@ -1,7 +1,6 @@
-<Score>200</Score><PlayerName>Jens</PlayerName>
-<Score>500</Score><PlayerName>Ahmed</PlayerName>
-<Score>600</Score><PlayerName>Johan</PlayerName>
-<Score>2000</Score><PlayerName>Nisse</PlayerName>
 <Score>3400</Score><PlayerName>Tessan</PlayerName>
+<Score>2000</Score><PlayerName>Nisse</PlayerName>
+<Score>2000</Score><PlayerName>Jon</PlayerName>
 <Score>1500</Score><PlayerName>Anna</PlayerName>
-<Score>100</Score><PlayerName>Karl</PlayerName>
+<Score>600</Score><PlayerName>Johan</PlayerName>
+<Score>500</Score><PlayerName>Ahmed</PlayerName>
