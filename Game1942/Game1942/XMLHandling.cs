@@ -22,6 +22,8 @@ namespace Game1942
     /// </summary>
     class XmlHandling
     {
+        protected KeyboardState oldKeyboardState = Keyboard.GetState();
+
         /// <summary>
         /// readFromXML takes the path to the XML file and returns an array of highscoreObject, 
         /// line by line
@@ -135,7 +137,7 @@ namespace Game1942
         /// <param name="highScoreList"></param>
         /// <param name="Score"></param>
         /// <returns></returns>
-        public static bool CheckInsertHighscore(highscoreObject[] highScoreList, int Score)
+        public static bool CheckInsertHighscoreBool(highscoreObject[] highScoreList, int Score)
         {
             bool tmp = false;
             if (Score > highScoreList[9].PlayerScore) { tmp = true; }
@@ -149,7 +151,7 @@ namespace Game1942
         /// </summary>
         /// <param name="highscoreList"></param>
         /// <param name="path"></param>
-        public static void WriteHighScoreToXML(highscoreObject[] highscoreList, string path)
+        public static bool WriteHighScoreToXML(highscoreObject[] highscoreList, string path)
         {
             if (!File.Exists(path)) { CreateDefaultHighScoreList(path); }
             StreamWriter file = new StreamWriter(path);
@@ -163,6 +165,7 @@ namespace Game1942
                 file.WriteLine("</PlayerName>");
             }
             file.Close();
+            return true;
         }
 
         /// <summary>
@@ -186,6 +189,17 @@ namespace Game1942
                 file.WriteLine("</PlayerName>");
             }
             file.Close();
+        }
+
+        public string InsertNameToHighscoreList()
+        {                
+            // Get the Keyboard state
+            KeyboardState keyboardState = Keyboard.GetState();
+            bool result = (oldKeyboardState.IsKeyDown(Keys.A) &&
+                (keyboardState.IsKeyUp(Keys.A)));
+            oldKeyboardState = keyboardState;
+            string tmp = "A";
+            return tmp;
         }
     }
 }
