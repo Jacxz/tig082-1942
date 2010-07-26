@@ -40,6 +40,7 @@ namespace Game1942
         protected KeyboardState oldKeyboardState = Keyboard.GetState();
 
         protected int score;
+        protected bool tmpBool = true;
 
         public Game1()
         {
@@ -162,12 +163,17 @@ namespace Game1942
                 if (XmlHandling.CheckInsertHighscoreBool(XmlHandling.ReadFromXML(path), tmpScore))
                 {
                         highscoreObject tmp = GetHighScoreName(path, tmpScore);
-                        tmpList = XmlHandling.ReadFromXML(path);
-                        tmpList = XmlHandling.CheckInsertHighscore(tmpList, tmp);
-                
+                        if (tmpBool)
+                        {
+                            tmpList = XmlHandling.ReadFromXML(path);
+                            tmpList = XmlHandling.CheckInsertHighscore(tmpList, tmp);
+                            tmpBool = false;
+                        }
+                    
                     if (XmlHandling.WriteHighScoreToXML(tmpList, path) && CheckEnterA())
 
                     {
+                        tmpBool = true;
                         ShowScene(highScoreScene);
                     }
                 }                    
