@@ -20,25 +20,34 @@ namespace Game1942
     {
         protected Texture2D mTexture;
         protected Rectangle mSpriteRectangle;
-        public Vector2 mPosition, mMovement;
+        public Vector2 mPosition, mMovement, initPos;
 
         protected SpriteBatch mSpriteBatch;
         private int dmg;
 
+        private double sinValue;
+        private float xBoundary;
+        private bool xMovement = true;
+
         protected const int BULLETWIDTH = 32;
         protected const int BULLETHEIGHT = 32;
 
-        public Weapon(Game game, ref Texture2D theTexture, Vector2 newPosition, Vector2 texturePos, Vector2 movement, int dmg)
+        public Weapon(Game game, ref Texture2D theTexture, Vector2 newPosition,
+            Vector2 texturePos, Vector2 movement, int dmg, double sinValue, float xBoundary)
             : base(game)
         {
             mTexture = theTexture;
             mPosition = newPosition + new Vector2(0, -22.0f);
+            initPos = mPosition;
+            this.xBoundary = xBoundary;
 
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
 
             mSpriteRectangle = new Rectangle((int)texturePos.X, (int)texturePos.Y, BULLETWIDTH, BULLETHEIGHT);
             mMovement = movement;
             this.dmg = dmg;
+
+            this.sinValue = sinValue;
             
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
         }
@@ -66,7 +75,19 @@ namespace Game1942
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            mPosition.X += mMovement.X;
+            if (xMovement)
+            {
+                mPosition.X += mMovement.X * (float)Math.Sin(sinValue);
+                if (mPosition.X > initPos.X + xBoundary || mPosition.X < initPos.X - xBoundary)
+                    xMovement = false;
+            }
+            else if (!xMovement)
+            {
+                mPosition.X -= mMovement.X * (float)Math.Sin(sinValue);
+                if (mPosition.X > initPos.X + xBoundary || mPosition.X < initPos.X - xBoundary)
+                    xMovement = true;
+            }
+
             mPosition.Y += mMovement.Y;
             base.Update(gameTime);
         }

@@ -49,6 +49,7 @@ namespace Game1942
             {
                 if (weaponList[i].mPosition.Y < 0 || weaponList[i].mPosition.Y > 800)
                 {
+                    Game.Components.Remove(weaponList.ElementAt(i));
                     weaponList.RemoveAt(i);
                 }
             }
@@ -62,31 +63,55 @@ namespace Game1942
             switch (type)
             {
                 case 1:
-                    weaponList.Add(new Weapon(Game, ref mTexture, position, new Vector2(37, 169), new Vector2(0, -4), 5));
+                    weaponList.Add(new Weapon(Game, ref mTexture, position, new Vector2(37, 169), new Vector2(0, -4), 5, 0, 0));
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
                     break;
                 case 2:
-                    weaponList.Add(new Weapon(Game, ref mTexture, position, new Vector2(4, 169), new Vector2(0, -4), 10));
+                    weaponList.Add(new Weapon(Game, ref mTexture, position, new Vector2(4, 169), new Vector2(0, -4), 10, 10, 0));
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
                     break;
                 case 3:
-                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X - 10, position.Y), new Vector2(4, 235), new Vector2(-2, -4), 5));
+                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X - 6, position.Y), new Vector2(37, 169), new Vector2(4, -4), 5, 25, 8));
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
-                    weaponList.Add(new Weapon(Game, ref mTexture, position, new Vector2(37, 169), new Vector2(0, -4), 5));
-                    Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
-                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 10, position.Y), new Vector2(37, 235), new Vector2(2, -4), 5));
+                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 6, position.Y), new Vector2(37, 169), new Vector2(-4, -4), 5, 25, 8));
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
                     break;
                 case 4:
-                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X - 10, position.Y), new Vector2(4, 235), new Vector2(-2, -4), 5));
+                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X - 10, position.Y), new Vector2(4, 235), new Vector2(-2, -4), 5, Math.PI / 2, 300));
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
-                    weaponList.Add(new Weapon(Game, ref mTexture, position, new Vector2(4, 169), new Vector2(0, -4), 10));
+                    weaponList.Add(new Weapon(Game, ref mTexture, position, new Vector2(37, 169), new Vector2(0, -4), 5, 0, 0));
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
-                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 10, position.Y), new Vector2(37, 235), new Vector2(2, -4), 5));
+                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 10, position.Y), new Vector2(37, 235), new Vector2(2, -4), 5, Math.PI / 2, 300));
+                    Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
+                    break;
+                case 5:
+                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X - 10, position.Y), new Vector2(4, 235), new Vector2(-1, -4), 5, Math.PI / 2, 300));
+                    Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
+                    weaponList.Add(new Weapon(Game, ref mTexture, position, new Vector2(4, 169), new Vector2(0, -4), 10, 0, 0));
+                    Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
+                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 10, position.Y), new Vector2(37, 235), new Vector2(1, -4), 5, Math.PI / 2, 300));
+                    Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
+                    break;
+                case 6:
+                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X - 10, position.Y), new Vector2(4, 235), new Vector2(-1, -4), 5, Math.PI / 2, 300));
+                    Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
+                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X - 2, position.Y), new Vector2(37, 169), new Vector2(4, -4), 5, 25, 10));
+                    Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
+                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 2, position.Y), new Vector2(37, 169), new Vector2(-4, -4), 5, 25, 10));
+                    Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
+                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 10, position.Y), new Vector2(37, 235), new Vector2(1, -4), 5, Math.PI / 2, 300));
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
                     break;
                 case 10:
-                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 16, position.Y + 64), new Vector2(37, 202), new Vector2(0, 4), 50));
+                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 16, position.Y + 64), new Vector2(37, 202), new Vector2(0, 4), 30, 0, 0));
+                    Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
+                    break;
+                case 11:
+                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 16, position.Y + 64), new Vector2(37, 202), new Vector2(3, 4), 30, Math.PI / 2, 300));
+                    Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
+                    break;
+                case 12:
+                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 16, position.Y + 64), new Vector2(37, 202), new Vector2(-3, 4), 30, Math.PI / 2, 300));
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
                     break;
             }
