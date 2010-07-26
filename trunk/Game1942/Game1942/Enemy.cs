@@ -25,7 +25,7 @@ namespace Game1942
         protected Vector2 mPosition, HpPosition;
         protected int Yspeed, Xspeed, error, mHP, mStartX, mStartY, mStartHP, mType, mEnemyWidth, mEnemyHeight, exptype;
 
-        protected bool animationFlag = false;
+        protected bool animationFlag = false, bossMode = false;
         protected int score = 5;
     
         protected Random random;
@@ -75,9 +75,16 @@ namespace Game1942
         {
             mPosition.X = random.Next(Game.Window.ClientBounds.Width - mEnemyWidth); 
             mPosition.Y = -20;
+
             Yspeed = 1 + random.Next(2);
             Xspeed = random.Next(3) - 1;
-            reset();
+            reset();		
+		if (mType == 10)
+		{
+		   mPosition.X = 400;
+		   Yspeed = 2;
+		   Xspeed = 0;
+		}
         }
 
         /// <summary>
@@ -86,15 +93,36 @@ namespace Game1942
         public override void Draw(GameTime gameTime)
         {
             mSpriteBatch.Begin();
-            for (int x = 0; x < Yspeed; x++)
-            {
+		if (mType < 10)
+		{
+              for (int x = 0; x < Yspeed; x++)
+              {
                 mPosition.Y += 1;
                 if (mHP >= 0)    
                 {
                     mSpriteBatch.DrawString(gameFont, "HP: " + mHP.ToString() + " Bullet count: " + weaponManager.GetWeaponList().Count, HpPosition, Color.White);
                 }           
-            }
-           
+              }
+		}
+		else if (mType = 10)
+		{
+           	    if (mPosition.Y < 80)
+		    {
+			 for (int x = 0; x < Yspeed; x++)
+              	 {
+                		mPosition.Y += 1;
+                		if (mHP >= 0)    
+                		{
+                       		mSpriteBatch.DrawString(gameFont, "HP: " + mHP.ToString() + " Bullet count: " + weaponManager.GetWeaponList().Count, HpPosition, Color.White);
+                		}           
+              	 }
+		    }
+		    else
+		    {
+			 mPosition.X = 400 + Math.Sin((float)gameTime.ElapsedGameTime.TotalSeconds) * 300; 
+		    }
+		}
+
             mSpriteBatch.End();
             AnimationPlayer.Draw(gameTime, mSpriteBatch, mPosition);
             base.Draw(gameTime);
@@ -189,8 +217,10 @@ namespace Game1942
                 //resets the animation to EnemyAnimation when the explosion animation is done playing and puts it in the start position
                 if (timePassed > EnemyExplosion.FrameTime * EnemyExplosion.FrameCount)
                 {
-                    PutinStartPosition();
-                    
+			  if ( bossMode == false)
+			  {
+                    	PutinStartPosition();
+                    }
                     timePassed = 0;
                     animationFlag = false;
                 }
@@ -208,6 +238,10 @@ namespace Game1942
         public List<Weapon> GetBulletList()
         {
             return weaponManager.GetWeaponList();
+        }
+        public void SetBossMode()
+        {
+            bossMode = true;
         }
     }
 }
