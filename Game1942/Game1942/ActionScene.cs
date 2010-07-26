@@ -121,11 +121,12 @@ namespace Game1942
                 mGameOver = true;
                 player.ResetLives();
             }
-		if (timeOnLevel > 1 && bossMode == false)
-		{
-		    BossMode();
-            bossMode = true;
-		}
+
+		    if (timeOnLevel > 1 && bossMode == false)
+		    {
+		        BossMode();
+                bossMode = true;
+		    }
 
             oldKeyboardState = keyboard;
             timeOnLevel += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -155,7 +156,7 @@ namespace Game1942
             }
            
             player.PutInStartPosition();
-            currentWeapon = 3;
+            currentWeapon = 6;
 
 		timeOnLevel = 0.0f;
         }
@@ -235,16 +236,16 @@ namespace Game1942
             }
         }
 
-	  public void BossMode()
-	  {
+        public void BossMode()
+        {
             for (int x = 0; x < enemies.Count; x++)
             {
                 enemies[x].SetBossMode();
             }
             enemyManager.AddEnemy(10, 1);
             enemies = enemyManager.GetEnemyList();
-		Components.Add(enemies[enemies.Count-1]);
-	  }
+            Components.Add(enemies[enemies.Count-1]);
+        }
 
         public void ResetScene()
         {

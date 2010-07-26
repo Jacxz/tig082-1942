@@ -63,11 +63,11 @@ namespace Game1942
             
             // read and set the variables from the xml with the type variabel as a identifier.
             ReadXML(type);
-                for (int x = 0; x < amount; x++)
-                {
-                    mEnemy = new Enemy(Game, mTexture, mHP, type);
-                    mEnemyList.Add(mEnemy);
-                }
+            for (int x = 0; x < amount; x++)
+            {
+                mEnemy = new Enemy(Game, mTexture, mHP, type);
+                mEnemyList.Add(mEnemy);
+            }
         }
 
         public int getError()
@@ -124,12 +124,8 @@ namespace Game1942
                        
                         break;
                     }
-                    
-
                 }
-
             }
-
         }
     }
 }

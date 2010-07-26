@@ -31,8 +31,8 @@ namespace Game1942
         protected Random random;
         protected SpriteBatch mSpriteBatch;
         protected SpriteFont gameFont;
-       
-        private float timePassed, lTime = 0, moveTime = 0;
+
+        private float timePassed, lTime = 0, lTime2 = 0, moveTime = 0;
         private AnimationPlayer AnimationPlayer;
         private Animation EnemyAnimation, EnemyExplosion;
         private List<Weapon> EnemyBulletList = new List<Weapon>();
@@ -79,13 +79,13 @@ namespace Game1942
             Yspeed = 1 + random.Next(2);
             Xspeed = random.Next(3) - 1;
             reset();		
-		if (mType == 10)
-        {
-		   mPosition.X = 350;
-           moveTime = 0;
-		   Yspeed = 2;
-		   Xspeed = 0;
-		}
+		    if (mType == 10)
+            {
+		       mPosition.X = 350;
+               moveTime = 0;
+		       Yspeed = 2;
+		       Xspeed = 0;
+		    }
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Game1942
         public override void Draw(GameTime gameTime)
         {
             mSpriteBatch.Begin();
-            if (mType != 10 || mPosition.Y < 80)
+            if (mType != 10 || mPosition.Y < 50)
 		{
               for (int x = 0; x < Yspeed; x++)
               {
@@ -106,17 +106,17 @@ namespace Game1942
               }
 		}
 		else if (mType == 10)
-        	{
-            	moveTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            	mPosition.X = (float)(350.0f + 300.0f * Math.Sin(moveTime / 2000.0f));
-			if (mHP <= 500 && mPosition.Y < 130)
+        {
+        	moveTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+        	mPosition.X = (float)(350.0f + 300.0f * Math.Sin(moveTime / 2000.0f));
+			if (mHP <= 500 && mPosition.Y < 100)
 			{
 				mPosition.Y += 1;
 			}
-            	if (mHP >= 0)
-            	{
-            		mSpriteBatch.DrawString(gameFont, "HP: " + mHP.ToString() + " Bullet count: " + weaponManager.GetWeaponList().Count, HpPosition, Color.White);
-            	}    
+        	if (mHP >= 0)
+        	{
+        		mSpriteBatch.DrawString(gameFont, "HP: " + mHP.ToString() + " Bullet count: " + weaponManager.GetWeaponList().Count, HpPosition, Color.White);
+        	}    
 		}
 
             mSpriteBatch.End();
@@ -146,6 +146,7 @@ namespace Game1942
         protected void AddBullets(GameTime gTime)
         {
             lTime += (float)gTime.ElapsedGameTime.TotalSeconds;
+            lTime2 += (float)gTime.ElapsedGameTime.TotalSeconds;
             //time left until next shot
             if (mType == 8 && lTime > 1)
             {
@@ -154,11 +155,17 @@ namespace Game1942
             }
             if (mType == 10 && moveTime > 0)
             {
-			if ((lTime > 0.7 && mHP > 500) && (lTime > 0.35 && mHP <= 500))
-			{
-                		weaponManager.AddBullet(10, new Vector2(mPosition.X + 30, mPosition.Y + 50) );
-                		lTime = 0;
-			}
+			    if (lTime > 0.5)
+                {
+                    weaponManager.AddBullet(10, mPosition);
+                    lTime = 0;
+                    if (lTime2 > 1 && mHP <= 500)
+                    {
+                        weaponManager.AddBullet(11, new Vector2(mPosition.X + 30, mPosition.Y + 50));
+                        weaponManager.AddBullet(12, new Vector2(mPosition.X + 30, mPosition.Y + 50));
+                        lTime2 = 0;
+                    }
+                }
             }
         }
 
@@ -221,10 +228,10 @@ namespace Game1942
                 //resets the animation to EnemyAnimation when the explosion animation is done playing and puts it in the start position
                 if (timePassed > EnemyExplosion.FrameTime * EnemyExplosion.FrameCount)
                 {
-			    if ( bossMode == false)
-			    {
-                    PutinStartPosition();
-                }
+			        if ( bossMode == false)
+			        {
+                        PutinStartPosition();
+                    }
                     timePassed = 0;
                     animationFlag = false;
                 }
