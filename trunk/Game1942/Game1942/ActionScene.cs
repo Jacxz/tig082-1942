@@ -149,7 +149,7 @@ namespace Game1942
             }
            
             player.PutInStartPosition();
-            currentWeapon = 1;
+            currentWeapon = 3;
         }
 
         public void CheckCollisions()
@@ -229,14 +229,19 @@ namespace Game1942
 
         public void ResetScene()
         {
-            for (int x = 0; x <= enemies.Count - 1; x++)
+            int x;
+            for (x = 0; x < enemies.Count; x++)
             {
                 enemies[x].PutinStartPosition();
             }
-            for (int x = 0; x <= bulletList.Count - 1; x++)
+            for (x = 0; x < bulletList.Count; x++)
             {
                 bulletList[x].mPosition.Y = -10;
-            } 
+            }
+            for (x = 0; x < enemyBulletList.Count; x++)
+            {
+                enemyBulletList[x].mPosition.Y = 900;
+            }
         }
         public int ResultScore
         {
