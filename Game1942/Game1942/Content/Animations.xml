@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <XnaContent>
   <Animations>
     <type>1</type>
@@ -107,5 +107,16 @@
     <height>65</height>
     <posX>4</posX>
     <posY>301</posY>
+  </Animations>  <Animations>
+    <type>10</type>
+    <rotation>0</rotation>
+    <frametime>0.1</frametime>
+    <framecount>6</framecount>
+    <dieAnimation>0</dieAnimation>
+    <loop>false</loop>
+    <width>65</width>
+    <height>65</height>
+    <posX>598</posX>
+    <posY>4</posY>
   </Animations>
 </XnaContent>

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <XnaContent>
   <Enemy>
     <type>1</type>
@@ -23,5 +23,8 @@
   <Enemy>
     <type>8</type>
     <HP>500</HP>
+  </Enemy>  <Enemy>
+    <type>10</type>
+    <HP>1000</HP>
   </Enemy>
 </XnaContent>

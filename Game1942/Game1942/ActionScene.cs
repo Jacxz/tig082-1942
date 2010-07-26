@@ -30,11 +30,11 @@ namespace Game1942
         private int screenheight, screenwidth, deltaY, changeY, oldLives, currentWeapon;
         private ScrollingBackground currentBackground;
 
-        private float lTime, shootRate = 0.15f;
+        private float lTime, shootRate = 0.15f, timeOnLevel = 0;
 
         private WeaponManager weaponManager;
 	    private int score = 0;
-        private bool mGameOver = false;
+        private bool mGameOver = false, bossMode = false;
 
         //font
         private SpriteFont gameFont;
@@ -121,8 +121,13 @@ namespace Game1942
                 mGameOver = true;
                 player.ResetLives();
             }
+		if (timeOnLevel > 10000 && bossMode == false)
+		{
+		    BossMode();
+		}
 
             oldKeyboardState = keyboard;
+            timeOnLevel += (float)gameTime.ElapsedGameTime.TotalSeconds;
             base.Update(gameTime);
         }
 
@@ -150,6 +155,8 @@ namespace Game1942
            
             player.PutInStartPosition();
             currentWeapon = 3;
+
+		timeOnLevel = 0.0f;
         }
 
         public void CheckCollisions()
@@ -226,6 +233,17 @@ namespace Game1942
                 }
             }
         }
+
+	  public void BossMode()
+	  {
+            for (int x = 0; x < enemies.Count; x++)
+            {
+                enemies[x].SetBossMode();
+            }
+            enemyManager.AddEnemy(10, 1);
+            enemies = enemyManager.GetEnemyList();
+		Components.Add(enemies[enemies.Cound-1]);
+	  }
 
         public void ResetScene()
         {
