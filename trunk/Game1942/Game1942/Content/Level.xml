@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<XnaContent>
+  <phase>
+    <time>2</time>
+    <numberofenemys>1</numberofenemys>
+    <enemykind>1</enemykind>
+    <amount>1</amount>
+  </phase>
+  <phase>
+    <time>5</time>
+    <numberofenemys>2</numberofenemys>
+    <enemykind>2</enemykind>
+    <amount>1</amount>
+    <enemykind>3</enemykind>
+    <amount>1</amount>
+  </phase>
+  <phase>
+    <time>8</time>
+    <numberofenemys>1</numberofenemys>
+    <enemykind>3</enemykind>
+    <amount>1</amount>    
+  </phase>
+</XnaContent>
