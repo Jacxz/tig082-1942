@@ -180,6 +180,11 @@ namespace Game1942
             return getBounds().Intersects(rect);            
         }
 
+        public bool GetDead()
+        {
+            return animationFlag;
+        }
+
         public Rectangle getBounds()
         {            
             return new Rectangle((int)mPosition.X, (int)mPosition.Y, EnemyAnimation.FrameWidth, EnemyAnimation.FrameHeight);

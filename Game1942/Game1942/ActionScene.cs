@@ -24,9 +24,10 @@ namespace Game1942
         protected Texture2D mBackgroundTexture, actionTexture, blockTextureData;
         protected SpriteBatch mSpriteBatch;
         protected Player player;
-        private Enemy mEnemy1;
+
+        private Level level;
         private EnemyManager enemyManager;
-        private CollisionDetection mCollison;
+     
         private int screenheight, screenwidth, deltaY, changeY, oldLives, currentWeapon;
         private ScrollingBackground currentBackground;
 
@@ -54,6 +55,10 @@ namespace Game1942
             deltaY = 2;
             enemyManager = new EnemyManager(game, actionTexture);
             weaponManager = new WeaponManager(game, actionTexture);
+           
+            //starts the level script
+            level = new Level(game);
+            Components.Add(level);
 
             oldKeyboardState = Keyboard.GetState();
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
@@ -142,19 +147,8 @@ namespace Game1942
                 Components.Add(player);
                 oldLives = player.GetLives();
             }
-            enemyManager.AddEnemy(1, 4);
-            enemyManager.AddEnemy(2, 0);
-            enemyManager.AddEnemy(3, 0);
-            enemyManager.AddEnemy(4, 0);
-            enemyManager.AddEnemy(5, 0);
-            enemyManager.AddEnemy(8, 1);
-            enemies = enemyManager.GetEnemyList();
-
-            for (int x = 0; x < enemies.Count; x++)
-            {
-                Components.Add(enemies[x]);
-            }
-           
+            
+              
             player.PutInStartPosition();
             currentWeapon = 6;
 
@@ -214,9 +208,9 @@ namespace Game1942
             currentBackground.Draw(mSpriteBatch);
 
             mSpriteBatch.DrawString(gameFont, "Player Score: " + score +
-                "\nActionScene EnemyCounts: " + enemies.Count +
-                "\nActionScene : " + enemyManager.getError() +
-                "\nBullet count: " + weaponManager.GetWeaponList().Count, new Vector2(15, 15), Color.White);
+                "\nActionScene EnemyCounts: " + enemies.Count +                
+                "\nBullet count: " + weaponManager.GetWeaponList().Count +
+                "\nLevel Time: "+ level.GetTime(), new Vector2(15, 15), Color.White);
 
             mSpriteBatch.End();
             base.Draw(gameTime);

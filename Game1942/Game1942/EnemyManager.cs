@@ -24,7 +24,7 @@ namespace Game1942
         private Texture2D mTexture;
         private Enemy mEnemy;
         private List<Enemy> mEnemyList;
-        private int mWidth, mHeight, mStartX, mStartY, mHP, error;
+        private int mWidth, mHeight, mStartX, mStartY, mHP;
 
        
         public EnemyManager(Game game, Texture2D texture)
@@ -53,9 +53,24 @@ namespace Game1942
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            // TODO: Add your update code here
+            for(int x = 0; 0 < mEnemyList.Count; x++)    
+            {
+                if (mEnemyList[x].GetDead())
+                {
+                    Game.Components.RemoveAt(x);
+                }
+            }
+            
 
             base.Update(gameTime);
+        }
+
+        public void ResetList()
+        {
+            for (int x = 0; x < mEnemyList.Count; x++)
+            {
+                mEnemyList.RemoveAt(mEnemyList.Count);
+            }
         }
 
         public void AddEnemy(int type, int amount)
@@ -67,13 +82,11 @@ namespace Game1942
             {
                 mEnemy = new Enemy(Game, mTexture, mHP, type);
                 mEnemyList.Add(mEnemy);
+                Game.Components.Add(mEnemy);
             }
         }
 
-        public int getError()
-        {
-            return error;
-        }
+        
 
         public List<Enemy> GetEnemyList()
         {
@@ -118,7 +131,7 @@ namespace Game1942
                     // if the value type is holding equals the type we want
                     if (txtRead.ReadElementContentAsInt() == type)
                     {
-                        //moves one element and reads the value, does so for all the elements in the node.
+                        //moves one element and reads the value.
                         txtRead.Read();
                         HP = txtRead.ReadElementContentAsInt();
                        

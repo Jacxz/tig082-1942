@@ -29,22 +29,20 @@ namespace Game1942
 
         protected Rectangle mScreenBounds;
 
-      //  private Animation mExplosionAnimation, mPlayerAnimation;
+      
         private Animation playerAnimation, explosionAnimation;
         private AnimationPlayer playerAnimationPlayer;
         private bool killed;
         SpriteFont font;
         private int lives, HP, score;
-        private float error, lTime, playerSpeed;
+        private float lTime, playerSpeed;
 
         public Player(Game game, ref Texture2D theTexture)
             : base(game)
         {
             mTexture = theTexture;
             mPosition = new Vector2();
-
-            //mExplosionAnimation = new Animation(game, mTexture, 6, 0.1f, 70, 169,33,false);
-            //mPlayerAnimation = new Animation(game, mTexture, 3, 0.1f, 169, 202, 33, true);
+            // get the animations
             playerAnimation = new Animation(game, theTexture, 7);
             explosionAnimation = new Animation(game, theTexture, 6);
            
