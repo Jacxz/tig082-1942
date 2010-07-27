@@ -41,9 +41,10 @@ namespace Game1942
         protected KeyboardState oldKeyboardState = Keyboard.GetState();
 
         protected int score;
-        protected bool tmpBool = true;
         protected string playerName = "";
         protected int elapsedMilliseconds = 0;
+        protected TextMenuComponent gameOverText;
+        protected string path = (@"..\..\..\Content/highscore.txt");
 
         public Game1()
         {
@@ -158,22 +159,22 @@ namespace Game1942
             }
             else if (currentScene == gameOverScene)
             {
-                string path = (@"..\..\..\Content/highscore.txt");
-                int tmpScore = 1000;
-                highscoreObject[] tmpList = new highscoreObject[10];
-                highscoreObject playerObject = new highscoreObject();
-                tmpBool = false;
                 // tillfälligt bytt score mot tmpScore
+                int tmpScore = 1000;
                 if (XmlHandling.CheckInsertHighscoreBool(XmlHandling.ReadFromXML(path), tmpScore))
                 {
+                    DrawPlayerName();
                     if (GetHighScoreName())
                     {
+                        highscoreObject[] tmpList = new highscoreObject[10];
+                        highscoreObject playerObject = new highscoreObject();
                         tmpList = XmlHandling.ReadFromXML(path);
                         playerObject.PlayerName = playerName;
                         playerObject.PlayerScore = tmpScore;
                         tmpList = XmlHandling.CheckInsertHighscore(tmpList, playerObject);
                         XmlHandling.WriteHighScoreToXML(tmpList, path);
-                        playerName = "";        
+                        playerName = "";
+                        score = 0;
                         ShowScene(highScoreScene);
                     }
                 }                    
@@ -193,6 +194,15 @@ namespace Game1942
             }
         }
 
+        private void DrawPlayerName()
+        {
+            string[] insertText = {"You got a highscore!!!", "Please insert your name:",
+                                              playerName,"", "<Press enter when done>"};
+            gameOverText = new TextMenuComponent(this, smallFont, smallFont);
+            gameOverText.SetMenuItems(insertText);
+            Components.Add(gameOverText);
+        }           
+
         private bool GetHighScoreName()
         {
             elapsedMilliseconds += 1;
@@ -202,6 +212,16 @@ namespace Game1942
 
             if (elapsedMilliseconds >= 6)
             {
+                if (keyboardState.IsKeyDown(Keys.NumPad0)) { playerName += "0"; }
+                if (keyboardState.IsKeyDown(Keys.NumPad1)) { playerName += "1"; }
+                if (keyboardState.IsKeyDown(Keys.NumPad2)) { playerName += "2"; }
+                if (keyboardState.IsKeyDown(Keys.NumPad3)) { playerName += "3"; }
+                if (keyboardState.IsKeyDown(Keys.NumPad4)) { playerName += "4"; }
+                if (keyboardState.IsKeyDown(Keys.NumPad5)) { playerName += "5"; }
+                if (keyboardState.IsKeyDown(Keys.NumPad6)) { playerName += "6"; }
+                if (keyboardState.IsKeyDown(Keys.NumPad7)) { playerName += "7"; }
+                if (keyboardState.IsKeyDown(Keys.NumPad8)) { playerName += "8"; }
+                if (keyboardState.IsKeyDown(Keys.NumPad9)) { playerName += "9"; }
                 if (keyboardState.IsKeyDown(Keys.A)) { playerName += "A"; }
                 if (keyboardState.IsKeyDown(Keys.B)) { playerName += "B"; }
                 if (keyboardState.IsKeyDown(Keys.C)) { playerName += "C"; }
@@ -231,7 +251,6 @@ namespace Game1942
                 elapsedMilliseconds = 0;
             }
             if (keyboardState.IsKeyDown(Keys.Enter)) { result = true; }
-            tmpBool = false;
             return result;
         }
 
@@ -247,9 +266,9 @@ namespace Game1942
 
 
         /// <summary>
-        /// Check if the Enter Key ou 'A' button was pressed
+        /// Check if the Enter Key or 'A' button was pressed
         /// </summary>
-        /// <returns>true, if enter key ou 'A' button was pressed</returns>
+        /// <returns>true, if enter key or 'A' button was pressed</returns>
         private void HandleActionInput()
         {
             // Get the Keyboard state
@@ -306,9 +325,9 @@ namespace Game1942
         {
             GraphicsDevice.Clear(Color.Black);
             mSpriteBatch.Begin();
-            
             mSpriteBatch.End();
             base.Draw(gameTime);
         }
+ 
     }
 }

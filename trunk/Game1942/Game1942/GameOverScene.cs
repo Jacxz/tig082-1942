@@ -23,6 +23,7 @@ namespace Game1942
         private Texture2D texture;
         private Rectangle rectangle;
         private double timer;
+        protected SpriteFont smallFont;
 
         public GameOverScene(Game game, Texture2D texture)
             : base(game)
@@ -43,6 +44,8 @@ namespace Game1942
             base.Initialize();
         }
 
+
+
         /// <summary>
         /// Allows the game component to update itself.
         /// </summary>
@@ -62,15 +65,17 @@ namespace Game1942
                     timer = gameTime.TotalGameTime.TotalMilliseconds;
                 }
             }
-
+        
             base.Update(gameTime);
         }
+
 
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
             spriteBatch.Draw(texture, new Vector2(Game.Window.ClientBounds.Width / 2 - 100, Game.Window.ClientBounds.Height / 2), rectangle, Color.White, 0, new Vector2(), 2f, new SpriteEffects(), 0);
             spriteBatch.End();
+ 
             base.Draw(gameTime);
         }
     }
