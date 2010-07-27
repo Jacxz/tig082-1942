@@ -3,6 +3,6 @@
 <Score>2000</Score><PlayerName>Jon</PlayerName>
 <Score>1500</Score><PlayerName>Anna</PlayerName>
 <Score>600</Score><PlayerName>Johan</PlayerName>
-<Score>500</Score><PlayerName>Ahmed</PlayerName>
+<Score>0</Score><PlayerName></PlayerName>
 <Score>0</Score><PlayerName></PlayerName>
 <Score>0</Score><PlayerName></PlayerName>

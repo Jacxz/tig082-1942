@@ -43,6 +43,7 @@ namespace Game1942
         protected int score;
         protected bool tmpBool = true;
         protected string playerName = "";
+        protected int elapsedMilliseconds = 0;
 
         public Game1()
         {
@@ -172,6 +173,7 @@ namespace Game1942
                         playerObject.PlayerScore = tmpScore;
                         tmpList = XmlHandling.CheckInsertHighscore(tmpList, playerObject);
                         XmlHandling.WriteHighScoreToXML(tmpList, path);
+                        playerName = "";        
                         ShowScene(highScoreScene);
                     }
                 }                    
@@ -193,11 +195,42 @@ namespace Game1942
 
         private bool GetHighScoreName()
         {
+            elapsedMilliseconds += 1;
             KeyboardState keyboardState = Keyboard.GetState();
             bool result = false;
-            result = (oldKeyboardState.IsKeyDown(Keys.A) && (keyboardState.IsKeyUp(Keys.A))); 
-            oldKeyboardState = keyboardState;
-            playerName += "A";
+            Keys[] tmpKeys = new Keys[10];
+
+            if (elapsedMilliseconds >= 6)
+            {
+                if (keyboardState.IsKeyDown(Keys.A)) { playerName += "A"; }
+                if (keyboardState.IsKeyDown(Keys.B)) { playerName += "B"; }
+                if (keyboardState.IsKeyDown(Keys.C)) { playerName += "C"; }
+                if (keyboardState.IsKeyDown(Keys.D)) { playerName += "D"; }
+                if (keyboardState.IsKeyDown(Keys.E)) { playerName += "E"; }
+                if (keyboardState.IsKeyDown(Keys.F)) { playerName += "F"; }
+                if (keyboardState.IsKeyDown(Keys.G)) { playerName += "G"; }
+                if (keyboardState.IsKeyDown(Keys.H)) { playerName += "H"; }
+                if (keyboardState.IsKeyDown(Keys.I)) { playerName += "I"; }
+                if (keyboardState.IsKeyDown(Keys.J)) { playerName += "J"; }
+                if (keyboardState.IsKeyDown(Keys.K)) { playerName += "K"; }
+                if (keyboardState.IsKeyDown(Keys.L)) { playerName += "L"; }
+                if (keyboardState.IsKeyDown(Keys.M)) { playerName += "M"; }
+                if (keyboardState.IsKeyDown(Keys.N)) { playerName += "N"; }
+                if (keyboardState.IsKeyDown(Keys.O)) { playerName += "O"; }
+                if (keyboardState.IsKeyDown(Keys.P)) { playerName += "P"; }
+                if (keyboardState.IsKeyDown(Keys.Q)) { playerName += "Q"; }
+                if (keyboardState.IsKeyDown(Keys.R)) { playerName += "R"; }
+                if (keyboardState.IsKeyDown(Keys.S)) { playerName += "S"; }
+                if (keyboardState.IsKeyDown(Keys.T)) { playerName += "T"; }
+                if (keyboardState.IsKeyDown(Keys.U)) { playerName += "U"; }
+                if (keyboardState.IsKeyDown(Keys.V)) { playerName += "V"; }
+                if (keyboardState.IsKeyDown(Keys.X)) { playerName += "X"; }
+                if (keyboardState.IsKeyDown(Keys.Y)) { playerName += "Y"; }
+                if (keyboardState.IsKeyDown(Keys.Z)) { playerName += "Z"; }
+                if (keyboardState.IsKeyDown(Keys.Back)) { playerName.Remove(playerName.Length-1); } 
+                elapsedMilliseconds = 0;
+            }
+            if (keyboardState.IsKeyDown(Keys.Enter)) { result = true; }
             tmpBool = false;
             return result;
         }
