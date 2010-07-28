@@ -70,6 +70,7 @@
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Xml">
       <Private>False</Private>
     </Reference>
@@ -89,6 +90,8 @@
     <Compile Include="AudioManager.cs" />
     <Compile Include="CollisionDetection.cs" />
     <Compile Include="Level.cs" />
+    <Compile Include="PowerUp.cs" />
+    <Compile Include="PowerUpManager.cs" />
     <Compile Include="WeaponManager.cs" />
     <Compile Include="Core\GameScene.cs" />
     <Compile Include="Core\TextMenuComponent.cs" />

@@ -1,6 +1,7 @@
 Content\1945.xnb
 Content\MenuTitle.xnb
 Content\starfield.xnb
+Content\Highscore.xnb
 Content\largeMenuFont.xnb
 Content\smallMenuFont.xnb
 Content\font.xnb
@@ -11,3 +12,4 @@ Content\gameover.xnb
 Content\implosion.xnb
 Content\song.wma
 Content\gameover.wma
+Content\highscore.txt

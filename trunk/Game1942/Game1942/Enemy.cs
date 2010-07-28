@@ -25,7 +25,7 @@ namespace Game1942
         protected Vector2 mPosition, HpPosition;
         protected int error, mHP, mStartX, mStartY, mStartHP, mType, mEnemyWidth, mEnemyHeight, exptype;
 
-        protected bool animationFlag = false, bossMode = false, canBeRemoved = false;
+        protected bool animationFlag = false, bossMode = false, canBeRemoved = false, hasDroppedPowerUp = false;
         protected int score = 5;
     
         protected Random random;
@@ -37,6 +37,7 @@ namespace Game1942
         private Animation EnemyAnimation, EnemyExplosion;
         private List<Weapon> EnemyBulletList = new List<Weapon>();
         private WeaponManager weaponManager;
+        private PowerUpManager powerUpManager;
 
         public Enemy(Game game, Texture2D theTexture, int HP, int type, float Xspe, float Yspe, int xpos, int ypos)
             : base(game)
@@ -71,6 +72,7 @@ namespace Game1942
 
             weaponManager = new WeaponManager(Game, mTexture);
             weaponManager.Initialize();
+            powerUpManager = new PowerUpManager(Game, mTexture);
         }
 
   
@@ -223,7 +225,6 @@ namespace Game1942
             }
             else return 0;
         }
-
         private void DoChecks(GameTime gTime)
         {
             // Check if the Enemy is dead
@@ -233,6 +234,11 @@ namespace Game1942
                 animationFlag = true;
                 AnimationPlayer.PlayAnimation(EnemyExplosion);
                 timePassed += (float)gTime.ElapsedGameTime.TotalSeconds;
+                if (!hasDroppedPowerUp)
+                {
+                    powerUpManager.AddPowerUp(11, 0, 1, mPosition);
+                    hasDroppedPowerUp = true;
+                }
                 //resets the animation to EnemyAnimation when the explosion animation is done playing and puts it in the start position
                 if (timePassed > EnemyExplosion.FrameTime * EnemyExplosion.FrameCount)
                 {

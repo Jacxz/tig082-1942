@@ -28,8 +28,9 @@ namespace Game1942
         private CollisionDetection collisionDetection;
         private Level level;
         private EnemyManager enemyManager;
+        private PowerUpManager powerUpManager;
      
-        private int screenheight, screenwidth, oldLives, currentWeapon;
+        private int screenheight, screenwidth, oldLives;
         private ScrollingBackground currentBackground;
 
         private float lTime, shootRate = 0.15f, timeOnLevel = 0;
@@ -56,6 +57,7 @@ namespace Game1942
           
             enemyManager = new EnemyManager(game, actionTexture);
             weaponManager = new WeaponManager(game, actionTexture);
+            powerUpManager = new PowerUpManager(game, actionTexture);
             collisionDetection = new CollisionDetection(game);
 
             //starts the level script
@@ -150,7 +152,6 @@ namespace Game1942
             
               
             player.PutInStartPosition();
-            currentWeapon = 6;
 
 		    timeOnLevel = 0.0f;
         }
@@ -159,7 +160,8 @@ namespace Game1942
         {
             collisionDetection.CheckPlayerVSEnemy(player, level.GetCurrentEnemys());
             collisionDetection.CheckPlayerBulletVSEnemy(weaponManager.GetWeaponList(), level.GetCurrentEnemys());
-            collisionDetection.CheckPlayerVSEnemyBullet(player, level.GetCurrentEnemys());            
+            collisionDetection.CheckPlayerVSEnemyBullet(player, level.GetCurrentEnemys());
+            collisionDetection.CheckPlayerVSPowerUp(player, powerUpManager.getPowerUpList());            
         }
 
         public override void Draw(GameTime gameTime)
@@ -185,7 +187,7 @@ namespace Game1942
             {
                 if (lTime > shootRate)
                 {
-                    weaponManager.AddBullet(currentWeapon, player.getPosition());
+                    weaponManager.AddBullet(player.GetCurrentWeapon(), player.getPosition());
                     AudioManager.Effect("luger");
                     lTime = 0;
                 }
