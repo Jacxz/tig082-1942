@@ -100,6 +100,7 @@ namespace Game1942
         public override void Hide()
         {
             MediaPlayer.Stop();
+            ResetScene();
             base.Hide();
         }
 
@@ -224,6 +225,7 @@ namespace Game1942
                 enemyBulletList[x].mPosition.Y = 900;
             }
         }
+
         public int ResultScore
         {
             get { return score; }

@@ -41,10 +41,9 @@ namespace Game1942
         protected KeyboardState oldKeyboardState = Keyboard.GetState();
 
         protected int score;
-        protected string playerName = "";
-        protected int elapsedMilliseconds = 0;
+
         protected TextMenuComponent gameOverText;
-        protected string path = (@"..\..\..\Content/highscore.txt");
+        private string path = (@"..\..\..\Content\highscore.txt");
 
         public Game1()
         {
@@ -60,8 +59,6 @@ namespace Game1942
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             base.Initialize();
         }
 
@@ -96,6 +93,10 @@ namespace Game1942
             actionScene = new ActionScene(this, actionTextures, startBackgroundTexture, smallFont);
             actionScene.Initialize();
             Components.Add(actionScene);
+            // game over scene
+            gameOverScene = new GameOverScene(this, actionTextures);
+            gameOverScene.Initialize();
+            Components.Add(gameOverScene);
             // highscore scene
             highScoreScene = new HighScoreScene(this, smallFont, largeFont, startBackgroundTexture);
             highScoreScene.Initialize();
@@ -140,7 +141,6 @@ namespace Game1942
             {
                 HandleStartSceneInput();
             }
-            // 
 
             // Handle Action Scene Input
             else if (currentScene == actionScene)
@@ -150,36 +150,25 @@ namespace Game1942
                 {
                     score = actionScene.ResultScore;
                     actionScene.SetGameOver();
-                    gameOverScene = new GameOverScene(this, actionTextures);
-                    gameOverScene.Initialize();
-                    Components.Add(gameOverScene);
                     ShowScene(gameOverScene);
-                    AudioManager.GameOver();
                 }
             }
+
             else if (currentScene == gameOverScene)
             {
                 // tillfälligt bytt score mot tmpScore
                 int tmpScore = 1000;
+
                 if (XmlHandling.CheckInsertHighscoreBool(XmlHandling.ReadFromXML(path), tmpScore))
                 {
-                    DrawPlayerName();
-                    if (GetHighScoreName())
+                    highScoreScene.newHighTrue(tmpScore);
+                    if (CheckEnter())
                     {
-                        highscoreObject[] tmpList = new highscoreObject[10];
-                        highscoreObject playerObject = new highscoreObject();
-                        tmpList = XmlHandling.ReadFromXML(path);
-                        playerObject.PlayerName = playerName;
-                        playerObject.PlayerScore = tmpScore;
-                        tmpList = XmlHandling.CheckInsertHighscore(tmpList, playerObject);
-                        XmlHandling.WriteHighScoreToXML(tmpList, path);
-                        playerName = "";
-                        score = 0;
                         ShowScene(highScoreScene);
                     }
                 }                    
                     
-                else if (CheckEnterA())
+                else if (CheckEnter())
                 {
                     ShowScene(startScene);
                 }
@@ -187,74 +176,14 @@ namespace Game1942
             
             else if (currentScene == highScoreScene)
             {
-                if (CheckEnterA())
-                {
-                    ShowScene(startScene);
-                }
+                //if (CheckEnter() && !highScoreScene.getNewHigh())
+                //{
+                //    ShowScene(startScene);
+                //}
             }
         }
 
-        private void DrawPlayerName()
-        {
-            string[] insertText = {"You got a highscore!!!", "Please insert your name:",
-                                              playerName,"", "<Press enter when done>"};
-            gameOverText = new TextMenuComponent(this, smallFont, smallFont);
-            gameOverText.SetMenuItems(insertText);
-            Components.Add(gameOverText);
-        }           
-
-        private bool GetHighScoreName()
-        {
-            elapsedMilliseconds += 1;
-            KeyboardState keyboardState = Keyboard.GetState();
-            bool result = false;
-            Keys[] tmpKeys = new Keys[10];
-
-            if (elapsedMilliseconds >= 6)
-            {
-                if (keyboardState.IsKeyDown(Keys.NumPad0)) { playerName += "0"; }
-                if (keyboardState.IsKeyDown(Keys.NumPad1)) { playerName += "1"; }
-                if (keyboardState.IsKeyDown(Keys.NumPad2)) { playerName += "2"; }
-                if (keyboardState.IsKeyDown(Keys.NumPad3)) { playerName += "3"; }
-                if (keyboardState.IsKeyDown(Keys.NumPad4)) { playerName += "4"; }
-                if (keyboardState.IsKeyDown(Keys.NumPad5)) { playerName += "5"; }
-                if (keyboardState.IsKeyDown(Keys.NumPad6)) { playerName += "6"; }
-                if (keyboardState.IsKeyDown(Keys.NumPad7)) { playerName += "7"; }
-                if (keyboardState.IsKeyDown(Keys.NumPad8)) { playerName += "8"; }
-                if (keyboardState.IsKeyDown(Keys.NumPad9)) { playerName += "9"; }
-                if (keyboardState.IsKeyDown(Keys.A)) { playerName += "A"; }
-                if (keyboardState.IsKeyDown(Keys.B)) { playerName += "B"; }
-                if (keyboardState.IsKeyDown(Keys.C)) { playerName += "C"; }
-                if (keyboardState.IsKeyDown(Keys.D)) { playerName += "D"; }
-                if (keyboardState.IsKeyDown(Keys.E)) { playerName += "E"; }
-                if (keyboardState.IsKeyDown(Keys.F)) { playerName += "F"; }
-                if (keyboardState.IsKeyDown(Keys.G)) { playerName += "G"; }
-                if (keyboardState.IsKeyDown(Keys.H)) { playerName += "H"; }
-                if (keyboardState.IsKeyDown(Keys.I)) { playerName += "I"; }
-                if (keyboardState.IsKeyDown(Keys.J)) { playerName += "J"; }
-                if (keyboardState.IsKeyDown(Keys.K)) { playerName += "K"; }
-                if (keyboardState.IsKeyDown(Keys.L)) { playerName += "L"; }
-                if (keyboardState.IsKeyDown(Keys.M)) { playerName += "M"; }
-                if (keyboardState.IsKeyDown(Keys.N)) { playerName += "N"; }
-                if (keyboardState.IsKeyDown(Keys.O)) { playerName += "O"; }
-                if (keyboardState.IsKeyDown(Keys.P)) { playerName += "P"; }
-                if (keyboardState.IsKeyDown(Keys.Q)) { playerName += "Q"; }
-                if (keyboardState.IsKeyDown(Keys.R)) { playerName += "R"; }
-                if (keyboardState.IsKeyDown(Keys.S)) { playerName += "S"; }
-                if (keyboardState.IsKeyDown(Keys.T)) { playerName += "T"; }
-                if (keyboardState.IsKeyDown(Keys.U)) { playerName += "U"; }
-                if (keyboardState.IsKeyDown(Keys.V)) { playerName += "V"; }
-                if (keyboardState.IsKeyDown(Keys.X)) { playerName += "X"; }
-                if (keyboardState.IsKeyDown(Keys.Y)) { playerName += "Y"; }
-                if (keyboardState.IsKeyDown(Keys.Z)) { playerName += "Z"; }
-                if (keyboardState.IsKeyDown(Keys.Back)) { playerName.Remove(playerName.Length-1); } 
-                elapsedMilliseconds = 0;
-            }
-            if (keyboardState.IsKeyDown(Keys.Enter)) { result = true; }
-            return result;
-        }
-
-        private bool CheckEnterA()
+        private bool CheckEnter()
         {
             // Get the Keyboard state
             KeyboardState keyboardState = Keyboard.GetState();
@@ -263,7 +192,6 @@ namespace Game1942
             oldKeyboardState = keyboardState;
             return result;
         }
-
 
         /// <summary>
         /// Check if the Enter Key or 'A' button was pressed
@@ -291,7 +219,7 @@ namespace Game1942
         /// </summary>
         private void HandleStartSceneInput()
         {
-            if (CheckEnterA())
+            if (CheckEnter())
             {
                 switch (startScene.SelectedMenuIndex)
                 {
@@ -302,11 +230,6 @@ namespace Game1942
                         ShowScene(highScoreScene);
                         break;
                     case 2:
-                        gameOverScene = new GameOverScene(this, actionTextures);
-                        gameOverScene.Initialize();
-                        Components.Add(gameOverScene);
-                        ShowScene(gameOverScene);
-                        AudioManager.GameOver();
                         ShowScene(gameOverScene);
                         break;
                     case 3:
@@ -315,7 +238,6 @@ namespace Game1942
                 }
             }
         }
-
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -328,6 +250,5 @@ namespace Game1942
             mSpriteBatch.End();
             base.Draw(gameTime);
         }
- 
     }
 }
