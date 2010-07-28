@@ -20,7 +20,7 @@ namespace Game1942
         protected SpriteBatch mSpriteBatch;
         protected SpriteFont gameFont;
         protected Texture2D mTexture;
-        protected bool canBeRemoved = false;
+        protected bool canBeRemoved = false, used = false;
         private AnimationPlayer AnimationPlayer;
         private Animation PowerUpAnimation;
 
@@ -72,6 +72,17 @@ namespace Game1942
         public bool CanBeRemoved()
         {
             return canBeRemoved;
+        }
+
+        public bool GetUsed()
+        {
+            return used;
+        }
+
+        public void SetUsed()
+        {
+            used = true;
+            mPosition.Y = 900;
         }
     }
 }

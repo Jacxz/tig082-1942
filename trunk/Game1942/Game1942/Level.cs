@@ -29,7 +29,7 @@ namespace Game1942
     
         float currentTimeInXML;
 
-        public Level(Game game)
+        public Level(Game game, PowerUpManager powerUpManager)
             : base(game)
         {
             EnemyList = new List<Enemy>();

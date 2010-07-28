@@ -55,13 +55,12 @@ namespace Game1942
             actionTexture = theTexture;
             mBackgroundTexture = backGroundTexture;
           
-            enemyManager = new EnemyManager(game, actionTexture);
             weaponManager = new WeaponManager(game, actionTexture);
             powerUpManager = new PowerUpManager(game, actionTexture);
             collisionDetection = new CollisionDetection(game);
 
             //starts the level script
-            level = new Level(game);
+            level = new Level(game, powerUpManager);
             Components.Add(level);
 
             oldKeyboardState = Keyboard.GetState();
@@ -135,6 +134,17 @@ namespace Game1942
                // bossMode = true;
 		    }
 
+            powerUpManager.Update(gameTime);
+            enemies = level.GetCurrentEnemys();
+            for (int x = 0; x < enemies.Count; x++)
+            {
+                if (enemies[x].PowerUpType() > 0)
+                {
+                    powerUpManager.AddPowerUp(enemies[x].PowerUpType(), 0, 1, enemies[x].GetPosition());
+                    enemies[x].SetPowerUpType(0);
+                }
+            }
+
             oldKeyboardState = keyboard;
             timeOnLevel += (float)gameTime.ElapsedGameTime.TotalSeconds;
             base.Update(gameTime);
@@ -173,8 +183,9 @@ namespace Game1942
             currentBackground.Draw(mSpriteBatch);
 
             mSpriteBatch.DrawString(gameFont, "Player Score: " + score +
-                "\nActionScene EnemyCounts: " + level.GetCurrentEnemys().Count +                
+                "\nActionScene EnemyCounts: " + level.GetCurrentEnemys().Count +
                 "\nBullet count: " + weaponManager.GetWeaponList().Count +
+                "\nCurrent Weapon: " + player.GetCurrentWeapon() +
                 "\nLevel Time: "+ level.GetTime(), new Vector2(15, 15), Color.White);
             
             mSpriteBatch.End();
