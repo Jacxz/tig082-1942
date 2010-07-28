@@ -36,7 +36,7 @@ namespace Game1942
             this.elements = elements;
             bGround = background;
 
-            string[] items = { "Start", "Highscore", "Options", "Exit" };
+            string[] items = { "Start", "Highscore", "Exit" };
             menu = new TextMenuComponent(game, smallFont, largeFont);
             menu.SetMenuItems(items);
             Components.Add(menu);
