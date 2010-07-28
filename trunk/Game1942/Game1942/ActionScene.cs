@@ -184,7 +184,7 @@ namespace Game1942
         public void AddBullet(GameTime gTime)
         {
             lTime += (float)gTime.ElapsedGameTime.TotalSeconds;
-            if (keyboard.IsKeyDown(Keys.Space) && !player.Killed)
+            if (keyboard.IsKeyDown(Keys.LeftControl) && !player.Killed)
             {
                 if (lTime > shootRate)
                 {

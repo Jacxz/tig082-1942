@@ -55,7 +55,7 @@ namespace Game1942
             HP = 100;
             score = 0;
             playerSpeed = 2;
-            currentWeapon = 1;
+            currentWeapon = 6;
            
             mScreenBounds = new Rectangle(0, 0, Game.Window.ClientBounds.Width, Game.Window.ClientBounds.Height);
 
