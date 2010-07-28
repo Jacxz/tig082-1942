@@ -230,9 +230,6 @@ namespace Game1942
                         ShowScene(highScoreScene);
                         break;
                     case 2:
-                        ShowScene(gameOverScene);
-                        break;
-                    case 3:
                         Exit();
                         break;
                 }
