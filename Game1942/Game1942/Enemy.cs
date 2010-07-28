@@ -25,7 +25,7 @@ namespace Game1942
         protected Vector2 mPosition, HpPosition;
         protected int error, mHP, mStartX, mStartY, mStartHP, mType, mEnemyWidth, mEnemyHeight, exptype;
 
-        protected bool animationFlag = false, bossMode = false, animationDone = false;
+        protected bool animationFlag = false, bossMode = false, canBeRemoved = false;
         protected int score = 5;
     
         protected Random random;
@@ -184,10 +184,10 @@ namespace Game1942
         {
             return getBounds().Intersects(rect);            
         }
-        //keeps track of the animation and if it finished playing or not. Is set to true in DoChecks(). Used to start the Ifdead() in enemymanager.
+        //keeps track of the animation and if it finished playing or not and if the enemy left the screen. Is set to true in DoChecks(). Used to start the Ifdead() in enemymanager.
         public bool IsDone()
         {
-            return animationDone;
+            return canBeRemoved;
         }
 
         public bool GetDead()
@@ -249,19 +249,20 @@ namespace Game1942
                     }
                     timePassed = 0;
                     animationFlag = false;
-                    animationDone = true;
+                    canBeRemoved = true;
                 }
             }
 
             // Check if the enemy still visible
             if ((mPosition.Y >= Game.Window.ClientBounds.Height) ||
                 (mPosition.X >= Game.Window.ClientBounds.Width) ||
-                (mPosition.X <= -EnemyAnimation.FrameWidth))//|| (mPosition.X >= 780))
+                (mPosition.X <= -EnemyAnimation.FrameWidth))
             {
                 if (bossMode == false)
                 {
                     PutinStartPosition();
                 }
+                canBeRemoved = true;
             }
         }
 
