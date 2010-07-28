@@ -62,8 +62,6 @@ namespace Game1942
             level = new Level(game);
             Components.Add(level);
 
-            
-
             oldKeyboardState = Keyboard.GetState();
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
         }
@@ -116,10 +114,6 @@ namespace Game1942
             currentBackground.Update(gameTime);
 
             keyboard = Keyboard.GetState();
-
-            
-
-            
            
             if (oldLives != player.GetLives())
             {
