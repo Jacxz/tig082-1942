@@ -2,22 +2,38 @@
 <XnaContent>
   <phase>
     <time>2</time>
-    <numberofenemys>1</numberofenemys>
+    <numberofenemys>2</numberofenemys>
     <enemykind>1</enemykind>
     <amount>1</amount>
-  </phase>
-  <phase>
-    <time>5</time>
-    <numberofenemys>2</numberofenemys>
+    <xspeed>-0.5</xspeed>
+    <yspeed>1</yspeed>
+    <xpos>300</xpos>
+    <ypos>-20</ypos>
     <enemykind>2</enemykind>
     <amount>1</amount>
-    <enemykind>3</enemykind>
-    <amount>1</amount>
+    <xspeed>-0.5</xspeed>
+    <yspeed>1</yspeed>
+    <xpos>600</xpos>
+    <ypos>-20</ypos>
   </phase>
   <phase>
-    <time>8</time>
+    <time>6</time>
+    <numberofenemys>1</numberofenemys>
+    <enemykind>2</enemykind>
+    <amount>1</amount>
+    <xspeed>1</xspeed>
+    <yspeed>1</yspeed>
+    <xpos>-20</xpos>
+    <ypos>40</ypos>
+  </phase>
+  <phase>
+    <time>10</time>
     <numberofenemys>1</numberofenemys>
     <enemykind>3</enemykind>
-    <amount>1</amount>    
+    <amount>1</amount>
+    <xspeed>-1</xspeed>
+    <yspeed>2</yspeed>
+    <xpos>800</xpos>
+    <ypos>40</ypos>
   </phase>
 </XnaContent>

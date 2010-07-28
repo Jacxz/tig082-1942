@@ -25,6 +25,7 @@ namespace Game1942
         private Enemy mEnemy;
         private List<Enemy> mEnemyList;
         private int mWidth, mHeight, mStartX, mStartY, mHP;
+        
 
        
         public EnemyManager(Game game, Texture2D texture)
@@ -53,34 +54,30 @@ namespace Game1942
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            for(int x = 0; 0 < mEnemyList.Count; x++)    
-            {
-                if (mEnemyList[x].GetDead())
-                {
-                    Game.Components.RemoveAt(x);
-                }
-            }
-            
-
             base.Update(gameTime);
         }
-
-        public void ResetList()
+        //removes the component and removes the object from the list
+        public void IfDead()
         {
+
             for (int x = 0; x < mEnemyList.Count; x++)
             {
-                mEnemyList.RemoveAt(mEnemyList.Count);
+                if (mEnemyList[x].IsDone())
+                {
+                    Game.Components.Remove(mEnemyList.ElementAt(x));
+                    mEnemyList.RemoveAt(x);
+                }
             }
         }
 
-        public void AddEnemy(int type, int amount)
+        public void AddEnemy(int type, int amount, float xSpeed, float ySpeed, int xPos, int yPos)
         {
             
             // read and set the variables from the xml with the type variabel as a identifier.
             ReadXML(type);
             for (int x = 0; x < amount; x++)
             {
-                mEnemy = new Enemy(Game, mTexture, mHP, type);
+                mEnemy = new Enemy(Game, mTexture, mHP, type, xSpeed, ySpeed, xPos, yPos);
                 mEnemyList.Add(mEnemy);
                 Game.Components.Add(mEnemy);
             }
@@ -134,6 +131,7 @@ namespace Game1942
                         //moves one element and reads the value.
                         txtRead.Read();
                         HP = txtRead.ReadElementContentAsInt();
+              
                        
                         break;
                     }

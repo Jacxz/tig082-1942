@@ -25,10 +25,11 @@ namespace Game1942
         protected SpriteBatch mSpriteBatch;
         protected Player player;
 
+        private CollisionDetection collisionDetection;
         private Level level;
         private EnemyManager enemyManager;
      
-        private int screenheight, screenwidth, deltaY, changeY, oldLives, currentWeapon;
+        private int screenheight, screenwidth, oldLives, currentWeapon;
         private ScrollingBackground currentBackground;
 
         private float lTime, shootRate = 0.15f, timeOnLevel = 0;
@@ -52,13 +53,15 @@ namespace Game1942
             gameFont = smallFont;
             actionTexture = theTexture;
             mBackgroundTexture = backGroundTexture;
-            deltaY = 2;
+          
             enemyManager = new EnemyManager(game, actionTexture);
             weaponManager = new WeaponManager(game, actionTexture);
            
             //starts the level script
             level = new Level(game);
             Components.Add(level);
+
+            collisionDetection = new CollisionDetection(game);
 
             oldKeyboardState = Keyboard.GetState();
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
@@ -106,7 +109,7 @@ namespace Game1942
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            CheckCollisions(); // checks collition with enemy List
+            CheckCollisions(); // checks collition with everything
             weaponManager.Update(gameTime);
 
             keyboard = Keyboard.GetState();
@@ -129,8 +132,8 @@ namespace Game1942
 
 		    if (timeOnLevel > 1 && bossMode == false)
 		    {
-		        BossMode();
-                bossMode = true;
+		      //  BossMode();
+               // bossMode = true;
 		    }
 
             oldKeyboardState = keyboard;
@@ -157,8 +160,16 @@ namespace Game1942
 
         public void CheckCollisions()
         {
+
+            collisionDetection.CheckPlayerVSEnemy(player, level.GetCurrentEnemys());
+            collisionDetection.CheckPlayerBulletVSEnemy(weaponManager.GetWeaponList(), level.GetCurrentEnemys());
+            collisionDetection.CheckPlayerVSEnemyBullet(player, level.GetCurrentEnemys());
+            
+
+
+
             // check collision enemys vs player and subtracts 5 hp from player each hit.
-            for (int x = 0; x < enemies.Count; x++)
+        /*    for (int x = 0; x < enemies.Count; x++)
             {
                 if (enemies[x].checkCollision(player.GetBounds()))
                 {              
@@ -197,7 +208,7 @@ namespace Game1942
                         score += enemies[y].IsDead();
                     }
                 }
-            }
+            }*/
         }
 
         public override void Draw(GameTime gameTime)
@@ -208,7 +219,7 @@ namespace Game1942
             currentBackground.Draw(mSpriteBatch);
 
             mSpriteBatch.DrawString(gameFont, "Player Score: " + score +
-                "\nActionScene EnemyCounts: " + enemies.Count +                
+                "\nActionScene EnemyCounts: " + level.GetCurrentEnemys().Count +                
                 "\nBullet count: " + weaponManager.GetWeaponList().Count +
                 "\nLevel Time: "+ level.GetTime(), new Vector2(15, 15), Color.White);
 
@@ -230,7 +241,7 @@ namespace Game1942
             }
         }
 
-        public void BossMode()
+      /*  public void BossMode()
         {
             for (int x = 0; x < enemies.Count; x++)
             {
@@ -239,7 +250,7 @@ namespace Game1942
             enemyManager.AddEnemy(10, 1);
             enemies = enemyManager.GetEnemyList();
             Components.Add(enemies[enemies.Count-1]);
-        }
+        }*/
 
         public void ResetScene()
         {

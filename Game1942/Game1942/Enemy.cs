@@ -23,28 +23,33 @@ namespace Game1942
         protected Texture2D mTexture;
         protected Rectangle spriteRectangle;
         protected Vector2 mPosition, HpPosition;
-        protected int Yspeed, Xspeed, error, mHP, mStartX, mStartY, mStartHP, mType, mEnemyWidth, mEnemyHeight, exptype;
+        protected int error, mHP, mStartX, mStartY, mStartHP, mType, mEnemyWidth, mEnemyHeight, exptype;
 
-        protected bool animationFlag = false, bossMode = false;
+        protected bool animationFlag = false, bossMode = false, animationDone = false;
         protected int score = 5;
     
         protected Random random;
         protected SpriteBatch mSpriteBatch;
         protected SpriteFont gameFont;
 
-        private float timePassed, lTime = 0, lTime2 = 0, moveTime = 0;
+        private float timePassed, lTime = 0, lTime2 = 0, moveTime = 0, Yspeed, Xspeed;
         private AnimationPlayer AnimationPlayer;
         private Animation EnemyAnimation, EnemyExplosion;
         private List<Weapon> EnemyBulletList = new List<Weapon>();
         private WeaponManager weaponManager;
 
-        public Enemy(Game game, Texture2D theTexture, int HP, int type)
+        public Enemy(Game game, Texture2D theTexture, int HP, int type, float Xspe, float Yspe, int xpos, int ypos)
             : base(game)
         {
             mTexture = theTexture;
             mType = type;
             mStartHP = HP;
+
             mPosition = new Vector2();
+            mPosition.X = xpos;
+            mPosition.Y = ypos;
+            Yspeed = Yspe;
+            Xspeed = Xspe;
             // Get the current spritebatch
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
 
@@ -73,11 +78,11 @@ namespace Game1942
         /// </summary>
         public void PutinStartPosition()
         {
-            mPosition.X = random.Next(Game.Window.ClientBounds.Width - mEnemyWidth); 
-            mPosition.Y = -20;
+          //  mPosition.X = random.Next(Game.Window.ClientBounds.Width - mEnemyWidth); 
+           // mPosition.Y = -20;
 
-            Yspeed = 1 + random.Next(2);
-            Xspeed = random.Next(3) - 1;
+           // Yspeed = 1 + random.Next(2);
+           // Xspeed = random.Next(2) - 1;
             reset();		
 		    if (mType == 10)
             {
@@ -179,6 +184,11 @@ namespace Game1942
         {
             return getBounds().Intersects(rect);            
         }
+        //keeps track of the animation and if it finished playing or not. Is set to true in DoChecks(). Used to start the Ifdead() in enemymanager.
+        public bool IsDone()
+        {
+            return animationDone;
+        }
 
         public bool GetDead()
         {
@@ -239,6 +249,7 @@ namespace Game1942
                     }
                     timePassed = 0;
                     animationFlag = false;
+                    animationDone = true;
                 }
             }
 
