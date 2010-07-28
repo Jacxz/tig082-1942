@@ -154,9 +154,6 @@ namespace Game1942
                 }
             }             
             mSpriteBatch.End();
-            
-            
-          
             playerAnimationPlayer.Draw(gameTime, mSpriteBatch, getPosition());
             base.Draw(gameTime);
         }
@@ -198,10 +195,7 @@ namespace Game1942
 
         public void IsKilled(GameTime gTime)
         {
-            //mExplosionAnimation.SpritePos = mPosition;
-            //mExplosionAnimation.Play();
-            
-            
+
             lTime+=(float)gTime.ElapsedGameTime.TotalSeconds;
             if (lTime > explosionAnimation.FrameTime*explosionAnimation.FrameCount)
             {

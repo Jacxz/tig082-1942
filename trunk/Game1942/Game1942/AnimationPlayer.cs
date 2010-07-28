@@ -82,11 +82,9 @@ namespace Game1942
 
             // Process passing time.
             time += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            while (time > mCurrentAnimation.FrameTime)
+            while (time > mCurrentAnimation.FrameTime) 
             {
                 time -= mCurrentAnimation.FrameTime;
-
-                // Advance the frame index looping or clamping as appropriate.
                 if (mCurrentAnimation.IsLooping)
                 {
                     frameIndex = (frameIndex + 1) % mCurrentAnimation.FrameCount;
@@ -101,9 +99,10 @@ namespace Game1942
             // Calculate the source rectangle of the current frame.
             Rectangle source = new Rectangle(FrameIndex * (mCurrentAnimation.FrameWidth+1) + mCurrentAnimation.StartX , mCurrentAnimation.StartY, mCurrentAnimation.FrameHeight, mCurrentAnimation.FrameWidth);
             spriteBatch.Begin();          
-            // Draw the current frame.
-            //spriteBatch.Draw(mCurrentAnimation.Texture, position, source, Color.White);
+            
+            // Draw the red bounding box
             spriteBatch.Draw(mCurrentAnimation.Texture, position, new Rectangle(697, 203, mCurrentAnimation.FrameHeight, mCurrentAnimation.FrameWidth), Color.White);
+            // Draw the current frame.
             spriteBatch.Draw(mCurrentAnimation.Texture, position, source, Color.White, 0, new Vector2(0, 0), new Vector2(1, 1), mCurrentAnimation.getEffect(), 1.0f);
             spriteBatch.End();
         }
