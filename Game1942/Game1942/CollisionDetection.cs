@@ -82,6 +82,19 @@ namespace Game1942
             }
         }
 
+        public void CheckPlayerVSPowerUp(Player player, List<PowerUp> powerUps)
+        {
+            // check collision enemys vs player and subtracts 5 hp from player each hit.
+            for (int x = 0; x < powerUps.Count; x++)
+            {
+                if (powerUps[x].checkCollision(player.GetBounds()))
+                {
+                    //player.SetCurrentWeapon(6);
+                    player.UpgradeWeapon();
+                    powerUps[x].Remove();
+                }
+            }
+        }
 
 
     }
