@@ -157,7 +157,7 @@ namespace Game1942
             else if (currentScene == gameOverScene)
             {
                 // tillfälligt bytt score mot tmpScore
-                int tmpScore = 1000;
+                int tmpScore = 1001;
 
                 if (XmlHandling.CheckInsertHighscoreBool(XmlHandling.ReadFromXML(path), tmpScore))
                 {
@@ -176,10 +176,10 @@ namespace Game1942
             
             else if (currentScene == highScoreScene)
             {
-                //if (CheckEnter() && !highScoreScene.getNewHigh())
-                //{
-                //    ShowScene(startScene);
-                //}
+                if (CheckEnter() && !highScoreScene.getNewHigh())
+                {
+                    ShowScene(startScene);
+                }
             }
         }
 
