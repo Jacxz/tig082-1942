@@ -23,7 +23,6 @@ namespace Game1942
         private Texture2D texture;
         private Rectangle rectangle;
         private double timer;
-        protected SpriteFont smallFont;
 
         public GameOverScene(Game game, Texture2D texture)
             : base(game)
@@ -44,7 +43,11 @@ namespace Game1942
             base.Initialize();
         }
 
-
+        public override void Show()
+        {
+            AudioManager.GameOver();
+            base.Show();
+        }
 
         /// <summary>
         /// Allows the game component to update itself.
@@ -65,10 +68,8 @@ namespace Game1942
                     timer = gameTime.TotalGameTime.TotalMilliseconds;
                 }
             }
-        
             base.Update(gameTime);
         }
-
 
         public override void Draw(GameTime gameTime)
         {
