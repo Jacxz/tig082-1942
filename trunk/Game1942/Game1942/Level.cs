@@ -21,20 +21,21 @@ namespace Game1942
     public class Level : Microsoft.Xna.Framework.GameComponent
     {
 
-        private int NumOfEnemies, Amount, KindOfEnemy;
-        private float ElapsedTime, TestTime, OldTime;
+        private int NumOfEnemies, Amount, KindOfEnemy, xPos, yPos;
+        private float ElapsedTime, TestTime, xSpeed, ySpeed;
         private List<Enemy> EnemyList;
         private Texture2D mTexture;
         private EnemyManager enemyManager;
-        private List<float> TestList;
+    
         float currentTimeInXML;
 
         public Level(Game game)
             : base(game)
         {
+            EnemyList = new List<Enemy>();
             mTexture = Game.Content.Load<Texture2D>("1945");
             enemyManager = new EnemyManager(game, mTexture);
-            TestList = new List<float>();
+      
         }
 
 
@@ -59,6 +60,9 @@ namespace Game1942
             ElapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             ReadXML(ElapsedTime);
 
+            //ska det va så?
+            enemyManager.IfDead();
+
             base.Update(gameTime);
         }
 
@@ -66,7 +70,7 @@ namespace Game1942
         {
             return EnemyList = enemyManager.GetEnemyList();
         }
-
+        // remove i think
         public float GetTime()
         {
             return ElapsedTime;
@@ -91,18 +95,27 @@ namespace Game1942
                     {
                         // sets the testtime to the latest xml read file (if(TestTime < currentTimeInXML && time > currentTimeInXML)) 
                         TestTime = currentTimeInXML;
-
+                        
                         //moves one element and reads the value, does so for all the elements in the node.
                         txtRead.Read();
                         NumOfEnemies = txtRead.ReadElementContentAsInt();
 
                         for (int x = 0; x < NumOfEnemies; x++)
                         {
+                            
                             txtRead.Read();
                             KindOfEnemy = txtRead.ReadElementContentAsInt();
                             txtRead.Read();
                             Amount = txtRead.ReadElementContentAsInt();
-                            enemyManager.AddEnemy(KindOfEnemy, Amount);
+                            txtRead.Read();
+                            xSpeed = txtRead.ReadElementContentAsFloat();
+                            txtRead.Read();
+                            ySpeed = txtRead.ReadElementContentAsFloat();
+                            txtRead.Read();
+                            xPos = txtRead.ReadElementContentAsInt();
+                            txtRead.Read();
+                            yPos = txtRead.ReadElementContentAsInt();
+                            enemyManager.AddEnemy(KindOfEnemy, Amount, xSpeed, ySpeed, xPos, yPos);
                         }
                         break;
                     }
