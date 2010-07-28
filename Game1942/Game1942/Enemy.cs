@@ -26,7 +26,7 @@ namespace Game1942
         protected int error, mHP, mStartX, mStartY, mStartHP, mType, mEnemyWidth, mEnemyHeight, exptype;
 
         protected bool animationFlag = false, bossMode = false, canBeRemoved = false, hasDroppedPowerUp = false;
-        protected int score = 5;
+        protected int score = 5, powerUpToDrop = 0;
     
         protected Random random;
         protected SpriteBatch mSpriteBatch;
@@ -37,7 +37,6 @@ namespace Game1942
         private Animation EnemyAnimation, EnemyExplosion;
         private List<Weapon> EnemyBulletList = new List<Weapon>();
         private WeaponManager weaponManager;
-        private PowerUpManager powerUpManager;
 
         public Enemy(Game game, Texture2D theTexture, int HP, int type, float Xspe, float Yspe, int xpos, int ypos)
             : base(game)
@@ -72,7 +71,6 @@ namespace Game1942
 
             weaponManager = new WeaponManager(Game, mTexture);
             weaponManager.Initialize();
-            powerUpManager = new PowerUpManager(Game, mTexture);
         }
 
   
@@ -225,6 +223,22 @@ namespace Game1942
             }
             else return 0;
         }
+
+        public int PowerUpType()
+        {
+            return powerUpToDrop;
+        }
+
+        public Vector2 GetPosition()
+        {
+            return mPosition;
+        }
+
+        public void SetPowerUpType(int type)
+        {
+            powerUpToDrop = type;
+        }
+
         private void DoChecks(GameTime gTime)
         {
             // Check if the Enemy is dead
@@ -236,7 +250,7 @@ namespace Game1942
                 timePassed += (float)gTime.ElapsedGameTime.TotalSeconds;
                 if (!hasDroppedPowerUp)
                 {
-                    powerUpManager.AddPowerUp(11, 0, 1, mPosition);
+                    powerUpToDrop = 11;                    
                     hasDroppedPowerUp = true;
                 }
                 //resets the animation to EnemyAnimation when the explosion animation is done playing and puts it in the start position

@@ -89,9 +89,12 @@ namespace Game1942
             {
                 if (powerUps[x].checkCollision(player.GetBounds()))
                 {
-                    //player.SetCurrentWeapon(6);
-                    player.UpgradeWeapon();
-                    powerUps[x].Remove();
+                    //Game.Components.Remove(powerUps.ElementAt(x));
+                    if (!powerUps[x].GetUsed())
+                    {
+                        player.UpgradeWeapon();
+                        powerUps[x].SetUsed();
+                    }
                 }
             }
         }
