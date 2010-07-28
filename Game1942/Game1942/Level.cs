@@ -35,7 +35,6 @@ namespace Game1942
             EnemyList = new List<Enemy>();
             mTexture = Game.Content.Load<Texture2D>("1945");
             enemyManager = new EnemyManager(game, mTexture);
-      
         }
 
 
@@ -79,8 +78,6 @@ namespace Game1942
         // reads from XML File
         public void ReadXML(float time)
         {
-
-
             // loads the xml file
             XmlTextReader txtRead = new XmlTextReader(@"..\..\..\Content/Level.xml");
             //while it reads

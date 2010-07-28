@@ -161,7 +161,8 @@ namespace Game1942
             collisionDetection.CheckPlayerVSEnemy(player, level.GetCurrentEnemys());
             collisionDetection.CheckPlayerBulletVSEnemy(weaponManager.GetWeaponList(), level.GetCurrentEnemys());
             collisionDetection.CheckPlayerVSEnemyBullet(player, level.GetCurrentEnemys());
-            collisionDetection.CheckPlayerVSPowerUp(player, powerUpManager.getPowerUpList());            
+            collisionDetection.CheckPlayerVSPowerUp(player, powerUpManager.getPowerUpList()); 
+           
         }
 
         public override void Draw(GameTime gameTime)
