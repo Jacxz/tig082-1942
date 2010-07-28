@@ -22,8 +22,9 @@
   </Enemy>
   <Enemy>
     <type>8</type>
-    <HP>500</HP>
-  </Enemy>  <Enemy>
+    <HP>300</HP>
+  </Enemy>
+  <Enemy>
     <type>10</type>
     <HP>1000</HP>
   </Enemy>

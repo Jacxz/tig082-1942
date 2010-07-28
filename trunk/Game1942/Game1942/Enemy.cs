@@ -73,17 +73,11 @@ namespace Game1942
             weaponManager.Initialize();
         }
 
-        /// <summary>
-        /// Initialize Enemy Position and Velocity
-        /// </summary>
+  
         public void PutinStartPosition()
         {
-          //  mPosition.X = random.Next(Game.Window.ClientBounds.Width - mEnemyWidth); 
-           // mPosition.Y = -20;
 
-           // Yspeed = 1 + random.Next(2);
-           // Xspeed = random.Next(2) - 1;
-            reset();		
+            Reset();		
 		    if (mType == 10)
             {
 		       mPosition.X = 350;
@@ -144,7 +138,6 @@ namespace Game1942
 
             AddBullets(gameTime);
             weaponManager.Update(gameTime);
-
             base.Update(gameTime);
         }
 
@@ -205,7 +198,7 @@ namespace Game1942
             mHP -= dmg;
         }
 
-        private void reset()
+        private void Reset()
         {
             mHP = mStartHP;
             AnimationPlayer.PlayAnimation(EnemyAnimation);
