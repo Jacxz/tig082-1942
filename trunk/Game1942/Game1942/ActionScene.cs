@@ -56,12 +56,13 @@ namespace Game1942
           
             enemyManager = new EnemyManager(game, actionTexture);
             weaponManager = new WeaponManager(game, actionTexture);
-           
+            collisionDetection = new CollisionDetection(game);
+
             //starts the level script
             level = new Level(game);
             Components.Add(level);
 
-            collisionDetection = new CollisionDetection(game);
+            
 
             oldKeyboardState = Keyboard.GetState();
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
@@ -92,8 +93,7 @@ namespace Game1942
         public override void Show()
         {
             // starts the background music
-            AudioManager.PlayMusic("song");
-            // creates and puts the player in start position
+            AudioManager.PlayMusic("song");         
             base.Show();
         }
 
@@ -109,14 +109,16 @@ namespace Game1942
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            CheckCollisions(); // checks collition with everything
+            CheckCollisions(); // checks collition with everything, everything!!! okey not the edges.
             weaponManager.Update(gameTime);
+            AddBullet(gameTime);
+            currentBackground.Update(gameTime);
 
             keyboard = Keyboard.GetState();
 
-            AddBullet(gameTime);
+            
 
-            currentBackground.Update(gameTime);
+            
            
             if (oldLives != player.GetLives())
             {
@@ -160,55 +162,9 @@ namespace Game1942
 
         public void CheckCollisions()
         {
-
             collisionDetection.CheckPlayerVSEnemy(player, level.GetCurrentEnemys());
             collisionDetection.CheckPlayerBulletVSEnemy(weaponManager.GetWeaponList(), level.GetCurrentEnemys());
-            collisionDetection.CheckPlayerVSEnemyBullet(player, level.GetCurrentEnemys());
-            
-
-
-
-            // check collision enemys vs player and subtracts 5 hp from player each hit.
-        /*    for (int x = 0; x < enemies.Count; x++)
-            {
-                if (enemies[x].checkCollision(player.GetBounds()))
-                {              
-                    player.IsHit(5);
-                    enemies[x].isHit(10); 
-                }
-            }
-
-            // check collision between player and enemybullets
-            for (int x = 0; x < enemies.Count; x++)
-            {
-                enemyBulletList = enemies[x].GetBulletList();
-                if (enemyBulletList != null)
-                {
-                    for (int y = 0; y < enemyBulletList.Count; y++)
-                    {
-                        if (enemyBulletList[y].checkCollision(player.GetBounds()))
-                        {
-                            player.IsHit(enemyBulletList[y].GetDmg());
-                            enemyBulletList[y].mPosition.Y = 900;
-                        }
-                    }
-                }
-            }
-
-            // check if enemy collides with a player bullet, if it collides move the weapon outside of the screen.
-            bulletList = weaponManager.GetWeaponList();
-            for (int x = 0; x <= bulletList.Count - 1; x++)
-            {
-                for (int y = 0; y <= enemies.Count - 1; y++)
-                {
-                    if (enemies[y].checkCollision(bulletList[x].GetBounds()))
-                    {
-                        enemies[y].isHit(bulletList[x].GetDmg());
-                        bulletList[x].mPosition.Y = -100;
-                        score += enemies[y].IsDead();
-                    }
-                }
-            }*/
+            collisionDetection.CheckPlayerVSEnemyBullet(player, level.GetCurrentEnemys());            
         }
 
         public override void Draw(GameTime gameTime)
@@ -222,7 +178,7 @@ namespace Game1942
                 "\nActionScene EnemyCounts: " + level.GetCurrentEnemys().Count +                
                 "\nBullet count: " + weaponManager.GetWeaponList().Count +
                 "\nLevel Time: "+ level.GetTime(), new Vector2(15, 15), Color.White);
-
+            
             mSpriteBatch.End();
             base.Draw(gameTime);
         }

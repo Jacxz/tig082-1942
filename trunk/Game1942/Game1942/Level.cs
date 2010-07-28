@@ -70,7 +70,7 @@ namespace Game1942
         {
             return EnemyList = enemyManager.GetEnemyList();
         }
-        // remove i think
+        // used in action scene in draw()
         public float GetTime()
         {
             return ElapsedTime;

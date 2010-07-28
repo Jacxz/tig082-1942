@@ -59,7 +59,6 @@ namespace Game1942
         //removes the component and removes the object from the list
         public void IfDead()
         {
-
             for (int x = 0; x < mEnemyList.Count; x++)
             {
                 if (mEnemyList[x].IsDone())
