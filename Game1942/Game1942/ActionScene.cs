@@ -27,7 +27,6 @@ namespace Game1942
 
         private CollisionDetection collisionDetection;
         private Level level;
-        private EnemyManager enemyManager;
         private PowerUpManager powerUpManager;
      
         private int screenheight, screenwidth, oldLives;
@@ -60,7 +59,7 @@ namespace Game1942
             collisionDetection = new CollisionDetection(game);
 
             //starts the level script
-            level = new Level(game, powerUpManager);
+            level = new Level(game);
             Components.Add(level);
 
             oldKeyboardState = Keyboard.GetState();
@@ -128,10 +127,13 @@ namespace Game1942
                 player.ResetLives();
             }
 
+            // This checks all enemies and adds a powerup if the enemy has not yet created one
+            // also forwards the players position, so that enemies can shoot in its direction
             powerUpManager.Update(gameTime);
             enemies = level.GetCurrentEnemys();
             for (int x = 0; x < enemies.Count; x++)
             {
+                enemies[x].SetPlayerPosition(player.getPosition());
                 if (enemies[x].GetIfPowerUpDropped())
                 {
                     if (!enemies[x].GetHasCreatedPowerUp())
@@ -181,13 +183,11 @@ namespace Game1942
             mSpriteBatch.Begin();
 
             currentBackground.Draw(mSpriteBatch);
-
-            mSpriteBatch.DrawString(gameFont, "Player Score: " + score +
-                "\nActionScene EnemyCounts: " + level.GetCurrentEnemys().Count +
-                "\nBullet count: " + weaponManager.GetWeaponList().Count +
-                "\nCurrent Weapon: " + player.GetCurrentWeapon() +
-                "\nLevel Time: "+ level.GetTime(), new Vector2(15, 15), Color.White);
-            
+                mSpriteBatch.DrawString(gameFont, "Player Score: " + score +
+                    "\nActionScene EnemyCounts: " + level.GetCurrentEnemys().Count +
+                    "\nBullet count: " + weaponManager.GetWeaponList().Count +
+                    "\nCurrent Weapon: " + player.GetCurrentWeapon() +
+                    "\nLevel Time: " + (int)level.GetTime(), new Vector2(15, 15), Color.White, 0, new Vector2(0,0), 0.5f, SpriteEffects.None, 0);
             mSpriteBatch.End();
             base.Draw(gameTime);
         }

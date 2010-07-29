@@ -22,7 +22,7 @@ namespace Game1942
 
         protected Texture2D mTexture;
         protected Rectangle spriteRectangle;
-        protected Vector2 mPosition, HpPosition;
+        protected Vector2 mPosition, HpPosition, mPlayerPosition;
         protected int error, mHP, mStartX, mStartY, mStartHP, mType, mEnemyWidth, mEnemyHeight, exptype, mPowerUpType;
 
         protected bool animationFlag = false, canBeRemoved = false, hasDroppedPowerUp = false, hasCreatedPowerUp = false;
@@ -32,7 +32,7 @@ namespace Game1942
         protected SpriteBatch mSpriteBatch;
         protected SpriteFont gameFont;
 
-        private float timePassed, lTime = 0, lTime2 = 0, moveTime = 0, Yspeed, Xspeed;
+        private float timePassed, weaponCycle1 = 0, weaponCycle2 = 0, weaponCycle3 = 0, moveTime = 0, Yspeed, Xspeed;
         private AnimationPlayer AnimationPlayer;
         private Animation EnemyAnimation, EnemyExplosion;
         private List<Weapon> EnemyBulletList = new List<Weapon>();
@@ -141,34 +141,80 @@ namespace Game1942
 
         protected void AddBullets(GameTime gTime)
         {
-            lTime += (float)gTime.ElapsedGameTime.TotalSeconds;
-            lTime2 += (float)gTime.ElapsedGameTime.TotalSeconds;
+            weaponCycle1 += (float)gTime.ElapsedGameTime.TotalSeconds;
+            weaponCycle2 += (float)gTime.ElapsedGameTime.TotalSeconds;
+            weaponCycle3 += (float)gTime.ElapsedGameTime.TotalSeconds;
             //time left until next shot
-            if (mType == 8 && lTime > 1)
+            if (mType == 3 && weaponCycle1 > 1.5)
+            {
+                weaponManager.AddBullet(17, mPosition);
+                weaponCycle1 = 0;
+            }
+            if (mType == 8 && weaponCycle1 > 1)
             {
                 weaponManager.AddBullet(10, mPosition);
-                lTime = 0;
+                weaponCycle1 = 0;
             }
+            #region boss 1
             if (mType == 10 && moveTime > 0)
             {
-			    if (lTime > 0.6)
+                // the first mode of the boss, when it has above 500 hp
+                if (mHP > 500)
                 {
-                    weaponManager.AddBullet(11, mPosition);
-                    lTime = 0;
-                    if (lTime2 > 1.2 && mHP <= 500)
+                    if (weaponCycle1 < 2.3 && weaponCycle2 > 0.5)
                     {
+                        weaponManager.AddBullet(11, mPosition);
+                        weaponCycle2 = 0;
+                    }
+                    if (weaponCycle1 > 2.5 && weaponCycle3 > 0.15)
+                    {
+                        weaponManager.AddBullet(40, mPosition, mPlayerPosition);
+                        weaponCycle3 = 0;
+                    }
+                    // weaponCycle1, the primare cycle, is 3 seconds long
+                    if (weaponCycle1 > 3)
+                    {
+                        weaponCycle1 = 0;
+                        weaponCycle2 = 0;
+                        weaponCycle3 = 0;
+                    }
+                }
+                // the second mode of the boss, when it has below 500 hp
+                if (mHP <= 500)
+                {
+                    if (weaponCycle1 < 2.3 && weaponCycle2 > 0.5)
+                    {
+                        weaponManager.AddBullet(11, mPosition);
                         weaponManager.AddBullet(12, mPosition);
                         weaponManager.AddBullet(13, mPosition);
-                        lTime2 = 0;
+                        weaponCycle2 = 0;
+                    }
+                    if (weaponCycle1 > 2.5 && weaponCycle3 > 0.08)
+                    {
+                        weaponManager.AddBullet(40, mPosition, mPlayerPosition);
+                        weaponCycle3 = 0;
+                    }
+                    // weaponCycle1, the primare cycle, is 3 seconds long
+                    if (weaponCycle1 > 3)
+                    {
+                        weaponCycle1 = 0;
+                        weaponCycle2 = 0;
+                        weaponCycle3 = 0;
                     }
                 }
             }
-            if (mType == 12 && lTime > 1.5)
+            #endregion
+            if (mType == 12 && weaponCycle1 > 1.5)
             {
                 weaponManager.AddBullet(14, mPosition);
                 weaponManager.AddBullet(15, mPosition);
                 weaponManager.AddBullet(16, mPosition);
-                lTime = 0;
+                weaponCycle1 = 0;
+            }
+            if (mType == 13 && weaponCycle1 > 1.5)
+            {
+                weaponManager.AddBullet(41, mPosition, mPlayerPosition);
+                weaponCycle1 = 0;
             }
         }
 
@@ -257,6 +303,11 @@ namespace Game1942
         public Vector2 GetPosition()
         {
             return mPosition;
+        }
+
+        public void SetPlayerPosition(Vector2 pos)
+        {
+            mPlayerPosition = pos;
         }
 
         private void DoChecks(GameTime gTime)

@@ -57,7 +57,7 @@ namespace Game1942
             this.dmg = dmg;
 
             xSpeed = 1;
-            xBoundary = 300;
+            xBoundary = 1000;
 
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
         }
@@ -117,7 +117,6 @@ namespace Game1942
                 if (mPosition.X > initPos.X + xBoundary || mPosition.X < initPos.X - xBoundary)
                     xMovement = true;
             }
-
             mPosition.Y += mMovement.Y;
             base.Update(gameTime);
         }

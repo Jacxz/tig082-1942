@@ -73,7 +73,7 @@
     <powerup>0</powerup>
   </phase>
   <phase>
-    <time>7</time>
+    <time>8</time>
     <numberofenemys>1</numberofenemys>
     <enemykind>3</enemykind>
     <amount>1</amount>
@@ -84,7 +84,7 @@
     <powerup>11</powerup>
   </phase>
   <phase>
-    <time>8</time>
+    <time>9</time>
     <numberofenemys>1</numberofenemys>
     <enemykind>3</enemykind>
     <amount>1</amount>
@@ -95,7 +95,7 @@
     <powerup>11</powerup>
   </phase>
   <phase>
-    <time>12</time>
+    <time>13</time>
     <numberofenemys>1</numberofenemys>
     <enemykind>8</enemykind>
     <amount>1</amount>
@@ -106,7 +106,7 @@
     <powerup>11</powerup>
   </phase>
   <phase>
-    <time>13</time>
+    <time>14</time>
     <numberofenemys>1</numberofenemys>
     <enemykind>12</enemykind>
     <amount>1</amount>
@@ -117,7 +117,25 @@
     <powerup>11</powerup>
   </phase>
   <phase>
-    <time>17</time>
+    <time>20</time>
+    <numberofenemys>2</numberofenemys>
+    <enemykind>13</enemykind>
+    <amount>1</amount>
+    <xspeed>1</xspeed>
+    <yspeed>1</yspeed>
+    <xpos>-20</xpos>
+    <ypos>40</ypos>
+    <powerup>11</powerup>
+    <enemykind>13</enemykind>
+    <amount>1</amount>
+    <xspeed>-0.5</xspeed>
+    <yspeed>1</yspeed>
+    <xpos>600</xpos>
+    <ypos>-20</ypos>
+    <powerup>0</powerup>
+  </phase>
+  <phase>
+    <time>24</time>
     <numberofenemys>4</numberofenemys>
     <enemykind>2</enemykind>
     <amount>1</amount>
@@ -149,7 +167,7 @@
     <powerup>0</powerup>
   </phase>
   <phase>
-    <time>18</time>
+    <time>25</time>
     <numberofenemys>4</numberofenemys>
     <enemykind>2</enemykind>
     <amount>1</amount>
@@ -181,7 +199,7 @@
     <powerup>0</powerup>
   </phase>
   <phase>
-    <time>19</time>
+    <time>26</time>
     <numberofenemys>4</numberofenemys>
     <enemykind>2</enemykind>
     <amount>1</amount>
@@ -213,7 +231,7 @@
     <powerup>0</powerup>
   </phase>
   <phase>
-    <time>20</time>
+    <time>27</time>
     <numberofenemys>4</numberofenemys>
     <enemykind>2</enemykind>
     <amount>1</amount>
@@ -245,7 +263,7 @@
     <powerup>0</powerup>
   </phase>
   <phase>
-    <time>24</time>
+    <time>31</time>
     <numberofenemys>1</numberofenemys>
     <enemykind>8</enemykind>
     <amount>1</amount>
@@ -256,18 +274,18 @@
     <powerup>11</powerup>
   </phase>
   <phase>
-    <time>25</time>
+    <time>32</time>
     <numberofenemys>1</numberofenemys>
-    <enemykind>8</enemykind>
+    <enemykind>13</enemykind>
     <amount>1</amount>
     <xspeed>-0.5</xspeed>
     <yspeed>1</yspeed>
     <xpos>600</xpos>
     <ypos>-30</ypos>
-    <powerup>11</powerup>
+    <powerup>0</powerup>
   </phase>
   <phase>
-    <time>27</time>
+    <time>33</time>
     <numberofenemys>1</numberofenemys>
     <enemykind>12</enemykind>
     <amount>1</amount>
@@ -278,14 +296,14 @@
     <powerup>11</powerup>
   </phase>
   <phase>
-    <time>36</time>
+    <time>42</time>
     <numberofenemys>1</numberofenemys>
     <enemykind>10</enemykind>
     <amount>1</amount>
     <xspeed>0</xspeed>
     <yspeed>2</yspeed>
     <xpos>350</xpos>
-    <ypos>40</ypos>
+    <ypos>-40</ypos>
     <powerup>0</powerup>
   </phase>
   
