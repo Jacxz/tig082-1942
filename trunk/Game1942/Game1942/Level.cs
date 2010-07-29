@@ -21,7 +21,7 @@ namespace Game1942
     public class Level : Microsoft.Xna.Framework.GameComponent
     {
 
-        private int NumOfEnemies, Amount, KindOfEnemy, xPos, yPos;
+        private int NumOfEnemies, Amount, KindOfEnemy, xPos, yPos, powerUpType;
         private float ElapsedTime, TestTime, xSpeed, ySpeed;
         private List<Enemy> EnemyList;
         private Texture2D mTexture;
@@ -112,7 +112,9 @@ namespace Game1942
                             xPos = txtRead.ReadElementContentAsInt();
                             txtRead.Read();
                             yPos = txtRead.ReadElementContentAsInt();
-                            enemyManager.AddEnemy(KindOfEnemy, Amount, xSpeed, ySpeed, xPos, yPos);
+                            txtRead.Read();
+                            powerUpType = txtRead.ReadElementContentAsInt();
+                            enemyManager.AddEnemy(KindOfEnemy, Amount, xSpeed, ySpeed, xPos, yPos, powerUpType);
                         }
                         break;
                     }

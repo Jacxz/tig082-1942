@@ -76,7 +76,10 @@ namespace Game1942
             {
                 if (enemies[x].checkCollision(player.GetBounds()))
                 {
-                    player.IsHit(5);
+                    if (enemies[x].GetIsDead())
+                    {
+                        player.IsHit(5);
+                    }
                     enemies[x].isHit(10);
                 }
             }

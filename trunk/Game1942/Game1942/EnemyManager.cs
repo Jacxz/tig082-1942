@@ -69,14 +69,14 @@ namespace Game1942
             }
         }
 
-        public void AddEnemy(int type, int amount, float xSpeed, float ySpeed, int xPos, int yPos)
+        public void AddEnemy(int type, int amount, float xSpeed, float ySpeed, int xPos, int yPos, int powerUpType)
         {
             
             // read and set the variables from the xml with the type variabel as a identifier.
             ReadXML(type);
             for (int x = 0; x < amount; x++)
             {
-                mEnemy = new Enemy(Game, mTexture, mHP, type, xSpeed, ySpeed, xPos, yPos);
+                mEnemy = new Enemy(Game, mTexture, mHP, type, xSpeed, ySpeed, xPos, yPos, powerUpType);
                 mEnemyList.Add(mEnemy);
                 Game.Components.Add(mEnemy);
             }

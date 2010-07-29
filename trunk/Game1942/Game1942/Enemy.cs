@@ -23,10 +23,10 @@ namespace Game1942
         protected Texture2D mTexture;
         protected Rectangle spriteRectangle;
         protected Vector2 mPosition, HpPosition;
-        protected int error, mHP, mStartX, mStartY, mStartHP, mType, mEnemyWidth, mEnemyHeight, exptype;
+        protected int error, mHP, mStartX, mStartY, mStartHP, mType, mEnemyWidth, mEnemyHeight, exptype, mPowerUpType;
 
-        protected bool animationFlag = false, bossMode = false, canBeRemoved = false, hasDroppedPowerUp = false;
-        protected int score = 5, powerUpToDrop = 0;
+        protected bool animationFlag = false, canBeRemoved = false, hasDroppedPowerUp = false, hasCreatedPowerUp = false;
+        protected int score = 5;
     
         protected Random random;
         protected SpriteBatch mSpriteBatch;
@@ -38,12 +38,13 @@ namespace Game1942
         private List<Weapon> EnemyBulletList = new List<Weapon>();
         private WeaponManager weaponManager;
 
-        public Enemy(Game game, Texture2D theTexture, int HP, int type, float Xspe, float Yspe, int xpos, int ypos)
+        public Enemy(Game game, Texture2D theTexture, int HP, int type, float Xspe, float Yspe, int xpos, int ypos, int powerUpType)
             : base(game)
         {
             mTexture = theTexture;
             mType = type;
             mStartHP = HP;
+            mPowerUpType = powerUpType;
 
             mPosition = new Vector2();
             mPosition.X = xpos;
@@ -80,10 +81,7 @@ namespace Game1942
             Reset();		
 		    if (mType == 10)
             {
-		       mPosition.X = 350;
                moveTime = 0;
-		       Yspeed = 2;
-		       Xspeed = 0;
 		    }
         }
 
@@ -93,28 +91,28 @@ namespace Game1942
         public override void Draw(GameTime gameTime)
         {
             mSpriteBatch.Begin();
-            if (mType != 10 || mPosition.Y < 50)
+            if (mType != 10 || mPosition.Y < 30)
 		{
-              for (int x = 0; x < Yspeed; x++)
-              {
+            for (int x = 0; x < Yspeed; x++)
+            {
                 mPosition.Y += 1;
                 if (mHP >= 0)    
                 {
-                    mSpriteBatch.DrawString(gameFont, "HP: " + mHP.ToString() + " Bullet count: " + weaponManager.GetWeaponList().Count, HpPosition, Color.White);
-                }           
-              }
+                mSpriteBatch.DrawString(gameFont, "HP: " + mHP.ToString(), HpPosition, Color.White);
+                }
+            }
 		}
 		else if (mType == 10)
         {
         	moveTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-        	mPosition.X = (float)(350.0f + 300.0f * Math.Sin(moveTime / 2000.0f));
-			if (mHP <= 500 && mPosition.Y < 100)
+        	mPosition.X = (float)(350.0f + 300.0f * Math.Sin(moveTime / 2200.0f));
+			if (mHP <= 500 && mPosition.Y < 80)
 			{
 				mPosition.Y += 1;
 			}
         	if (mHP >= 0)
         	{
-        		mSpriteBatch.DrawString(gameFont, "HP: " + mHP.ToString() + " Bullet count: " + weaponManager.GetWeaponList().Count, HpPosition, Color.White);
+        		mSpriteBatch.DrawString(gameFont, "HP: " + mHP.ToString(), HpPosition, Color.White);
         	}    
 		}
 
@@ -153,17 +151,24 @@ namespace Game1942
             }
             if (mType == 10 && moveTime > 0)
             {
-			    if (lTime > 0.5)
+			    if (lTime > 0.6)
                 {
                     weaponManager.AddBullet(11, mPosition);
                     lTime = 0;
-                    if (lTime2 > 1 && mHP <= 500)
+                    if (lTime2 > 1.2 && mHP <= 500)
                     {
                         weaponManager.AddBullet(12, mPosition);
                         weaponManager.AddBullet(13, mPosition);
                         lTime2 = 0;
                     }
                 }
+            }
+            if (mType == 12 && lTime > 1.5)
+            {
+                weaponManager.AddBullet(14, mPosition);
+                weaponManager.AddBullet(15, mPosition);
+                weaponManager.AddBullet(16, mPosition);
+                lTime = 0;
             }
         }
 
@@ -224,19 +229,34 @@ namespace Game1942
             else return 0;
         }
 
-        public int PowerUpType()
+        public bool GetIsDead()
         {
-            return powerUpToDrop;
+            return (mHP < 1);
+        }
+
+        public int GetPowerUpType()
+        {
+            return mPowerUpType;
+        }
+
+        public bool GetIfPowerUpDropped()
+        {
+            return hasDroppedPowerUp;
+        }
+
+        public bool GetHasCreatedPowerUp()
+        {
+            return hasCreatedPowerUp;
+        }
+
+        public void SetHasCreatedPowerUp()
+        {
+            hasCreatedPowerUp = true;
         }
 
         public Vector2 GetPosition()
         {
             return mPosition;
-        }
-
-        public void SetPowerUpType(int type)
-        {
-            powerUpToDrop = type;
         }
 
         private void DoChecks(GameTime gTime)
@@ -248,18 +268,15 @@ namespace Game1942
                 animationFlag = true;
                 AnimationPlayer.PlayAnimation(EnemyExplosion);
                 timePassed += (float)gTime.ElapsedGameTime.TotalSeconds;
+                // set the hasDroppedPowerUp flag if not set, this will be read by actionScene, which creates a powerup
                 if (!hasDroppedPowerUp)
                 {
-                    powerUpToDrop = 11;                    
                     hasDroppedPowerUp = true;
                 }
                 //resets the animation to EnemyAnimation when the explosion animation is done playing and puts it in the start position
                 if (timePassed > EnemyExplosion.FrameTime * EnemyExplosion.FrameCount)
                 {
-			        if ( bossMode == false)
-			        {
-                        PutinStartPosition();
-                    }
+                    PutinStartPosition();
                     timePassed = 0;
                     animationFlag = false;
                     canBeRemoved = true;
@@ -271,10 +288,7 @@ namespace Game1942
                 (mPosition.X >= Game.Window.ClientBounds.Width) ||
                 (mPosition.X <= -EnemyAnimation.FrameWidth))
             {
-                if (bossMode == false)
-                {
-                    PutinStartPosition();
-                }
+                PutinStartPosition();
                 canBeRemoved = true;
             }
         }
@@ -282,10 +296,6 @@ namespace Game1942
         public List<Weapon> GetBulletList()
         {
             return weaponManager.GetWeaponList();
-        }
-        public void SetBossMode()
-        {
-            bossMode = true;
         }
     }
 }

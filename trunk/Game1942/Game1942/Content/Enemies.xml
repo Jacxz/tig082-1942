@@ -2,30 +2,34 @@
 <XnaContent>
   <Enemy>
     <type>1</type>
-    <HP>50</HP>
+    <HP>10</HP>
   </Enemy>
   <Enemy>
     <type>2</type>
-    <HP>100</HP>
+    <HP>35</HP>
   </Enemy>
   <Enemy>
     <type>3</type>
-    <HP>150</HP>
+    <HP>60</HP>
   </Enemy>
   <Enemy>
     <type>4</type>
-    <HP>200</HP>
+    <HP>100</HP>
   </Enemy>
   <Enemy>
     <type>5</type>
-    <HP>250</HP>
+    <HP>200</HP>
   </Enemy>
   <Enemy>
     <type>8</type>
-    <HP>300</HP>
+    <HP>250</HP>
   </Enemy>
   <Enemy>
     <type>10</type>
     <HP>1000</HP>
+  </Enemy>
+  <Enemy>
+    <type>12</type>
+    <HP>200</HP>
   </Enemy>
 </XnaContent>
