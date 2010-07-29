@@ -51,7 +51,7 @@ namespace Game1942
 
             mLivesRectangle = new Rectangle(169, 268, SHIPWIDTH, SHIPHEIGHT);
             playerAnimationPlayer.PlayAnimation(playerAnimation);
-            lives = 3;
+            lives = 1;
             HP = 100;
             score = 0;
             playerSpeed = 2;

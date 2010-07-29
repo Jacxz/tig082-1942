@@ -6,19 +6,19 @@
   </Enemy>
   <Enemy>
     <type>2</type>
-    <HP>35</HP>
+    <HP>30</HP>
   </Enemy>
   <Enemy>
     <type>3</type>
-    <HP>60</HP>
+    <HP>50</HP>
   </Enemy>
   <Enemy>
     <type>4</type>
-    <HP>100</HP>
+    <HP>75</HP>
   </Enemy>
   <Enemy>
     <type>5</type>
-    <HP>200</HP>
+    <HP>100</HP>
   </Enemy>
   <Enemy>
     <type>8</type>
@@ -31,5 +31,9 @@
   <Enemy>
     <type>12</type>
     <HP>200</HP>
+  </Enemy>
+  <Enemy>
+    <type>13</type>
+    <HP>125</HP>
   </Enemy>
 </XnaContent>
