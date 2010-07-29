@@ -37,7 +37,7 @@ namespace Game1942
 
         private WeaponManager weaponManager;
 	    private int score = 0;
-        private bool mGameOver = false, bossMode = false;
+        private bool mGameOver = false;
 
         //font
         private SpriteFont gameFont;
@@ -128,20 +128,20 @@ namespace Game1942
                 player.ResetLives();
             }
 
-		    if (timeOnLevel > 1 && bossMode == false)
-		    {
-		      //  BossMode();
-               // bossMode = true;
-		    }
-
             powerUpManager.Update(gameTime);
             enemies = level.GetCurrentEnemys();
             for (int x = 0; x < enemies.Count; x++)
             {
-                if (enemies[x].PowerUpType() > 0)
+                if (enemies[x].GetIfPowerUpDropped())
                 {
-                    powerUpManager.AddPowerUp(enemies[x].PowerUpType(), 0, 1, enemies[x].GetPosition());
-                    enemies[x].SetPowerUpType(0);
+                    if (!enemies[x].GetHasCreatedPowerUp())
+                    {
+                        enemies[x].SetHasCreatedPowerUp();
+                        if (enemies[x].GetPowerUpType() != 0)
+                        {
+                            powerUpManager.AddPowerUp(enemies[x].GetPowerUpType(), 0, 1, enemies[x].GetPosition());
+                        }
+                    }
                 }
             }
 
@@ -205,17 +205,6 @@ namespace Game1942
                 }
             }
         }
-
-      /*  public void BossMode()
-        {
-            for (int x = 0; x < enemies.Count; x++)
-            {
-                enemies[x].SetBossMode();
-            }
-            enemyManager.AddEnemy(10, 1);
-            enemies = enemyManager.GetEnemyList();
-            Components.Add(enemies[enemies.Count-1]);
-        }*/
 
         public void ResetScene()
         {

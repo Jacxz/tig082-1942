@@ -95,9 +95,9 @@ namespace Game1942
                 case 6: // four bullets, two single on the sides moving outwards on the x-axis doing 5dmg each and two bullets straight with sinus movement in the x-axis doing 10dmg each
                     weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X - 4, position.Y - 10), new Vector2(13, 245), 13, 13, new Vector2(-1, -4), 5));
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
-                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 6, position.Y - 20), new Vector2(48, 176), 9, 20, new Vector2(4, -4), 5, 25, 10));
+                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 6, position.Y - 20), new Vector2(48, 176), 9, 20, new Vector2(4, -4), 10, 25, 10));
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
-                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 15, position.Y - 20), new Vector2(48, 176), 9, 20, new Vector2(-4, -4), 5, 25, 10));
+                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 15, position.Y - 20), new Vector2(48, 176), 9, 20, new Vector2(-4, -4), 10, 25, 10));
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
                     weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 23, position.Y - 10), new Vector2(47, 245), 13, 13, new Vector2(1, -4), 5));
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
@@ -107,7 +107,7 @@ namespace Game1942
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
                     break;
                 case 11: // boss straight bullet
-                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 43, position.Y + 87), new Vector2(49, 214), 9, 9, 4f, 30));
+                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 43, position.Y + 87), new Vector2(277, 113), 13, 13, 4f, 40));
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
                     break;
                 case 12:
@@ -116,6 +116,18 @@ namespace Game1942
                     break;
                 case 13:
                     weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 59, position.Y + 79), new Vector2(49, 214), 9, 9, new Vector2(2, 4), 30));
+                    Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
+                    break;
+                case 14:
+                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 16, position.Y + 50), new Vector2(86, 216), 7, 7, new Vector2(-2, 4), 20));
+                    Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
+                    break;
+                case 15:
+                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 42, position.Y + 53), new Vector2(86, 216), 7, 7, new Vector2(2, 4), 20));
+                    Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
+                    break;
+                case 16:
+                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 29, position.Y + 50), new Vector2(86, 216), 7, 7, new Vector2(0, 4), 20));
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
                     break;
             }

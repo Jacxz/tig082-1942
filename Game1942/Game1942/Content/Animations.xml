@@ -132,4 +132,16 @@
     <posX>110</posX>
     <posY>270</posY>
   </Animations>
+  <Animations>
+    <type>12</type>
+    <rotation>0</rotation>
+    <frametime>0.1</frametime>
+    <framecount>3</framecount>
+    <dieAnimation>9</dieAnimation>
+    <loop>true</loop>
+    <width>65</width>
+    <height>65</height>
+    <posX>367</posX>
+    <posY>235</posY>
+  </Animations>
 </XnaContent>
