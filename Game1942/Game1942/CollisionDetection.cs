@@ -22,6 +22,7 @@ namespace Game1942
     {
 
         private List<Weapon> enemyBulletList;
+        private int TotalScore;
 
         public CollisionDetection(Game game)
             : base(game)
@@ -30,6 +31,10 @@ namespace Game1942
 
         }
 
+        public int GetScore()
+        {
+            return TotalScore;
+        }
 
         public void CheckPlayerBulletVSEnemy(List<Weapon> bulletList, List<Enemy> enemies)
         {
@@ -43,7 +48,7 @@ namespace Game1942
                     {
                         enemies[y].isHit(bulletList[x].GetDmg());
                         bulletList[x].mPosition.Y = -100;
-                     //   score += enemies[y].IsDead();
+                        TotalScore += enemies[y].IsDead();
                     }
                 }
             }
@@ -95,7 +100,7 @@ namespace Game1942
                     //Game.Components.Remove(powerUps.ElementAt(x));
                     if (!powerUps[x].GetUsed())
                     {
-                        player.UpgradeWeapon();
+                        player.UpgradeWeapon(1);
                         powerUps[x].SetUsed();
                     }
                 }

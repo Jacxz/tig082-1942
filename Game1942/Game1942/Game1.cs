@@ -147,8 +147,7 @@ namespace Game1942
             {
                 HandleActionInput();
                 if (actionScene.GameOverState())
-                {
-                    score = actionScene.ResultScore;
+                {                    
                     actionScene.SetGameOver();
                     ShowScene(gameOverScene);
                 }
@@ -157,7 +156,7 @@ namespace Game1942
             else if (currentScene == gameOverScene)
             {
                 // tillfälligt bytt score mot tmpScore
-                int tmpScore = 1001;
+                int tmpScore = actionScene.ResultScore;
 
                 if (XmlHandling.CheckInsertHighscoreBool(XmlHandling.ReadFromXML(path), tmpScore))
                 {

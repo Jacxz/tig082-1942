@@ -3,37 +3,46 @@
   <Enemy>
     <type>1</type>
     <HP>10</HP>
+    <score>5</score>
   </Enemy>
   <Enemy>
     <type>2</type>
     <HP>30</HP>
+    <score>5</score>
   </Enemy>
   <Enemy>
     <type>3</type>
     <HP>50</HP>
+    <score>5</score>
   </Enemy>
   <Enemy>
     <type>4</type>
     <HP>75</HP>
+    <score>5</score>
   </Enemy>
   <Enemy>
     <type>5</type>
     <HP>100</HP>
+    <score>10</score>
   </Enemy>
   <Enemy>
     <type>8</type>
     <HP>250</HP>
+    <score>10</score>
   </Enemy>
   <Enemy>
     <type>10</type>
     <HP>1000</HP>
+    <score>100</score>
   </Enemy>
   <Enemy>
     <type>12</type>
     <HP>200</HP>
+    <score>10</score>
   </Enemy>
   <Enemy>
     <type>13</type>
     <HP>125</HP>
+    <score>10</score>
   </Enemy>
 </XnaContent>
