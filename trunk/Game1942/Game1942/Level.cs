@@ -58,6 +58,10 @@ namespace Game1942
         {
             ElapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             ReadXML(ElapsedTime);
+            if (ElapsedTime < 0)
+            {
+                ElapsedTime = 0;
+            }
 
             //ska det va så?
             enemyManager.IfDead();
@@ -73,6 +77,36 @@ namespace Game1942
         public float GetTime()
         {
             return ElapsedTime;
+        }
+
+        //kanske ta bort
+        public void SetTime(float time)
+        {
+            ElapsedTime = time;
+        }
+
+        public void Reset()
+        {
+            enemyManager.Reset();
+            ElapsedTime -= 5;
+            SetTestTime(TestTime - 5);
+        }
+
+        public void ChangeTime(int change)
+        {
+            ElapsedTime -= change;
+        }
+
+        public void TotalReset()
+        {
+            Reset();
+            TestTime = 0;
+            ElapsedTime = 0;
+        }
+
+        public void SetTestTime(float test)
+        {
+            TestTime = test;
         }
 
         // reads from XML File

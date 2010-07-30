@@ -23,10 +23,11 @@ namespace Game1942
         protected Texture2D mTexture;
         protected Rectangle spriteRectangle;
         protected Vector2 mPosition, HpPosition, mPlayerPosition;
-        protected int error, mHP, mStartX, mStartY, mStartHP, mType, mEnemyWidth, mEnemyHeight, exptype, mPowerUpType;
+        protected int error, mHP, mStartX, mStartY, mStartHP, mType, mEnemyWidth, mEnemyHeight, mPowerUpType;
 
-        protected bool animationFlag = false, canBeRemoved = false, hasDroppedPowerUp = false, hasCreatedPowerUp = false;
-        protected int score = 5;
+        protected bool animationFlag = false, canBeRemoved = false, 
+            hasDroppedPowerUp = false, hasCreatedPowerUp = false, levelWon = false;
+        protected int score;
     
         protected Random random;
         protected SpriteBatch mSpriteBatch;
@@ -38,9 +39,10 @@ namespace Game1942
         private List<Weapon> EnemyBulletList = new List<Weapon>();
         private WeaponManager weaponManager;
 
-        public Enemy(Game game, Texture2D theTexture, int HP, int type, float Xspe, float Yspe, int xpos, int ypos, int powerUpType)
+        public Enemy(Game game, Texture2D theTexture, int HP, int type, float Xspe, float Yspe, int xpos, int ypos, int powerUpType, int score)
             : base(game)
         {
+            this.score = score;
             mTexture = theTexture;
             mType = type;
             mStartHP = HP;
@@ -98,7 +100,7 @@ namespace Game1942
                 mPosition.Y += 1;
                 if (mHP >= 0)    
                 {
-                mSpriteBatch.DrawString(gameFont, "HP: " + mHP.ToString(), HpPosition, Color.White);
+                mSpriteBatch.DrawString(gameFont, "HP: " + mHP.ToString() + " Bullet: " + weaponManager.GetWeaponList().Count, HpPosition, Color.White);
                 }
             }
 		}
@@ -112,7 +114,7 @@ namespace Game1942
 			}
         	if (mHP >= 0)
         	{
-        		mSpriteBatch.DrawString(gameFont, "HP: " + mHP.ToString(), HpPosition, Color.White);
+                mSpriteBatch.DrawString(gameFont, "HP: " + mHP.ToString(), HpPosition, Color.White);
         	}    
 		}
 
@@ -270,7 +272,7 @@ namespace Game1942
         {
             if ((mHP <= 1) && !animationFlag)
             {
-                return 5 ;
+                return Score ;
             }
             else return 0;
         }
@@ -310,6 +312,11 @@ namespace Game1942
             mPlayerPosition = pos;
         }
 
+        public bool GetLevelWon()
+        {
+            return levelWon;
+        }
+
         private void DoChecks(GameTime gTime)
         {
             // Check if the Enemy is dead
@@ -327,6 +334,10 @@ namespace Game1942
                 //resets the animation to EnemyAnimation when the explosion animation is done playing and puts it in the start position
                 if (timePassed > EnemyExplosion.FrameTime * EnemyExplosion.FrameCount)
                 {
+                    if (mType == 10)
+                    {
+                        levelWon = true;
+                    }
                     PutinStartPosition();
                     timePassed = 0;
                     animationFlag = false;
@@ -347,6 +358,11 @@ namespace Game1942
         public List<Weapon> GetBulletList()
         {
             return weaponManager.GetWeaponList();
+        }
+
+        public void RemoveBullets()
+        {
+            weaponManager.RemoveBullets();            
         }
     }
 }

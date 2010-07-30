@@ -192,6 +192,16 @@ namespace Game1942
         {
             return weaponList;
         }
+
+        public void RemoveBullets()
+        {
+            
+            for(int x = 0; x < weaponList.Count; x++)  
+            {
+                Game.Components.Remove(weaponList.ElementAt(x));
+            }
+            weaponList.Clear();
+        }
     }
 }
 

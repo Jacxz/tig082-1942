@@ -90,6 +90,11 @@ namespace Game1942
 
         public override void Show()
         {
+            if(GameOverState())
+            {
+                SetGameOver();
+                Start();
+            }
             // starts the background music
             AudioManager.PlayMusic("song");         
             base.Show();
@@ -123,8 +128,8 @@ namespace Game1942
 
             if (player.GetLives() < 0)
             {
-                mGameOver = true;
                 player.ResetLives();
+                mGameOver = true;
             }
 
             // This checks all enemies and adds a powerup if the enemy has not yet created one
@@ -133,6 +138,10 @@ namespace Game1942
             enemies = level.GetCurrentEnemys();
             for (int x = 0; x < enemies.Count; x++)
             {
+                if (enemies[x].GetLevelWon())
+                {
+                    SetGameOver();
+                }
                 enemies[x].SetPlayerPosition(player.getPosition());
                 if (enemies[x].GetIfPowerUpDropped())
                 {
@@ -161,6 +170,10 @@ namespace Game1942
                 Components.Add(player);
                 oldLives = player.GetLives();
             }
+            else
+            {                
+                player.ResetLives();
+            }
             
               
             player.PutInStartPosition();
@@ -183,7 +196,7 @@ namespace Game1942
             mSpriteBatch.Begin();
 
             currentBackground.Draw(mSpriteBatch);
-                mSpriteBatch.DrawString(gameFont, "Player Score: " + score +
+                mSpriteBatch.DrawString(gameFont, "Player Score: " + collisionDetection.GetScore() +
                     "\nActionScene EnemyCounts: " + level.GetCurrentEnemys().Count +
                     "\nBullet count: " + weaponManager.GetWeaponList().Count +
                     "\nCurrent Weapon: " + player.GetCurrentWeapon() +
@@ -208,34 +221,32 @@ namespace Game1942
 
         public void ResetScene()
         {
-            int x;
-            for (x = 0; x < enemies.Count; x++)
-            {
-                enemies[x].PutinStartPosition();
-            }
-            for (x = 0; x < bulletList.Count; x++)
-            {
-                bulletList[x].mPosition.Y = -10;
-            }
-            for (x = 0; x < enemyBulletList.Count; x++)
-            {
-                enemyBulletList[x].mPosition.Y = 900;
-            }
+            player.UpgradeWeapon(-1);
+            level.Reset();
+            RemoveBullets();
         }
 
         public int ResultScore
         {
-            get { return score; }
+            get { return collisionDetection.GetScore() + 1000; }
         }
 
         public void SetGameOver()
         {
+            RemoveBullets();
+            level.TotalReset();
+            player.SetCurrentWeapon(1);
             mGameOver = !mGameOver;
         }
 
         public bool GameOverState()
         {
             return mGameOver;
+        }
+
+        public void RemoveBullets()
+        {
+            weaponManager.RemoveBullets();            
         }
     }
 }

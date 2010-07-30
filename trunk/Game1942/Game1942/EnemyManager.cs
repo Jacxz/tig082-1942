@@ -24,7 +24,7 @@ namespace Game1942
         private Texture2D mTexture;
         private Enemy mEnemy;
         private List<Enemy> mEnemyList;
-        private int mWidth, mHeight, mStartX, mStartY, mHP;
+        private int mWidth, mHeight, mStartX, mStartY, mHP, score;
         
 
        
@@ -56,6 +56,20 @@ namespace Game1942
         {
             base.Update(gameTime);
         }
+
+        public void Reset()
+        {
+            for (int x = 0; x < mEnemyList.Count; x++)
+            {
+                mEnemyList[x].RemoveBullets();
+            }
+            for (int x = 0; x < mEnemyList.Count; x++)
+            {
+                Game.Components.Remove(mEnemyList.ElementAt(x));
+                
+            }
+            mEnemyList.Clear();
+        }
         //removes the component and removes the object from the list
         public void IfDead()
         {
@@ -76,7 +90,7 @@ namespace Game1942
             ReadXML(type);
             for (int x = 0; x < amount; x++)
             {
-                mEnemy = new Enemy(Game, mTexture, mHP, type, xSpeed, ySpeed, xPos, yPos, powerUpType);
+                mEnemy = new Enemy(Game, mTexture, mHP, type, xSpeed, ySpeed, xPos, yPos, powerUpType, score);
                 mEnemyList.Add(mEnemy);
                 Game.Components.Add(mEnemy);
             }
@@ -130,7 +144,8 @@ namespace Game1942
                         //moves one element and reads the value.
                         txtRead.Read();
                         HP = txtRead.ReadElementContentAsInt();
-              
+                        txtRead.Read();
+                        score = txtRead.ReadElementContentAsInt();
                        
                         break;
                     }

@@ -73,6 +73,7 @@ namespace Game1942
 
         public override void Draw(GameTime gameTime)
         {
+            
             spriteBatch.Begin();
             spriteBatch.Draw(texture, new Vector2(Game.Window.ClientBounds.Width / 2 - 100, Game.Window.ClientBounds.Height / 2), rectangle, Color.White, 0, new Vector2(), 2f, new SpriteEffects(), 0);
             spriteBatch.End();

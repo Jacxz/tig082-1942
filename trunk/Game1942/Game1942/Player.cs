@@ -34,7 +34,7 @@ namespace Game1942
         private AnimationPlayer playerAnimationPlayer;
         private bool killed;
         SpriteFont font;
-        private int lives, HP, score, currentWeapon;
+        private int lives, HP, score, currentWeapon, startLives = 1;
         private float lTime, playerSpeed;
 
         public Player(Game game, ref Texture2D theTexture)
@@ -51,7 +51,7 @@ namespace Game1942
 
             mLivesRectangle = new Rectangle(169, 268, SHIPWIDTH, SHIPHEIGHT);
             playerAnimationPlayer.PlayAnimation(playerAnimation);
-            lives = 1;
+            lives = startLives;
             HP = 100;
             score = 0;
             playerSpeed = 2;
@@ -221,7 +221,7 @@ namespace Game1942
 
         public void ResetLives()
         {
-            lives = 3;
+            lives = startLives;
         }
 
         public int GetCurrentWeapon()
@@ -234,11 +234,11 @@ namespace Game1942
             currentWeapon = weapon;
         }
 
-        public void UpgradeWeapon()
+        public void UpgradeWeapon(int upgrade)
         {
-            if (currentWeapon < 6)
+            if (currentWeapon + upgrade < 6 && currentWeapon + upgrade > 0)
             {
-                currentWeapon += 1;
+                currentWeapon += upgrade;
             }
         }
     }
