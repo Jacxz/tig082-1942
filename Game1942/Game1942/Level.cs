@@ -22,7 +22,7 @@ namespace Game1942
     {
 
         private int NumOfEnemies, Amount, KindOfEnemy, xPos, yPos, powerUpType;
-        private float ElapsedTime, TestTime, xSpeed, ySpeed;
+        private float ElapsedTime, TestTime, xSpeed, ySpeed, delay;
         private List<Enemy> EnemyList;
         private Texture2D mTexture;
         private EnemyManager enemyManager;
@@ -138,6 +138,11 @@ namespace Game1942
                             KindOfEnemy = txtRead.ReadElementContentAsInt();
                             txtRead.Read();
                             Amount = txtRead.ReadElementContentAsInt();
+                            if (Amount > 1)
+                            {
+                                txtRead.Read();
+                                delay = txtRead.ReadElementContentAsFloat();
+                            }
                             txtRead.Read();
                             xSpeed = txtRead.ReadElementContentAsFloat();
                             txtRead.Read();
@@ -148,7 +153,14 @@ namespace Game1942
                             yPos = txtRead.ReadElementContentAsInt();
                             txtRead.Read();
                             powerUpType = txtRead.ReadElementContentAsInt();
-                            enemyManager.AddEnemy(KindOfEnemy, Amount, xSpeed, ySpeed, xPos, yPos, powerUpType);
+                            if (Amount > 1)
+                            {
+                                enemyManager.AddEnemy(KindOfEnemy, Amount, delay, xSpeed, ySpeed, xPos, yPos, powerUpType);
+                            }
+                            else
+                            {
+                                enemyManager.AddEnemy(KindOfEnemy, xSpeed, ySpeed, xPos, yPos, powerUpType);
+                            }
                         }
                         break;
                     }

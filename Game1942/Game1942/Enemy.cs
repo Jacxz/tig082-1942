@@ -270,7 +270,7 @@ namespace Game1942
 
         public int IsDead()
         {
-            if ((mHP <= 1) && !animationFlag)
+            if ((mHP < 1) && !animationFlag)
             {
                 return Score ;
             }
@@ -307,6 +307,11 @@ namespace Game1942
             return mPosition;
         }
 
+        public Vector2 GetSpeed()
+        {
+            return new Vector2(Xspeed, Yspeed);
+        }
+
         public void SetPlayerPosition(Vector2 pos)
         {
             mPlayerPosition = pos;
@@ -320,7 +325,7 @@ namespace Game1942
         private void DoChecks(GameTime gTime)
         {
             // Check if the Enemy is dead
-            if (mHP <= 1)
+            if (mHP < 1)
             {
                 // if dead load the explosion animation
                 animationFlag = true;

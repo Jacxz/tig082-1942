@@ -21,7 +21,7 @@ namespace Game1942
     public class Animation : Microsoft.Xna.Framework.GameComponent
     {
         private Texture2D texture;
-        private float frameTime, frameRotation;
+        private float frameTime, frameRotation, mRotation = 0;
         private bool isLooping;
         private int frameCount, frameWidth, frameHeight, startX, startY, dietype;
 
@@ -89,6 +89,16 @@ namespace Game1942
             get { return startX; }
         }
 
+        public float GetRotation
+        {
+            get { return mRotation; }
+        }
+
+        public void SetRotation(float newRotation)
+        {
+            mRotation = newRotation;
+        }
+        
         public int StartY
         {
             get { return startY; }

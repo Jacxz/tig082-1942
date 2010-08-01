@@ -32,16 +32,18 @@ namespace Game1942
         private int screenheight, screenwidth, oldLives;
         private ScrollingBackground currentBackground;
 
-        private float lTime, shootRate = 0.15f, timeOnLevel = 0;
+        private float weaponCycle1, weaponCycle2, shootRate1 = 0.15f, shootRate2 = 0.8f, timeOnLevel = 0, ePos, pPos;
 
         private WeaponManager weaponManager;
 	    private int score = 0;
-        private bool mGameOver = false;
+        private bool mGameOver = false, stillValid = true;
+        private Vector2 mePos, mpPos, mClosePos;
 
         //font
         private SpriteFont gameFont;
 
-        private List<Enemy> enemies = new List<Enemy>();
+        private List<Enemy> enemies = new List<Enemy>(), chosenTargets = new List<Enemy>();
+        private Enemy closestEnemy;
         private List<Weapon> bulletList = new List<Weapon>(), enemyBulletList = new List<Weapon>();
 
         private KeyboardState oldKeyboardState, keyboard;
@@ -120,7 +122,7 @@ namespace Game1942
 
             keyboard = Keyboard.GetState();
            
-            if (oldLives != player.GetLives())
+            if (oldLives > player.GetLives())
             {
                 ResetScene();
                 oldLives = player.GetLives();
@@ -132,8 +134,8 @@ namespace Game1942
                 mGameOver = true;
             }
 
-            // This checks all enemies and adds a powerup if the enemy has not yet created one
-            // also forwards the players position, so that enemies can shoot in its direction
+            
+            
             powerUpManager.Update(gameTime);
             enemies = level.GetCurrentEnemys();
             for (int x = 0; x < enemies.Count; x++)
@@ -142,15 +144,22 @@ namespace Game1942
                 {
                     SetGameOver();
                 }
-                enemies[x].SetPlayerPosition(player.getPosition());
-                if (enemies[x].GetIfPowerUpDropped())
+
+                if (enemies.Count > 0)
                 {
-                    if (!enemies[x].GetHasCreatedPowerUp())
+                    // forwards the players position, so that enemies can shoot in its direction
+                    enemies[x].SetPlayerPosition(player.getPosition());
+
+                    // This checks all enemies and adds a powerup if the enemy has not yet created one
+                    if (enemies[x].GetIfPowerUpDropped())
                     {
-                        enemies[x].SetHasCreatedPowerUp();
-                        if (enemies[x].GetPowerUpType() != 0)
+                        if (!enemies[x].GetHasCreatedPowerUp())
                         {
-                            powerUpManager.AddPowerUp(enemies[x].GetPowerUpType(), 0, 1, enemies[x].GetPosition());
+                            enemies[x].SetHasCreatedPowerUp();
+                            if (enemies[x].GetPowerUpType() != 0)
+                            {
+                                powerUpManager.AddPowerUp(enemies[x].GetPowerUpType(), 0, 1, enemies[x].GetPosition());
+                            }
                         }
                     }
                 }
@@ -207,14 +216,72 @@ namespace Game1942
 
         public void AddBullet(GameTime gTime)
         {
-            lTime += (float)gTime.ElapsedGameTime.TotalSeconds;
+            weaponCycle1 += (float)gTime.ElapsedGameTime.TotalSeconds;
+            weaponCycle2 += (float)gTime.ElapsedGameTime.TotalSeconds;
             if (keyboard.IsKeyDown(Keys.LeftControl) && !player.Killed)
             {
-                if (lTime > shootRate)
+                if (weaponCycle1 > shootRate1)
                 {
                     weaponManager.AddBullet(player.GetCurrentWeapon(), player.getPosition());
                     AudioManager.Effect("luger");
-                    lTime = 0;
+                    weaponCycle1 = 0;
+                }
+                if (weaponCycle2 > shootRate2)
+                {
+                    findClosestEnemies();
+                    if (closestEnemy != null)
+                    {
+                        for (int z = 0; z < Math.Max(chosenTargets.Count, player.GetCurrentMissiles()); z++)
+                        {
+                            weaponManager.AddBullet(50, player.getPosition(),
+                                new Vector2(closestEnemy.GetPosition().X, closestEnemy.GetPosition().Y),
+                                new Vector2(closestEnemy.GetSpeed().X, closestEnemy.GetSpeed().Y), gTime);
+                        }
+                    }
+                    weaponCycle2 = 0;
+                }
+            }
+        }
+
+        public void findClosestEnemies()
+        {
+            enemies = level.GetCurrentEnemys();
+            chosenTargets = new List<Enemy>();
+            closestEnemy = null;
+            for (int i = 0; i < player.GetCurrentMissiles(); i++)
+            {
+                for (int x = 0; x < enemies.Count; x++)
+                {
+                    if (closestEnemy != null)
+                    {
+                        mClosePos = closestEnemy.GetPosition();
+                        mpPos = player.getPosition();
+                        mpPos.Y -= 200; // favors targets slightly in front of the player
+                        mePos = enemies[x].GetPosition();
+                        if ((float)Math.Sqrt((mpPos.X - mePos.X) * (mpPos.X - mePos.X) + (mpPos.Y - mePos.Y) * (mpPos.Y - mePos.Y))
+                            <
+                            (float)Math.Sqrt((mpPos.X - mClosePos.X) * (mpPos.X - mClosePos.X) + (mpPos.Y - mClosePos.Y) * (mpPos.Y - mClosePos.Y)))
+                        {
+                            stillValid = true;
+                            for (int z = 0; z < chosenTargets.Count; z++)
+                            {
+                                if (mePos == chosenTargets[z].GetPosition())
+                                {
+                                    stillValid = false;
+                                }
+                            }
+                            if (stillValid)
+                            {
+                                closestEnemy = enemies[x];
+                                chosenTargets.Add(closestEnemy);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        closestEnemy = enemies[x];
+                        chosenTargets.Add(closestEnemy);
+                    }
                 }
             }
         }

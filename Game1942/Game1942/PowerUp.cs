@@ -79,6 +79,11 @@ namespace Game1942
             return used;
         }
 
+        public int GetType()
+        {
+            return mType;
+        }
+
         public void SetUsed()
         {
             used = true;
