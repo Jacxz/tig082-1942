@@ -100,7 +100,36 @@ namespace Game1942
                     //Game.Components.Remove(powerUps.ElementAt(x));
                     if (!powerUps[x].GetUsed())
                     {
-                        player.UpgradeWeapon(1);
+                        if (powerUps[x].GetType() == 11)
+                        {
+                            // upgrades weapon type by amount
+                            player.UpgradeWeapon(1);
+                        }
+                        if (powerUps[x].GetType() == 14)
+                        {
+                            // adds lives by amount
+                            player.AddLives(1);
+                        }
+                        if (powerUps[x].GetType() == 15)
+                        {
+                            // adds speed by amount, base speed is 2
+                            player.AddSpeed(0.3f);
+                        }
+                        if (powerUps[x].GetType() == 16)
+                        {
+                            // refills health to maxHP
+                            player.FillHealth();
+                        }
+                        if (powerUps[x].GetType() == 17)
+                        {
+                            // increases current and max health by amount
+                            player.IncreaseHP(10);
+                        }
+                        if (powerUps[x].GetType() == 18)
+                        {
+                            // increases current and max health by amount
+                            player.AddMissiles(1);
+                        }
                         powerUps[x].SetUsed();
                     }
                 }

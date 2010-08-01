@@ -83,19 +83,30 @@ namespace Game1942
             }
         }
 
-        public void AddEnemy(int type, int amount, float xSpeed, float ySpeed, int xPos, int yPos, int powerUpType)
+        public void AddEnemy(int type, int amount, float delay, float xSpeed, float ySpeed, int xPos, int yPos, int powerUpType)
         {
             
             // read and set the variables from the xml with the type variabel as a identifier.
             ReadXML(type);
             for (int x = 0; x < amount; x++)
             {
-                mEnemy = new Enemy(Game, mTexture, mHP, type, xSpeed, ySpeed, xPos, yPos, powerUpType, score);
+                // creates #amount of enemies with #delay seconds delay, for now, just places them further out of the sreen
+                mEnemy = new Enemy(Game, mTexture, mHP, type, xSpeed, ySpeed,
+                    (int)(xPos - xSpeed * x * 60 * delay), (int)(yPos - ySpeed * x * 60 * delay), powerUpType, score);
                 mEnemyList.Add(mEnemy);
                 Game.Components.Add(mEnemy);
             }
         }
 
+        public void AddEnemy(int type, float xSpeed, float ySpeed, int xPos, int yPos, int powerUpType)
+        {
+
+            // read and set the variables from the xml with the type variabel as a identifier.
+            ReadXML(type);
+            mEnemy = new Enemy(Game, mTexture, mHP, type, xSpeed, ySpeed, xPos, yPos, powerUpType, score);
+            mEnemyList.Add(mEnemy);
+            Game.Components.Add(mEnemy);
+        }
         
 
         public List<Enemy> GetEnemyList()

@@ -34,7 +34,7 @@ namespace Game1942
         private AnimationPlayer playerAnimationPlayer;
         private bool killed;
         SpriteFont font;
-        private int lives, HP, score, currentWeapon, startLives = 1;
+        private int lives, HP, score, currentWeapon, currentMissiles = 1, startLives = 1, maxHP = 100;
         private float lTime, playerSpeed;
 
         public Player(Game game, ref Texture2D theTexture)
@@ -52,7 +52,7 @@ namespace Game1942
             mLivesRectangle = new Rectangle(169, 268, SHIPWIDTH, SHIPHEIGHT);
             playerAnimationPlayer.PlayAnimation(playerAnimation);
             lives = startLives;
-            HP = 100;
+            HP = maxHP;
             score = 0;
             playerSpeed = 2;
             currentWeapon = 1;
@@ -219,6 +219,27 @@ namespace Game1942
             return lives;
         }
 
+        public void AddLives(int addLives)
+        {
+            lives += addLives;
+        }
+
+        public void AddSpeed(float addSpeed)
+        {
+            playerSpeed += addSpeed;
+        }
+
+        public void FillHealth()
+        {
+            HP = maxHP;
+        }
+
+        public void IncreaseHP(int increase)
+        {
+            maxHP += increase;
+            HP += increase;
+        }
+
         public void ResetLives()
         {
             lives = startLives;
@@ -227,6 +248,11 @@ namespace Game1942
         public int GetCurrentWeapon()
         {
             return currentWeapon;
+        }
+
+        public int GetCurrentMissiles()
+        {
+            return currentMissiles;
         }
 
         public void SetCurrentWeapon(int weapon)
@@ -239,6 +265,14 @@ namespace Game1942
             if (currentWeapon + upgrade < 6 && currentWeapon + upgrade > 0)
             {
                 currentWeapon += upgrade;
+            }
+        }
+
+        public void AddMissiles(int upgrade)
+        {
+            if (currentMissiles + upgrade < 4 && currentMissiles + upgrade > 0)
+            {
+                currentMissiles += upgrade;
             }
         }
     }

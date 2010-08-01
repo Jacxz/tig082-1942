@@ -20,12 +20,15 @@ namespace Game1942
     {
         protected Texture2D mTexture;
         protected Rectangle mSpriteRectangle;
-        public Vector2 mPosition, mMovement, initPos;
+        public Vector2 mPosition, mMovement, initPos, mTargetPosition, mTargetSpeed;
 
         protected SpriteBatch mSpriteBatch;
-        private int dmg;
+        private AnimationPlayer AnimationPlayer;
+        private Animation WeaponAnimation;
+        private GameTime gTime;
+        private int dmg, movementType; // 0=only y axis, 1=normal movement, 2=sinus movement in X-axis, 3=seeking missile
 
-        private float xBoundary, xSpeed;
+        private float xBoundary, xSpeed, mBaseSpeed, chaseTime = 0;
         private bool xMovement = true;
 
         // constructor for weapons with only Y-axis movement
@@ -35,6 +38,7 @@ namespace Game1942
         {
             mTexture = theTexture;
             mPosition = newPosition;
+            movementType = 0;
 
             mSpriteRectangle = new Rectangle((int)texturePos.X, (int)texturePos.Y, width, height);
             mMovement = new Vector2(0, y);
@@ -51,6 +55,7 @@ namespace Game1942
             mTexture = theTexture;
             mPosition = newPosition;
             initPos = mPosition;
+            movementType = 1;
 
             mSpriteRectangle = new Rectangle((int)texturePos.X, (int)texturePos.Y, width, height);
             mMovement = movement;
@@ -71,6 +76,7 @@ namespace Game1942
             mTexture = theTexture;
             mPosition = newPosition;
             initPos = mPosition;
+            movementType = 2;
             this.xBoundary = xBoundary;
 
             mSpriteRectangle = new Rectangle((int)texturePos.X, (int)texturePos.Y, width, height);
@@ -79,6 +85,33 @@ namespace Game1942
 
             xSpeed = (float)Math.Sin(sinValue);
             
+            mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
+        }
+
+        // constructor for seeking missiles
+        public Weapon(Game game, ref Texture2D theTexture, Vector2 newPosition,
+            Vector2 texturePos, int animationType, int width, int height, float y, int dmg,
+            Vector2 targetPosition, Vector2 targetSpeed, GameTime gTime)
+            : base(game)
+        {
+            mTexture = theTexture;
+            mPosition = newPosition;
+            mTargetPosition = targetPosition;
+            mTargetSpeed = targetSpeed;
+            movementType = 3;
+            this.gTime = gTime;
+
+            // creates the animationplayer
+            AnimationPlayer = new AnimationPlayer(game);
+            // creates the animations
+            WeaponAnimation = new Animation(game, theTexture, animationType);
+            AnimationPlayer.PlayAnimation(WeaponAnimation);
+
+            mSpriteRectangle = new Rectangle((int)texturePos.X, (int)texturePos.Y, width, height);
+            mBaseSpeed = y;
+            mMovement = new Vector2(0, -y);
+            this.dmg = dmg;
+
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
         }
 
@@ -93,9 +126,16 @@ namespace Game1942
 
         public override void Draw(GameTime gameTime)
         {
-            mSpriteBatch.Begin();
-            mSpriteBatch.Draw(mTexture, mPosition, mSpriteRectangle, Color.White);
-            mSpriteBatch.End();
+            if (movementType != 3)
+            {
+                mSpriteBatch.Begin();
+                mSpriteBatch.Draw(mTexture, mPosition, mSpriteRectangle, Color.White);
+                mSpriteBatch.End();
+            }
+            else
+            {
+                AnimationPlayer.Draw(gameTime, mSpriteBatch, mPosition);
+            }
             base.Draw(gameTime);
         }
 
@@ -105,19 +145,54 @@ namespace Game1942
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            if (xMovement)
+            switch (movementType)
             {
-                mPosition.X += mMovement.X * xSpeed;
-                if (mPosition.X > initPos.X + xBoundary || mPosition.X < initPos.X - xBoundary)
-                    xMovement = false;
+                case 0:
+                    mPosition.Y += mMovement.Y;
+                    break;
+                case 1:
+                    mPosition.Y += mMovement.Y;
+                    mPosition.X += mMovement.X;
+                    break;
+                case 2:
+                    if (xMovement)
+                    {
+                        mPosition.X += mMovement.X * xSpeed;
+                        if (mPosition.X > initPos.X + xBoundary || mPosition.X < initPos.X - xBoundary)
+                            xMovement = false;
+                    }
+                    else if (!xMovement)
+                    {
+                        mPosition.X -= mMovement.X * xSpeed;
+                        if (mPosition.X > initPos.X + xBoundary || mPosition.X < initPos.X - xBoundary)
+                            xMovement = true;
+                    }
+                    mPosition.Y += mMovement.Y;
+                    break;
+                case 3:
+                    mTargetPosition += mTargetSpeed;
+                    chaseTime += (float)gTime.ElapsedGameTime.TotalSeconds;
+                    if (chaseTime < 1)
+                    {
+                        mMovement.X += 0.8f * ((mTargetPosition.X - mPosition.X) / (float)Math.Sqrt((mTargetPosition.X - mPosition.X) *
+                            (mTargetPosition.X - mPosition.X) + (mTargetPosition.Y - mPosition.Y) * (mTargetPosition.Y - mPosition.Y)));
+                        mMovement.Y += 0.8f * ((mTargetPosition.Y - mPosition.Y) / (float)Math.Sqrt((mTargetPosition.X - mPosition.X) *
+                            (mTargetPosition.X - mPosition.X) + (mTargetPosition.Y - mPosition.Y) * (mTargetPosition.Y - mPosition.Y)));
+                        mMovement.X = mMovement.X * mBaseSpeed / (float)Math.Sqrt((mMovement.X * mMovement.X) + (mMovement.Y * mMovement.Y));
+                        mMovement.Y = mMovement.Y * mBaseSpeed / (float)Math.Sqrt((mMovement.X * mMovement.X) + (mMovement.Y * mMovement.Y));
+                        if (mMovement.X > 1)
+                        {
+                            WeaponAnimation.SetRotation((float)Math.Atan(mMovement.Y / mMovement.X) + 1.5f);
+                        }
+                        else
+                        {
+                            WeaponAnimation.SetRotation((float)Math.Atan(mMovement.Y / mMovement.X) + 4.7f);
+                        }
+                    }
+                    mPosition.X += mMovement.X;
+                    mPosition.Y += mMovement.Y;
+                    break;
             }
-            else if (!xMovement)
-            {
-                mPosition.X -= mMovement.X * xSpeed;
-                if (mPosition.X > initPos.X + xBoundary || mPosition.X < initPos.X - xBoundary)
-                    xMovement = true;
-            }
-            mPosition.Y += mMovement.Y;
             base.Update(gameTime);
         }
 

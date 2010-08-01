@@ -65,7 +65,7 @@ namespace Game1942
             switch (type)
             {
                 case 1: // one single bullet straight doing 5dmg
-                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2( position.X + 11, position.Y - 16 ), new Vector2(48, 176), 9, 20, -4f, 5));
+                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 11, position.Y - 16), new Vector2(48, 176), 9, 20, -4f, 5));
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
                     break;
                 case 2: // one single bullet straight with 10dmg using a texture visually displaying two bullets.
@@ -183,6 +183,20 @@ namespace Game1942
                         new Vector2(ePos.X, ePos.Y),
                         new Vector2(86, 216), 7, 7,
                         new Vector2(xValue * weaponSpeed, yValue * weaponSpeed), weaponDmg));
+                    Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
+                    break;
+            }
+        }
+        
+        // Adds a missile targeted at a enemy
+        // @position: the position of the ship that shoots
+        public void AddBullet(int type, Vector2 pPos, Vector2 ePos, Vector2 eSpeed, GameTime gTime)
+        {
+            switch (type)
+            {
+                case 50: // seeking missile from player to enemy
+                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(pPos.X + 11, pPos.Y - 16),
+                        new Vector2(4, 532), 18, 12, 30, 8f, 20, ePos, eSpeed, gTime));
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
                     break;
             }

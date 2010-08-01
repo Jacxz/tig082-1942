@@ -4,74 +4,22 @@
     <time>2</time>
     <numberofenemys>2</numberofenemys>
     <enemykind>1</enemykind>
-    <amount>1</amount>
+    <amount>5</amount>
+    <delay>0.8</delay>
     <xspeed>0.5</xspeed>
     <yspeed>1</yspeed>
     <xpos>200</xpos>
     <ypos>-20</ypos>
     <powerup>0</powerup>
     <enemykind>1</enemykind>
-    <amount>1</amount>
+    <amount>5</amount>
+    <delay>0.8</delay>
     <xspeed>-0.5</xspeed>
     <yspeed>1</yspeed>
     <xpos>570</xpos>
     <ypos>-20</ypos>
     <powerup>0</powerup>
-  </phase>
-  <phase>
-    <time>3</time>
-    <numberofenemys>2</numberofenemys>
-    <enemykind>1</enemykind>
-    <amount>1</amount>
-    <xspeed>0.5</xspeed>
-    <yspeed>1</yspeed>
-    <xpos>200</xpos>
-    <ypos>-20</ypos>
-    <powerup>0</powerup>
-    <enemykind>1</enemykind>
-    <amount>1</amount>
-    <xspeed>-0.5</xspeed>
-    <yspeed>1</yspeed>
-    <xpos>570</xpos>
-    <ypos>-20</ypos>
-    <powerup>0</powerup>
-  </phase>
-  <phase>
-    <time>4</time>
-    <numberofenemys>2</numberofenemys>
-    <enemykind>1</enemykind>
-    <amount>1</amount>
-    <xspeed>0.5</xspeed>
-    <yspeed>1</yspeed>
-    <xpos>200</xpos>
-    <ypos>-20</ypos>
-    <powerup>0</powerup>
-    <enemykind>1</enemykind>
-    <amount>1</amount>
-    <xspeed>-0.5</xspeed>
-    <yspeed>1</yspeed>
-    <xpos>570</xpos>
-    <ypos>-20</ypos>
-    <powerup>0</powerup>
-  </phase>
-  <phase>
-    <time>5</time>
-    <numberofenemys>2</numberofenemys>
-    <enemykind>1</enemykind>
-    <amount>1</amount>
-    <xspeed>0.5</xspeed>
-    <yspeed>1</yspeed>
-    <xpos>200</xpos>
-    <ypos>-20</ypos>
-    <powerup>0</powerup>
-    <enemykind>1</enemykind>
-    <amount>1</amount>
-    <xspeed>-0.5</xspeed>
-    <yspeed>1</yspeed>
-    <xpos>570</xpos>
-    <ypos>-20</ypos>
-    <powerup>0</powerup>
-  </phase>
+</phase>
   <phase>
     <time>8</time>
     <numberofenemys>1</numberofenemys>
@@ -92,7 +40,7 @@
     <yspeed>1</yspeed>
     <xpos>470</xpos>
     <ypos>-20</ypos>
-    <powerup>11</powerup>
+    <powerup>17</powerup>
   </phase>
   <phase>
     <time>13</time>
@@ -103,7 +51,7 @@
     <yspeed>0.8</yspeed>
     <xpos>800</xpos>
     <ypos>40</ypos>
-    <powerup>11</powerup>
+    <powerup>15</powerup>
   </phase>
   <phase>
     <time>14</time>
@@ -114,7 +62,7 @@
     <yspeed>1</yspeed>
     <xpos>150</xpos>
     <ypos>-20</ypos>
-    <powerup>11</powerup>
+    <powerup>16</powerup>
   </phase>
   <phase>
     <time>20</time>
@@ -132,7 +80,7 @@
     <yspeed>1</yspeed>
     <xpos>600</xpos>
     <ypos>-20</ypos>
-    <powerup>0</powerup>
+    <powerup>16</powerup>
   </phase>
   <phase>
     <time>24</time>
@@ -143,7 +91,7 @@
     <yspeed>1.5</yspeed>
     <xpos>50</xpos>
     <ypos>-20</ypos>
-    <powerup>0</powerup>
+    <powerup>11</powerup>
     <enemykind>2</enemykind>
     <amount>1</amount>
     <xspeed>-0.3</xspeed>
@@ -182,7 +130,7 @@
     <yspeed>1.5</yspeed>
     <xpos>680</xpos>
     <ypos>-20</ypos>
-    <powerup>0</powerup>
+    <powerup>15</powerup>
     <enemykind>2</enemykind>
     <amount>1</amount>
     <xspeed>1.4</xspeed>
@@ -221,7 +169,7 @@
     <yspeed>0.9</yspeed>
     <xpos>-20</xpos>
     <ypos>130</ypos>
-    <powerup>0</powerup>
+    <powerup>16</powerup>
     <enemykind>2</enemykind>
     <amount>1</amount>
     <xspeed>-1.3</xspeed>
@@ -260,7 +208,7 @@
     <yspeed>1.1</yspeed>
     <xpos>800</xpos>
     <ypos>170</ypos>
-    <powerup>0</powerup>
+    <powerup>11</powerup>
   </phase>
   <phase>
     <time>31</time>
@@ -271,7 +219,7 @@
     <yspeed>1</yspeed>
     <xpos>20</xpos>
     <ypos>-30</ypos>
-    <powerup>11</powerup>
+    <powerup>14</powerup>
   </phase>
   <phase>
     <time>32</time>
@@ -282,7 +230,7 @@
     <yspeed>1</yspeed>
     <xpos>600</xpos>
     <ypos>-30</ypos>
-    <powerup>0</powerup>
+    <powerup>11</powerup>
   </phase>
   <phase>
     <time>33</time>
@@ -293,10 +241,21 @@
     <yspeed>1</yspeed>
     <xpos>400</xpos>
     <ypos>-20</ypos>
-    <powerup>11</powerup>
+    <powerup>17</powerup>
   </phase>
   <phase>
-    <time>42</time>
+    <time>34</time>
+    <numberofenemys>1</numberofenemys>
+    <enemykind>8</enemykind>
+    <amount>1</amount>
+    <xspeed>0.4</xspeed>
+    <yspeed>1</yspeed>
+    <xpos>300</xpos>
+    <ypos>-20</ypos>
+    <powerup>16</powerup>
+  </phase>
+  <phase>
+    <time>44</time>
     <numberofenemys>1</numberofenemys>
     <enemykind>10</enemykind>
     <amount>1</amount>
