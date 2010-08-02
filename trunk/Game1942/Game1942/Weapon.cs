@@ -28,8 +28,8 @@ namespace Game1942
         private GameTime gTime;
         private int dmg, movementType; // 0=only y axis, 1=normal movement, 2=sinus movement in X-axis, 3=seeking missile
 
-        private float xBoundary, xSpeed, mBaseSpeed, chaseTime = 0;
-        private bool xMovement = true;
+        private float xBoundary, xSpeed, mBaseSpeed, chaseTime = 0, distanseToTarget;
+        private bool xMovement = true, foundTarget = false;
 
         // constructor for weapons with only Y-axis movement
         public Weapon(Game game, ref Texture2D theTexture, Vector2 newPosition,
@@ -90,14 +90,14 @@ namespace Game1942
 
         // constructor for seeking missiles
         public Weapon(Game game, ref Texture2D theTexture, Vector2 newPosition,
-            Vector2 texturePos, int animationType, int width, int height, float y, int dmg,
+            Vector2 texturePos, int animationType, int width, int height, float baseSpeed, int dmg,
             Vector2 targetPosition, Vector2 targetSpeed, GameTime gTime)
             : base(game)
         {
             mTexture = theTexture;
             mPosition = newPosition;
-            mTargetPosition = targetPosition;
             mTargetSpeed = targetSpeed;
+            mTargetPosition = targetPosition + targetSpeed * 2; //targets slightly in fron of the target for a better hit
             movementType = 3;
             this.gTime = gTime;
 
@@ -108,8 +108,8 @@ namespace Game1942
             AnimationPlayer.PlayAnimation(WeaponAnimation);
 
             mSpriteRectangle = new Rectangle((int)texturePos.X, (int)texturePos.Y, width, height);
-            mBaseSpeed = y;
-            mMovement = new Vector2(0, -y);
+            mBaseSpeed = baseSpeed;
+            mMovement = new Vector2(0, -baseSpeed);
             this.dmg = dmg;
 
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
@@ -172,22 +172,24 @@ namespace Game1942
                 case 3:
                     mTargetPosition += mTargetSpeed;
                     chaseTime += (float)gTime.ElapsedGameTime.TotalSeconds;
-                    if (chaseTime < 1)
+                    distanseToTarget = (float)Math.Sqrt((mTargetPosition.X - mPosition.X) *
+                                    (mTargetPosition.X - mPosition.X) + (mTargetPosition.Y - mPosition.Y) * (mTargetPosition.Y - mPosition.Y));
+                    if (distanseToTarget < 50)
                     {
-                        mMovement.X += 0.8f * ((mTargetPosition.X - mPosition.X) / (float)Math.Sqrt((mTargetPosition.X - mPosition.X) *
+                        foundTarget = true;
+                    }
+                    // below is the acceleration of the missile towards its target
+                    if (!foundTarget)
+                    {
+                        mMovement.X += 1.5f * ((mTargetPosition.X - mPosition.X) / (float)Math.Sqrt((mTargetPosition.X - mPosition.X) *
                             (mTargetPosition.X - mPosition.X) + (mTargetPosition.Y - mPosition.Y) * (mTargetPosition.Y - mPosition.Y)));
-                        mMovement.Y += 0.8f * ((mTargetPosition.Y - mPosition.Y) / (float)Math.Sqrt((mTargetPosition.X - mPosition.X) *
+                        mMovement.Y += 1.5f * ((mTargetPosition.Y - mPosition.Y) / (float)Math.Sqrt((mTargetPosition.X - mPosition.X) *
                             (mTargetPosition.X - mPosition.X) + (mTargetPosition.Y - mPosition.Y) * (mTargetPosition.Y - mPosition.Y)));
                         mMovement.X = mMovement.X * mBaseSpeed / (float)Math.Sqrt((mMovement.X * mMovement.X) + (mMovement.Y * mMovement.Y));
                         mMovement.Y = mMovement.Y * mBaseSpeed / (float)Math.Sqrt((mMovement.X * mMovement.X) + (mMovement.Y * mMovement.Y));
-                        if (mMovement.X > 1)
-                        {
-                            WeaponAnimation.SetRotation((float)Math.Atan(mMovement.Y / mMovement.X) + 1.5f);
-                        }
-                        else
-                        {
-                            WeaponAnimation.SetRotation((float)Math.Atan(mMovement.Y / mMovement.X) + 4.7f);
-                        }
+                        
+                        WeaponAnimation.SetRotation((float)Math.Atan2(mMovement.Y, mMovement.X) + 1.5f);
+                        
                     }
                     mPosition.X += mMovement.X;
                     mPosition.Y += mMovement.Y;

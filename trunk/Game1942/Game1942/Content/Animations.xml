@@ -216,4 +216,16 @@
     <posX>4</posX>
     <posY>532</posY>
   </Animations>
+  <Animations>
+    <type>19</type>
+    <rotation>0</rotation>
+    <frametime>0.1</frametime>
+    <framecount>1</framecount>
+    <dieAnimation>0</dieAnimation>
+    <loop>false</loop>
+    <width>22</width>
+    <height>32</height>
+    <posX>76</posX>
+    <posY>268</posY>
+  </Animations>
 </XnaContent>

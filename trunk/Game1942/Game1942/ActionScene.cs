@@ -32,7 +32,7 @@ namespace Game1942
         private int screenheight, screenwidth, oldLives;
         private ScrollingBackground currentBackground;
 
-        private float weaponCycle1, weaponCycle2, shootRate1 = 0.15f, shootRate2 = 0.8f, timeOnLevel = 0, ePos, pPos;
+        private float weaponCycle1, weaponCycle2, shootRate1 = 0.15f, shootRate2 = 1.5f, timeOnLevel = 0, ePos, pPos;
 
         private WeaponManager weaponManager;
 	    private int score = 0;
@@ -229,13 +229,11 @@ namespace Game1942
                 if (weaponCycle2 > shootRate2)
                 {
                     findClosestEnemies();
-                    if (closestEnemy != null)
+                    if (chosenTargets.Count > 0)
                     {
-                        for (int z = 0; z < Math.Max(chosenTargets.Count, player.GetCurrentMissiles()); z++)
+                        for (int z = 0; z < Math.Min(chosenTargets.Count, player.GetCurrentMissiles()); z++)
                         {
-                            weaponManager.AddBullet(50, player.getPosition(),
-                                new Vector2(closestEnemy.GetPosition().X, closestEnemy.GetPosition().Y),
-                                new Vector2(closestEnemy.GetSpeed().X, closestEnemy.GetSpeed().Y), gTime);
+                            weaponManager.AddBullet(50, player.getPosition(), chosenTargets[z].GetMiddlePosition(), closestEnemy.GetSpeed(), gTime);
                         }
                     }
                     weaponCycle2 = 0;
@@ -254,7 +252,7 @@ namespace Game1942
                 {
                     if (closestEnemy != null)
                     {
-                        mClosePos = closestEnemy.GetPosition();
+                        mClosePos = closestEnemy.GetMiddlePosition();
                         mpPos = player.getPosition();
                         mpPos.Y -= 200; // favors targets slightly in front of the player
                         mePos = enemies[x].GetPosition();

@@ -196,7 +196,7 @@ namespace Game1942
             {
                 case 50: // seeking missile from player to enemy
                     weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(pPos.X + 11, pPos.Y - 16),
-                        new Vector2(4, 532), 18, 12, 30, 8f, 20, ePos, eSpeed, gTime));
+                        new Vector2(4, 532), 18, 12, 30, 6f, 15, ePos, eSpeed, gTime));
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
                     break;
             }

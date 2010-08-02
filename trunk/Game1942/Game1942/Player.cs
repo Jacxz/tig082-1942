@@ -34,7 +34,7 @@ namespace Game1942
         private AnimationPlayer playerAnimationPlayer;
         private bool killed;
         SpriteFont font;
-        private int lives, HP, score, currentWeapon, currentMissiles = 1, startLives = 1, maxHP = 100;
+        private int lives, HP, score, currentWeapon, currentMissiles, startLives, maxHP;
         private float lTime, playerSpeed;
 
         public Player(Game game, ref Texture2D theTexture)
@@ -51,11 +51,14 @@ namespace Game1942
 
             mLivesRectangle = new Rectangle(169, 268, SHIPWIDTH, SHIPHEIGHT);
             playerAnimationPlayer.PlayAnimation(playerAnimation);
+            startLives = 1;
             lives = startLives;
+            maxHP = 1000;
             HP = maxHP;
             score = 0;
             playerSpeed = 2;
             currentWeapon = 1;
+            currentMissiles = 0;
            
             mScreenBounds = new Rectangle(0, 0, Game.Window.ClientBounds.Width, Game.Window.ClientBounds.Height);
 
