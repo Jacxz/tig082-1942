@@ -307,8 +307,17 @@ namespace Game1942
             return mPosition;
         }
 
+        public Vector2 GetMiddlePosition()
+        {
+            return mPosition + new Vector2 (EnemyAnimation.FrameWidth / 2, EnemyAnimation.FrameHeight / 2);
+        }
+
         public Vector2 GetSpeed()
         {
+            if (mType == 10)
+            {
+                return new Vector2((float)(300.0f * Math.Sin((moveTime + (1000/60)) / 2200.0f)) - (float)(300.0f * Math.Sin(moveTime / 2200.0f)), 0);
+            }
             return new Vector2(Xspeed, Yspeed);
         }
 

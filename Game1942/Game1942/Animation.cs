@@ -81,7 +81,7 @@ namespace Game1942
         /// </summary>
         public int FrameHeight
         {
-            get { return frameWidth; }
+            get { return frameHeight; }
         }
 
         public int StartX

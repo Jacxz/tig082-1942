@@ -103,7 +103,20 @@ namespace Game1942
             // Draw the red bounding box
             // spriteBatch.Draw(mCurrentAnimation.Texture, position, new Rectangle(697, 203, mCurrentAnimation.FrameHeight, mCurrentAnimation.FrameWidth), Color.White);
             // Draw the current frame.
-            spriteBatch.Draw(mCurrentAnimation.Texture, position, source, Color.White, mCurrentAnimation.GetRotation, new Vector2(0, 0), new Vector2(1, 1), mCurrentAnimation.getEffect(), 1.0f);
+            /*
+            if (mCurrentAnimation.GetRotation != 0)
+            {
+                position.X += (float)Math.Cos(mCurrentAnimation.GetRotation + Math.PI * 0.75) * mCurrentAnimation.FrameWidth;
+                position.Y += (float)Math.Sin(mCurrentAnimation.GetRotation) * mCurrentAnimation.FrameHeight;
+                spriteBatch.Draw(mCurrentAnimation.Texture, position, source, Color.White, mCurrentAnimation.GetRotation, 
+                    new Vector2(0, 0), new Vector2(1, 1), mCurrentAnimation.getEffect(), 1.0f);
+            }
+            else
+            {*/
+                spriteBatch.Draw(mCurrentAnimation.Texture, position, source, Color.White, mCurrentAnimation.GetRotation, 
+                    new Vector2(0, 0), new Vector2(1, 1), mCurrentAnimation.getEffect(), 1.0f);
+
+            //}
             spriteBatch.End();
         }
     }

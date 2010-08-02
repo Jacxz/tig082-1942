@@ -26,6 +26,7 @@ namespace Game1942
         private List<Enemy> EnemyList;
         private Texture2D mTexture;
         private EnemyManager enemyManager;
+        private bool gamePaused = false;
     
         float currentTimeInXML;
 
@@ -56,7 +57,10 @@ namespace Game1942
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            ElapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (!gamePaused)
+            {
+                ElapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
             ReadXML(ElapsedTime);
             if (ElapsedTime < 0)
             {

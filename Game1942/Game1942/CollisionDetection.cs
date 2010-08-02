@@ -125,9 +125,9 @@ namespace Game1942
                             // increases current and max health by amount
                             player.IncreaseHP(10);
                         }
-                        if (powerUps[x].GetType() == 18)
+                        if (powerUps[x].GetType() == 19)
                         {
-                            // increases current and max health by amount
+                            // adds one more missile
                             player.AddMissiles(1);
                         }
                         powerUps[x].SetUsed();
