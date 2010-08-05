@@ -44,7 +44,8 @@ namespace Game1942
             {
                 for (int y = 0; y <= enemies.Count - 1; y++)
                 {
-                    if (enemies[y].checkCollision(bulletList[x].GetBounds()))
+                    //checks for hits and if the enemy is dead the bullets dont hit no more.
+                    if (enemies[y].checkCollision(bulletList[x].GetBounds()) && !enemies[y].GetIsDead())
                     {
                         enemies[y].isHit(bulletList[x].GetDmg());
                         bulletList[x].mPosition.Y = -100;
