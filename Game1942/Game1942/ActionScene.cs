@@ -32,10 +32,9 @@ namespace Game1942
         private int screenheight, screenwidth, oldLives;
         private ScrollingBackground currentBackground;
 
-        private float weaponCycle1, weaponCycle2, shootRate1 = 0.15f, shootRate2 = 1.5f, timeOnLevel = 0, ePos, pPos;
+        private float weaponCycle1, weaponCycle2, shootRate1 = 0.15f, shootRate2 = 1.8f, timeOnLevel = 0;
 
         private WeaponManager weaponManager;
-	    private int score = 0;
         private bool mGameOver = false, stillValid = true;
         private Vector2 mePos, mpPos, mClosePos;
 
@@ -119,6 +118,7 @@ namespace Game1942
             weaponManager.Update(gameTime);
             AddBullet(gameTime);
             currentBackground.Update(gameTime);
+            level.Update(gameTime);
 
             keyboard = Keyboard.GetState();
            
@@ -158,7 +158,7 @@ namespace Game1942
                             enemies[x].SetHasCreatedPowerUp();
                             if (enemies[x].GetPowerUpType() != 0)
                             {
-                                powerUpManager.AddPowerUp(enemies[x].GetPowerUpType(), 0, 1, enemies[x].GetPosition());
+                                powerUpManager.AddPowerUp(enemies[x].GetPowerUpType(), 0, 1, enemies[x].GetMiddlePosition() - new Vector2(13,13));
                             }
                         }
                     }
@@ -205,11 +205,13 @@ namespace Game1942
             mSpriteBatch.Begin();
 
             currentBackground.Draw(mSpriteBatch);
-                mSpriteBatch.DrawString(gameFont, "Player Score: " + collisionDetection.GetScore() +
-                    "\nActionScene EnemyCounts: " + level.GetCurrentEnemys().Count +
-                    "\nBullet count: " + weaponManager.GetWeaponList().Count +
-                    "\nCurrent Weapon: " + player.GetCurrentWeapon() +
-                    "\nLevel Time: " + (int)level.GetTime(), new Vector2(15, 15), Color.White, 0, new Vector2(0,0), 0.5f, SpriteEffects.None, 0);
+            level.DrawIslands(gameTime, mSpriteBatch);
+            mSpriteBatch.DrawString(gameFont, "Player Score: " + collisionDetection.GetScore() +
+                "\nActionScene EnemyCounts: " + level.GetCurrentEnemys().Count +
+                "\nBullet count: " + weaponManager.GetWeaponList().Count +
+                "\nCurrent Weapon: " + player.GetCurrentWeapon() +
+                "\nCurrent Missiles: " + player.GetCurrentMissiles() +
+                "\nLevel Time: " + (int)level.GetTime(), new Vector2(15, 15), Color.White, 0, new Vector2(0, 0), 0.5f, SpriteEffects.None, 0);
             mSpriteBatch.End();
             base.Draw(gameTime);
         }
@@ -255,7 +257,7 @@ namespace Game1942
                         mClosePos = closestEnemy.GetMiddlePosition();
                         mpPos = player.getPosition();
                         mpPos.Y -= 200; // favors targets slightly in front of the player
-                        mePos = enemies[x].GetPosition();
+                        mePos = enemies[x].GetMiddlePosition();
                         if ((float)Math.Sqrt((mpPos.X - mePos.X) * (mpPos.X - mePos.X) + (mpPos.Y - mePos.Y) * (mpPos.Y - mePos.Y))
                             <
                             (float)Math.Sqrt((mpPos.X - mClosePos.X) * (mpPos.X - mClosePos.X) + (mpPos.Y - mClosePos.Y) * (mpPos.Y - mClosePos.Y)))

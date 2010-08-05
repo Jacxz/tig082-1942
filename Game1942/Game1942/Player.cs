@@ -53,7 +53,7 @@ namespace Game1942
             playerAnimationPlayer.PlayAnimation(playerAnimation);
             startLives = 1;
             lives = startLives;
-            maxHP = 1000;
+            maxHP = 100;
             HP = maxHP;
             score = 0;
             playerSpeed = 2;

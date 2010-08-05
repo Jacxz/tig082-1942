@@ -137,7 +137,7 @@ namespace Game1942
         {
             set { mHP = value; }
         }
-        
+        // .X
         // reads from XML File
         public void ReadXML(int type)
         {

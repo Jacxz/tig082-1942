@@ -89,6 +89,8 @@
     <Compile Include="Animation.cs" />
     <Compile Include="AudioManager.cs" />
     <Compile Include="CollisionDetection.cs" />
+    <Compile Include="IslandManager.cs" />
+    <Compile Include="Island.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="PowerUp.cs" />
     <Compile Include="PowerUpManager.cs" />
