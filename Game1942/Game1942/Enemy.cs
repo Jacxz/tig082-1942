@@ -273,6 +273,7 @@ namespace Game1942
 
         public int IsDead()
         {
+            //this if shouldent be nessecery, I added a if statement in CollisionDetection instead(in CheckPlayerBulletVSEnemy).
             if ((mHP < 1) && !animationFlag)
             {
                 return Score ;
