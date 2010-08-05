@@ -97,26 +97,16 @@ namespace Game1942
            
             
             // Calculate the source rectangle of the current frame.
-            Rectangle source = new Rectangle(FrameIndex * (mCurrentAnimation.FrameWidth+1) + mCurrentAnimation.StartX , mCurrentAnimation.StartY, mCurrentAnimation.FrameHeight, mCurrentAnimation.FrameWidth);
+            Rectangle source = new Rectangle(FrameIndex * (mCurrentAnimation.FrameWidth + 1) + mCurrentAnimation.StartX, mCurrentAnimation.StartY, mCurrentAnimation.FrameWidth, mCurrentAnimation.FrameHeight);
             spriteBatch.Begin();          
             
             // Draw the red bounding box
             // spriteBatch.Draw(mCurrentAnimation.Texture, position, new Rectangle(697, 203, mCurrentAnimation.FrameHeight, mCurrentAnimation.FrameWidth), Color.White);
             // Draw the current frame.
-            /*
-            if (mCurrentAnimation.GetRotation != 0)
-            {
-                position.X += (float)Math.Cos(mCurrentAnimation.GetRotation + Math.PI * 0.75) * mCurrentAnimation.FrameWidth;
-                position.Y += (float)Math.Sin(mCurrentAnimation.GetRotation) * mCurrentAnimation.FrameHeight;
-                spriteBatch.Draw(mCurrentAnimation.Texture, position, source, Color.White, mCurrentAnimation.GetRotation, 
-                    new Vector2(0, 0), new Vector2(1, 1), mCurrentAnimation.getEffect(), 1.0f);
-            }
-            else
-            {*/
-                spriteBatch.Draw(mCurrentAnimation.Texture, position, source, Color.White, mCurrentAnimation.GetRotation, 
-                    new Vector2(0, 0), new Vector2(1, 1), mCurrentAnimation.getEffect(), 1.0f);
 
-            //}
+            spriteBatch.Draw(mCurrentAnimation.Texture, position, source, Color.White, mCurrentAnimation.GetRotation, 
+                new Vector2(0, 0), new Vector2(1, 1), mCurrentAnimation.getEffect(), 1.0f);
+
             spriteBatch.End();
         }
     }

@@ -22,10 +22,11 @@ namespace Game1942
     {
 
         private int NumOfEnemies, Amount, KindOfEnemy, xPos, yPos, powerUpType;
-        private float ElapsedTime, TestTime, xSpeed, ySpeed, delay;
+        private float ElapsedTime, EnemyTestTime, IslandTestTime, xSpeed, ySpeed, delay;
         private List<Enemy> EnemyList;
         private Texture2D mTexture;
         private EnemyManager enemyManager;
+        private IslandManager islandManager;
         private bool gamePaused = false;
     
         float currentTimeInXML;
@@ -35,6 +36,7 @@ namespace Game1942
         {
             EnemyList = new List<Enemy>();
             mTexture = Game.Content.Load<Texture2D>("1945");
+            islandManager = new IslandManager(game, mTexture);
             enemyManager = new EnemyManager(game, mTexture);
         }
 
@@ -55,7 +57,7 @@ namespace Game1942
         /// Allows the game component to update itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        public override void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             if (!gamePaused)
             {
@@ -71,6 +73,11 @@ namespace Game1942
             enemyManager.IfDead();
 
             base.Update(gameTime);
+        }
+
+        public void DrawIslands(GameTime gameTime, SpriteBatch batch)
+        {
+            islandManager.Draw(gameTime, batch);
         }
 
         public List<Enemy> GetCurrentEnemys()
@@ -93,7 +100,8 @@ namespace Game1942
         {
             enemyManager.Reset();
             ElapsedTime -= 5;
-            SetTestTime(TestTime - 5);
+            islandManager.Reset();
+            SetTestTime(EnemyTestTime - 5);
         }
 
         public void ChangeTime(int change)
@@ -104,18 +112,19 @@ namespace Game1942
         public void TotalReset()
         {
             Reset();
-            TestTime = 0;
+            EnemyTestTime = 0;
             ElapsedTime = 0;
         }
 
         public void SetTestTime(float test)
         {
-            TestTime = test;
+            EnemyTestTime = test;
         }
 
         // reads from XML File
         public void ReadXML(float time)
         {
+
             // loads the xml file
             XmlTextReader txtRead = new XmlTextReader(@"..\..\..\Content/Level.xml");
             //while it reads
@@ -125,11 +134,13 @@ namespace Game1942
                 if (txtRead.Name == "time")
                 {
                     currentTimeInXML = txtRead.ReadElementContentAsFloat();
-                    // checks if the testtime is smaller then the current xml read time and if the time elapsed is bigger then the current xml read time. This makes it possible to add the enemies in the xml just once. Pretty logical after 1 hour of bashing the keyboard against the the monitor.
-                    if (TestTime < currentTimeInXML && time > currentTimeInXML)
+                    // checks if the testtime is smaller then the current xml read time and if the time elapsed is bigger 
+                    // then the current xml read time. This makes it possible to add the enemies in the xml just once. 
+                    // Pretty logical after 1 hour of bashing the keyboard against the the monitor.
+                    if (EnemyTestTime < currentTimeInXML && time > currentTimeInXML)
                     {
                         // sets the testtime to the latest xml read file (if(TestTime < currentTimeInXML && time > currentTimeInXML)) 
-                        TestTime = currentTimeInXML;
+                        EnemyTestTime = currentTimeInXML;
                         
                         //moves one element and reads the value, does so for all the elements in the node.
                         txtRead.Read();
@@ -137,33 +148,41 @@ namespace Game1942
 
                         for (int x = 0; x < NumOfEnemies; x++)
                         {
-                            
                             txtRead.Read();
                             KindOfEnemy = txtRead.ReadElementContentAsInt();
-                            txtRead.Read();
-                            Amount = txtRead.ReadElementContentAsInt();
-                            if (Amount > 1)
+                            if (KindOfEnemy >= 50 && KindOfEnemy < 60)
                             {
                                 txtRead.Read();
-                                delay = txtRead.ReadElementContentAsFloat();
-                            }
-                            txtRead.Read();
-                            xSpeed = txtRead.ReadElementContentAsFloat();
-                            txtRead.Read();
-                            ySpeed = txtRead.ReadElementContentAsFloat();
-                            txtRead.Read();
-                            xPos = txtRead.ReadElementContentAsInt();
-                            txtRead.Read();
-                            yPos = txtRead.ReadElementContentAsInt();
-                            txtRead.Read();
-                            powerUpType = txtRead.ReadElementContentAsInt();
-                            if (Amount > 1)
-                            {
-                                enemyManager.AddEnemy(KindOfEnemy, Amount, delay, xSpeed, ySpeed, xPos, yPos, powerUpType);
+                                xPos = txtRead.ReadElementContentAsInt();
+                                islandManager.AddIsland(KindOfEnemy, xPos);
                             }
                             else
                             {
-                                enemyManager.AddEnemy(KindOfEnemy, xSpeed, ySpeed, xPos, yPos, powerUpType);
+                                txtRead.Read();
+                                Amount = txtRead.ReadElementContentAsInt();
+                                if (Amount > 1)
+                                {
+                                    txtRead.Read();
+                                    delay = txtRead.ReadElementContentAsFloat();
+                                }
+                                txtRead.Read();
+                                xSpeed = txtRead.ReadElementContentAsFloat();
+                                txtRead.Read();
+                                ySpeed = txtRead.ReadElementContentAsFloat();
+                                txtRead.Read();
+                                xPos = txtRead.ReadElementContentAsInt();
+                                txtRead.Read();
+                                yPos = txtRead.ReadElementContentAsInt();
+                                txtRead.Read();
+                                powerUpType = txtRead.ReadElementContentAsInt();
+                                if (Amount > 1)
+                                {
+                                    enemyManager.AddEnemy(KindOfEnemy, Amount, delay, xSpeed, ySpeed, xPos, yPos, powerUpType);
+                                }
+                                else
+                                {
+                                    enemyManager.AddEnemy(KindOfEnemy, xSpeed, ySpeed, xPos, yPos, powerUpType);
+                                }
                             }
                         }
                         break;

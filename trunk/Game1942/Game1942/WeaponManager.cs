@@ -72,10 +72,10 @@ namespace Game1942
                     weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 7, position.Y - 16), new Vector2(11, 177), 17, 16, -4f, 10));
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
                     break;
-                case 3: // two bullets straight with sinus movement in the x-axis doing 5dmg each
-                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 4, position.Y - 16), new Vector2(48, 176), 9, 20, new Vector2(4, -4), 5, 25, 8));
+                case 3: // two bullets straight with sinus movement in the x-axis doing 6dmg each
+                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 4, position.Y - 16), new Vector2(48, 176), 9, 20, new Vector2(4, -4), 6, 25, 8));
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
-                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 17, position.Y - 16), new Vector2(48, 176), 9, 20, new Vector2(-4, -4), 5, 25, 8));
+                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 17, position.Y - 16), new Vector2(48, 176), 9, 20, new Vector2(-4, -4), 6, 25, 8));
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
                     break;
                 case 4: // three bullets two single on the sides moving outwards on the x-axis doing 5dmg each and one single going straight in the middle doing 5dmg
@@ -94,12 +94,12 @@ namespace Game1942
                     weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 23, position.Y - 10), new Vector2(47, 245), 13, 13, new Vector2(1, -4), 5));
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
                     break;
-                case 6: // four bullets, two single on the sides moving outwards on the x-axis doing 5dmg each and two bullets straight with sinus movement in the x-axis doing 10dmg each
+                case 6: // four bullets, two single on the sides moving outwards on the x-axis doing 5dmg each and two bullets straight with sinus movement in the x-axis doing 6dmg each
                     weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X - 4, position.Y - 10), new Vector2(13, 245), 13, 13, new Vector2(-1, -4), 5));
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
-                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 6, position.Y - 20), new Vector2(48, 176), 9, 20, new Vector2(4, -4), 10, 25, 10));
+                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 6, position.Y - 20), new Vector2(48, 176), 9, 20, new Vector2(4, -4), 6, 25, 10));
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
-                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 15, position.Y - 20), new Vector2(48, 176), 9, 20, new Vector2(-4, -4), 10, 25, 10));
+                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 15, position.Y - 20), new Vector2(48, 176), 9, 20, new Vector2(-4, -4), 6, 25, 10));
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
                     weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 23, position.Y - 10), new Vector2(47, 245), 13, 13, new Vector2(1, -4), 5));
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
@@ -113,11 +113,11 @@ namespace Game1942
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
                     break;
                 case 12: // side bullet left (boss)
-                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 27, position.Y + 79), new Vector2(79, 243), 15, 15, new Vector2(-3, 3.5f), 25));
+                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 27, position.Y + 79), new Vector2(79, 243), 15, 15, new Vector2(-3, 3.5f), 20));
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
                     break;
                 case 13: // side bullet right (boss)
-                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 59, position.Y + 79), new Vector2(113, 243), 15, 15, new Vector2(3, 3.5f), 25));
+                    weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(position.X + 59, position.Y + 79), new Vector2(113, 243), 15, 15, new Vector2(3, 3.5f), 20));
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));
                     break;
                 case 14: // small enemy side bullet left (for 64 pixel enemys)
@@ -194,7 +194,7 @@ namespace Game1942
         {
             switch (type)
             {
-                case 50: // seeking missile from player to enemy
+                case 50: // seeking missile from player to enemy doing 15 dmg
                     weaponList.Add(new Weapon(Game, ref mTexture, new Vector2(pPos.X + 11, pPos.Y - 16),
                         new Vector2(4, 532), 18, 12, 30, 6f, 15, ePos, eSpeed, gTime));
                     Game.Components.Add(weaponList.ElementAt(weaponList.Count - 1));

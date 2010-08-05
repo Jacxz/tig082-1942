@@ -100,7 +100,10 @@ namespace Game1942
                 mPosition.Y += 1;
                 if (mHP >= 0)    
                 {
-                mSpriteBatch.DrawString(gameFont, "HP: " + mHP.ToString() + " Bullet: " + weaponManager.GetWeaponList().Count, HpPosition, Color.White);
+                mSpriteBatch.DrawString(gameFont, "HP: " + mHP.ToString() 
+                    // + " Bullets: " + weaponManager.GetWeaponList().Count
+                    // + " Distanse: " + (int)Math.Sqrt((mPlayerPosition.X - mPosition.X) * (mPlayerPosition.X - mPosition.X) + (mPlayerPosition.Y - mPosition.Y) * (mPlayerPosition.Y - mPosition.Y)
+                    , HpPosition, Color.White);
                 }
             }
 		}
@@ -147,12 +150,12 @@ namespace Game1942
             weaponCycle2 += (float)gTime.ElapsedGameTime.TotalSeconds;
             weaponCycle3 += (float)gTime.ElapsedGameTime.TotalSeconds;
             //time left until next shot
-            if (mType == 3 && weaponCycle1 > 1.5)
+            if (mType == 4 && weaponCycle1 > 1.0)
             {
                 weaponManager.AddBullet(17, mPosition);
-                weaponCycle1 = 0;
+                weaponCycle1 = -0.6f;
             }
-            if (mType == 8 && weaponCycle1 > 1)
+            if (mType == 8 && weaponCycle1 > 1.2)
             {
                 weaponManager.AddBullet(10, mPosition);
                 weaponCycle1 = 0;
@@ -160,8 +163,8 @@ namespace Game1942
             #region boss 1
             if (mType == 10 && moveTime > 0)
             {
-                // the first mode of the boss, when it has above 500 hp
-                if (mHP > 500)
+                // the first mode of the boss, when it has above 750 hp
+                if (mHP > 750)
                 {
                     if (weaponCycle1 < 2.3 && weaponCycle2 > 0.5)
                     {
@@ -181,8 +184,8 @@ namespace Game1942
                         weaponCycle3 = 0;
                     }
                 }
-                // the second mode of the boss, when it has below 500 hp
-                if (mHP <= 500)
+                // the second mode of the boss, when it has below 750 hp
+                if (mHP <= 750)
                 {
                     if (weaponCycle1 < 2.3 && weaponCycle2 > 0.5)
                     {
@@ -206,17 +209,17 @@ namespace Game1942
                 }
             }
             #endregion
-            if (mType == 12 && weaponCycle1 > 1.5)
+            if (mType == 12 && weaponCycle1 > 1.2)
             {
                 weaponManager.AddBullet(14, mPosition);
                 weaponManager.AddBullet(15, mPosition);
                 weaponManager.AddBullet(16, mPosition);
-                weaponCycle1 = 0;
+                weaponCycle1 = -0.6f;
             }
-            if (mType == 13 && weaponCycle1 > 1.5)
+            if (mType == 13 && weaponCycle1 > 1.2)
             {
                 weaponManager.AddBullet(41, mPosition, mPlayerPosition);
-                weaponCycle1 = 0;
+                weaponCycle1 = -0.6f;
             }
         }
 
@@ -352,10 +355,13 @@ namespace Game1942
                     {
                         levelWon = true;
                     }
+                    else
+                    {
+                        canBeRemoved = true;
+                    }
                     PutinStartPosition();
                     timePassed = 0;
                     animationFlag = false;
-                    canBeRemoved = true;
                 }
             }
 

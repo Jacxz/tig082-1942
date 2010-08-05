@@ -7,38 +7,38 @@
   </Enemy>
   <Enemy>
     <type>2</type>
-    <HP>30</HP>
+    <HP>20</HP>
     <score>5</score>
   </Enemy>
   <Enemy>
     <type>3</type>
-    <HP>50</HP>
+    <HP>30</HP>
     <score>5</score>
   </Enemy>
   <Enemy>
     <type>4</type>
-    <HP>75</HP>
+    <HP>40</HP>
     <score>5</score>
   </Enemy>
   <Enemy>
     <type>5</type>
-    <HP>100</HP>
+    <HP>40</HP>
     <score>10</score>
   </Enemy>
   <Enemy>
     <type>8</type>
     <HP>250</HP>
-    <score>10</score>
+    <score>15</score>
   </Enemy>
   <Enemy>
     <type>10</type>
-    <HP>1000</HP>
+    <HP>1500</HP>
     <score>100</score>
   </Enemy>
   <Enemy>
     <type>12</type>
     <HP>200</HP>
-    <score>10</score>
+    <score>15</score>
   </Enemy>
   <Enemy>
     <type>13</type>
