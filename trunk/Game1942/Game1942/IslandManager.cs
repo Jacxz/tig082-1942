@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -35,6 +35,7 @@ namespace Game1942
         }
         public void Draw(GameTime gameTime, SpriteBatch batch)
         {
+			// removes islands with the IsDone flag, which is set if a island is below the screen
             for (int i = 0; i < islandList.Count; i++)
             {
                 islandList[i].Draw(gameTime, batch);
@@ -45,6 +46,7 @@ namespace Game1942
                 }
             }
         }
+		// removes all islands
         public void Reset()
         {
             for (int i = 0; i < islandList.Count; i++)

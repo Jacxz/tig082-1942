@@ -109,6 +109,7 @@ namespace Game1942
 		}
 		else if (mType == 10)
         {
+			// moveTime keeps track of the sinus wave the boss uses for its movement
         	moveTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
         	mPosition.X = (float)(350.0f + 300.0f * Math.Sin(moveTime / 2200.0f));
 			if (mHP <= 500 && mPosition.Y < 80)
@@ -149,7 +150,7 @@ namespace Game1942
             weaponCycle1 += (float)gTime.ElapsedGameTime.TotalSeconds;
             weaponCycle2 += (float)gTime.ElapsedGameTime.TotalSeconds;
             weaponCycle3 += (float)gTime.ElapsedGameTime.TotalSeconds;
-            //time left until next shot
+            // time left until next shot of a certain weapontype
             if (mType == 4 && weaponCycle1 > 1.0)
             {
                 weaponManager.AddBullet(17, mPosition);
@@ -352,6 +353,7 @@ namespace Game1942
                 //resets the animation to EnemyAnimation when the explosion animation is done playing and puts it in the start position
                 if (timePassed > EnemyExplosion.FrameTime * EnemyExplosion.FrameCount)
                 {
+				// when you kill the boss (type 10), and its death animation has finished, you win
                     if (mType == 10)
                     {
                         levelWon = true;

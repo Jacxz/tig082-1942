@@ -56,7 +56,7 @@ namespace Game1942
         {
             base.Update(gameTime);
         }
-
+		// removes all enemies, and their bullets
         public void Reset()
         {
             for (int x = 0; x < mEnemyList.Count; x++)
@@ -73,6 +73,7 @@ namespace Game1942
         //removes the component and removes the object from the list
         public void IfDead()
         {
+			// removes all enemies with the IsDone flag
             for (int x = 0; x < mEnemyList.Count; x++)
             {
                 if (mEnemyList[x].IsDone())
