@@ -22,9 +22,7 @@ namespace Game1942
     public class PowerUpManager : Microsoft.Xna.Framework.GameComponent
     {
         private Texture2D mTexture;
-        private Enemy mEnemy;
         private PowerUp mPowerUp;
-        private int mWidth, mHeight, mStartX, mStartY, mHP;
         private List<PowerUp> mPowerUpList;
 
 

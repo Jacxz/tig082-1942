@@ -48,5 +48,13 @@ namespace Game1942
             MediaPlayer.Play(currentlyPlaying);
             MediaPlayer.IsRepeating = false;
         }
+
+        public static void HighScore()
+        {
+            MediaPlayer.Stop();
+            currentlyPlaying = soundContent.Load<Song>("win");
+            MediaPlayer.Play(currentlyPlaying);
+            MediaPlayer.IsRepeating = false;
+        }
     }
 }
