@@ -121,9 +121,9 @@ namespace Game1942
         /// <returns></returns>
         public static highscoreObject[] CheckInsertHighscore(highscoreObject[] highScoreList, highscoreObject Score)
         {
-            if (Score.PlayerScore > highScoreList[9].PlayerScore)
+            if (Score.PlayerScore > highScoreList[highScoreList.Length - 1].PlayerScore)
             {
-                highScoreList[9] = Score;
+                highScoreList[highScoreList.Length - 1] = Score;
                 SortHighscore(highScoreList);
             }
             return highScoreList;
@@ -152,7 +152,7 @@ namespace Game1942
         {
             if (!File.Exists(path)) { CreateDefaultHighScoreList(path); }
             StreamWriter file = new StreamWriter(path);
-            for (int i = 0; i < highscoreList.Length - 1; i++)
+            for (int i = 0; i < highscoreList.Length; i++)
             {
                 file.Write("<Score>");
                 file.Write(highscoreList[i].PlayerScore);
