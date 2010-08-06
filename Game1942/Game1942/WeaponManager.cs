@@ -47,6 +47,7 @@ namespace Game1942
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
+		// removes all enemies that are below the screen
             for (int i = 0; i < weaponList.Count; i++)
             {
                 if (weaponList[i].mPosition.Y < 0 || weaponList[i].mPosition.Y > 800)
@@ -151,10 +152,12 @@ namespace Game1942
                     weaponSpeed = 5;
                     weaponDmg = 10;
 
+				// first calculates where the bullet should originate
                     ePos.X += 50;
                     ePos.Y += 50;
                     xValue += (pPos.X - ePos.X) / (float)Math.Sqrt((pPos.X - ePos.X) * (pPos.X - ePos.X) + (pPos.Y - ePos.Y) * (pPos.Y - ePos.Y));
                     yValue += (pPos.Y - ePos.Y) / (float)Math.Sqrt((pPos.X - ePos.X) * (pPos.X - ePos.X) + (pPos.Y - ePos.Y) * (pPos.Y - ePos.Y));
+				// then calculate the relative X and Y speeds needed to hit the player
                     ePos.X += xValue * 25 - 4;
                     ePos.Y += yValue * 25 - 4;
                     xValue = (pPos.X - ePos.X) / (float)Math.Sqrt((pPos.X - ePos.X) * (pPos.X - ePos.X) + (pPos.Y - ePos.Y) * (pPos.Y - ePos.Y));
@@ -170,10 +173,12 @@ namespace Game1942
                     weaponSpeed = 4.5f;
                     weaponDmg = 10;
 
+				// first calculates where the bullet should originate
                     ePos.X += 32;
                     ePos.Y += 32;
                     xValue += (pPos.X - ePos.X) / (float)Math.Sqrt((pPos.X - ePos.X) * (pPos.X - ePos.X) + (pPos.Y - ePos.Y) * (pPos.Y - ePos.Y));
                     yValue += (pPos.Y - ePos.Y) / (float)Math.Sqrt((pPos.X - ePos.X) * (pPos.X - ePos.X) + (pPos.Y - ePos.Y) * (pPos.Y - ePos.Y));
+				// then calculate the relative X and Y speeds needed to hit the player
                     ePos.X += xValue * 15 - 4;
                     ePos.Y += yValue * 15 - 4;
                     xValue = (pPos.X - ePos.X) / (float)Math.Sqrt((pPos.X - ePos.X) * (pPos.X - ePos.X) + (pPos.Y - ePos.Y) * (pPos.Y - ePos.Y));
@@ -189,7 +194,8 @@ namespace Game1942
         }
         
         // Adds a missile targeted at a enemy
-        // @position: the position of the ship that shoots
+        // @pPos: the position of the ship that shoots
+        // @ePos: the position of the target
         public void AddBullet(int type, Vector2 pPos, Vector2 ePos, Vector2 eSpeed, GameTime gTime)
         {
             switch (type)

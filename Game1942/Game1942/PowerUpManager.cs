@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -54,6 +54,7 @@ namespace Game1942
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
+		// checks all the powerups for the CanBeRemoved flag, and removes 
             for (int x = 0; x < mPowerUpList.Count; x++)
             {
                 if (mPowerUpList[x].CanBeRemoved())
