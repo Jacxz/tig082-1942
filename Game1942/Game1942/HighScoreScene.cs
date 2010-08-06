@@ -152,8 +152,8 @@ namespace Game1942
         {
             highscoreObject[] temp = Game1942.XmlHandling.ReadFromXML(path);
             temp = XmlHandling.SortHighscore(temp);
-            string[] items = new string[temp.Length - 1];
-            for (int i = 0; i < temp.Length - 1; i++)
+            string[] items = new string[temp.Length];
+            for (int i = 0; i < temp.Length; i++)
             {
                 items[i] = temp[i].PlayerName + " " + temp[i].PlayerScore + "p";
             }

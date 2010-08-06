@@ -26,6 +26,5 @@ namespace Game1942
             this.PlayerName = playerName;
             this.PlayerScore = playerScore;
         }
-
     }
 }
