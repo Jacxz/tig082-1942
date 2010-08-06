@@ -28,7 +28,6 @@ namespace Game1942
         protected const int SHIPHEIGHT = 32;
 
         protected Rectangle mScreenBounds;
-
       
         private Animation playerAnimation, explosionAnimation;
         private AnimationPlayer playerAnimationPlayer;
@@ -49,7 +48,6 @@ namespace Game1942
            
             playerAnimationPlayer = new AnimationPlayer(game);
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
-
             
             playerAnimationPlayer.PlayAnimation(playerAnimation);
 
@@ -204,6 +202,11 @@ namespace Game1942
             return score;
         }
 
+        public void SetScore(int score)
+        {
+            this.score += score;
+        }
+
         public int GetLives()
         {
             return lives;
@@ -248,6 +251,11 @@ namespace Game1942
         public void SetCurrentWeapon(int weapon)
         {
             currentWeapon = weapon;
+        }
+
+        public void SetCurrentMissiles(int missile)
+        {
+            currentMissiles = missile;
         }
 
         public void UpgradeWeapon(int upgrade)

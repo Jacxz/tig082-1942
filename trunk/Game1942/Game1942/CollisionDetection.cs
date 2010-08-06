@@ -11,7 +11,6 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 
-
 namespace Game1942
 {
     /// <summary>
@@ -22,7 +21,6 @@ namespace Game1942
     {
 
         private List<Weapon> enemyBulletList;
-        private int TotalScore;
 
         public CollisionDetection(Game game)
             : base(game)
@@ -31,12 +29,7 @@ namespace Game1942
 
         }
 
-        public int GetScore()
-        {
-            return TotalScore;
-        }
-
-        public void CheckPlayerBulletVSEnemy(List<Weapon> bulletList, List<Enemy> enemies)
+        public void CheckPlayerBulletVSEnemy(Player player, List<Weapon> bulletList, List<Enemy> enemies)
         {
             // check if enemy collides with a player bullet, if it collides move the weapon outside of the screen.
 
@@ -49,7 +42,7 @@ namespace Game1942
                     {
                         enemies[y].isHit(bulletList[x].GetDmg());
                         bulletList[x].mPosition.Y = -100;
-                        TotalScore += enemies[y].IsDead();
+                        player.SetScore(enemies[y].IsDead());
                     }
                 }
             }
@@ -101,32 +94,32 @@ namespace Game1942
                     //Game.Components.Remove(powerUps.ElementAt(x));
                     if (!powerUps[x].GetUsed())
                     {
-                        if (powerUps[x].GetType() == 11)
+                        if (powerUps[x].GetmType() == 11)
                         {
                             // upgrades weapon type by amount
                             player.UpgradeWeapon(1);
                         }
-                        if (powerUps[x].GetType() == 14)
+                        if (powerUps[x].GetmType() == 14)
                         {
                             // adds lives by amount
                             player.AddLives(1);
                         }
-                        if (powerUps[x].GetType() == 15)
+                        if (powerUps[x].GetmType() == 15)
                         {
                             // adds speed by amount, base speed is 2
                             player.AddSpeed(0.3f);
                         }
-                        if (powerUps[x].GetType() == 16)
+                        if (powerUps[x].GetmType() == 16)
                         {
                             // refills health to maxHP
                             player.FillHealth();
                         }
-                        if (powerUps[x].GetType() == 17)
+                        if (powerUps[x].GetmType() == 17)
                         {
                             // increases current and max health by amount
                             player.IncreaseHP(10);
                         }
-                        if (powerUps[x].GetType() == 19)
+                        if (powerUps[x].GetmType() == 19)
                         {
                             // adds one more missile
                             player.AddMissiles(1);
@@ -136,7 +129,5 @@ namespace Game1942
                 }
             }
         }
-
-
     }
 }

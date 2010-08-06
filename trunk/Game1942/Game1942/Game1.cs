@@ -147,20 +147,21 @@ namespace Game1942
             {
                 HandleActionInput();
                 if (actionScene.GameOverState())
-                {                    
-                    actionScene.SetGameOver();
+                {
+                    actionScene.ResetGameOver();
+                    if (XmlHandling.CheckInsertHighscoreBool(XmlHandling.ReadFromXML(path), actionScene.ResultScore))
+                    {
+                        gameOverScene.HighScoreTrue();
+                    }
                     ShowScene(gameOverScene);
                 }
             }
 
             else if (currentScene == gameOverScene)
             {
-                // tillfälligt bytt score mot tmpScore
-                int tmpScore = actionScene.ResultScore;
-
-                if (XmlHandling.CheckInsertHighscoreBool(XmlHandling.ReadFromXML(path), tmpScore))
+                if (XmlHandling.CheckInsertHighscoreBool(XmlHandling.ReadFromXML(path), actionScene.ResultScore))
                 {
-                    highScoreScene.newHighTrue(tmpScore);
+                    highScoreScene.newHighTrue(actionScene.ResultScore);
                     if (CheckEnter())
                     {
                         ShowScene(highScoreScene);

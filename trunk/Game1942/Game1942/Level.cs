@@ -22,12 +22,11 @@ namespace Game1942
     {
 
         private int NumOfEnemies, Amount, KindOfEnemy, xPos, yPos, powerUpType;
-        private float ElapsedTime, EnemyTestTime, IslandTestTime, xSpeed, ySpeed, delay;
+        private float ElapsedTime, EnemyTestTime, xSpeed, ySpeed, delay;
         private List<Enemy> EnemyList;
         private Texture2D mTexture;
         private EnemyManager enemyManager;
         private IslandManager islandManager;
-        private bool gamePaused = false;
     
         float currentTimeInXML;
 

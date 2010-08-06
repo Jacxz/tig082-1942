@@ -37,7 +37,6 @@ namespace Game1942
         private WeaponManager weaponManager;
         private bool mGameOver = false, stillValid = true;
         private Vector2 mePos, mpPos, mClosePos;
-
      
         private SpriteFont gameFont;
 
@@ -92,11 +91,7 @@ namespace Game1942
 
         public override void Show()
         {
-            if(GameOverState())
-            {
-                SetGameOver();
-                Start();
-            }
+            Start();
             // starts the background music
             AudioManager.PlayMusic("song");         
             base.Show();
@@ -119,7 +114,6 @@ namespace Game1942
             weaponManager.Update(gameTime);
             AddBullet(gameTime);
             currentBackground.Update(gameTime);
-            
 
             keyboard = Keyboard.GetState();
             // removes one life from player
@@ -131,11 +125,8 @@ namespace Game1942
             // if player don´t have any life left then its game over, but we reset the lives to the starting number.
             if (player.GetLives() < 0)
             {
-                player.ResetLives();
-                mGameOver = true;
+                SetGameOver();
             }
-
-            
             
             powerUpManager.Update(gameTime);
             //gets the current enemies on the screen
@@ -187,9 +178,9 @@ namespace Game1942
             else
             {                
                 player.ResetLives();
+                player.SetScore(0 - player.GetScore());
             }
             
-              
             player.PutInStartPosition();
 
 		    timeOnLevel = 0.0f;
@@ -198,10 +189,9 @@ namespace Game1942
         public void CheckCollisions()
         {
             collisionDetection.CheckPlayerVSEnemy(player, level.GetCurrentEnemys());
-            collisionDetection.CheckPlayerBulletVSEnemy(weaponManager.GetWeaponList(), level.GetCurrentEnemys());
+            collisionDetection.CheckPlayerBulletVSEnemy(player, weaponManager.GetWeaponList(), level.GetCurrentEnemys());
             collisionDetection.CheckPlayerVSEnemyBullet(player, level.GetCurrentEnemys());
-            collisionDetection.CheckPlayerVSPowerUp(player, powerUpManager.getPowerUpList()); 
-           
+            collisionDetection.CheckPlayerVSPowerUp(player, powerUpManager.getPowerUpList());
         }
 
         public override void Draw(GameTime gameTime)
@@ -213,7 +203,7 @@ namespace Game1942
             // draws the islands
             level.DrawIslands(gameTime, mSpriteBatch);
             // draws the strings
-            mSpriteBatch.DrawString(gameFont, "Player Score: " + collisionDetection.GetScore() +
+            mSpriteBatch.DrawString(gameFont, "Player Score: " + player.GetScore() +
                 "\nActionScene Enemy Count: " + level.GetCurrentEnemys().Count +
                 "\nBullet Count: " + weaponManager.GetWeaponList().Count +
                 "\nCurrent Weapon: " + player.GetCurrentWeapon() +
@@ -302,7 +292,7 @@ namespace Game1942
         // well..
         public int ResultScore
         {
-            get { return collisionDetection.GetScore(); }
+            get { return player.GetScore(); }
         }
         // removes bullets and makes a total reset of the game.
         public void SetGameOver()
@@ -310,7 +300,14 @@ namespace Game1942
             RemoveBullets();
             level.TotalReset();
             player.SetCurrentWeapon(1);
-            mGameOver = !mGameOver;
+            player.SetCurrentMissiles(0);
+            player.ResetLives();
+            mGameOver = true;
+        }
+
+        public void ResetGameOver()
+        {
+            mGameOver = false;
         }
 
         public bool GameOverState()

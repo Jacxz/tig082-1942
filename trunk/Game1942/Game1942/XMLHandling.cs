@@ -39,7 +39,6 @@ namespace Game1942
                 tmp[index].PlayerName = XmlHandling.FindXMLString(line, "<PlayerName>", "</PlayerName>");
                 tmp[index].PlayerScore = XmlHandling.FindXMLInt(line, "<Score>", "</Score>");
                 index++;
-
             }
             file.Close();
             return tmp;
@@ -139,10 +138,9 @@ namespace Game1942
         public static bool CheckInsertHighscoreBool(highscoreObject[] highScoreList, int Score)
         {
             bool tmp = false;
-            if (Score > highScoreList[9].PlayerScore) { tmp = true; }
+            if (Score > highScoreList[highScoreList.Length - 1].PlayerScore) { tmp = true; }
             return tmp;
         }
-
 
         /// <summary>
         /// Saves a given sorted highscorelist as a XML file at the chosen path. If file doesn't exist it will create a

@@ -23,13 +23,15 @@ namespace Game1942
         private Texture2D texture;
         private Rectangle rectangle;
         private double timer;
+        private bool highscore;
 
         public GameOverScene(Game game, Texture2D texture)
             : base(game)
         {
             spriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
             this.texture = texture;
-            rectangle = new Rectangle(303, 503, 96, 12);
+            rectangle = new Rectangle(303, 503, 97, 13);
+            highscore = false;
         }
 
         /// <summary>
@@ -38,15 +40,23 @@ namespace Game1942
         /// </summary>
         public override void Initialize()
         {
-            // TODO: Add your initialization code here
-
             base.Initialize();
         }
 
         public override void Show()
         {
-            AudioManager.GameOver();
+            if (highscore)
+                AudioManager.HighScore();
+            else
+                AudioManager.GameOver();
             base.Show();
+        }
+
+        public override void Hide()
+        {
+            highscore = false;
+            rectangle = new Rectangle(303, 503, 97, 13);
+            base.Hide();
         }
 
         /// <summary>
@@ -57,15 +67,31 @@ namespace Game1942
         {
             if ((gameTime.TotalGameTime.TotalMilliseconds - timer) > 100)
             {
-                if (rectangle.Y == 503)
+                if (!highscore)
                 {
-                    rectangle.Y = 520;
-                    timer = gameTime.TotalGameTime.TotalMilliseconds;
+                    if (rectangle.Y == 503)
+                    {
+                        rectangle.Y = 520;
+                        timer = gameTime.TotalGameTime.TotalMilliseconds;
+                    }
+                    else
+                    {
+                        rectangle.Y = 503;
+                        timer = gameTime.TotalGameTime.TotalMilliseconds;
+                    }
                 }
                 else
                 {
-                    rectangle.Y = 503;
-                    timer = gameTime.TotalGameTime.TotalMilliseconds;
+                    if (rectangle.Y == 127)
+                    {
+                        rectangle.Y = 144;
+                        timer = gameTime.TotalGameTime.TotalMilliseconds;
+                    }
+                    else
+                    {
+                        rectangle.Y = 127;
+                        timer = gameTime.TotalGameTime.TotalMilliseconds;
+                    }
                 }
             }
             base.Update(gameTime);
@@ -79,6 +105,12 @@ namespace Game1942
             spriteBatch.End();
  
             base.Draw(gameTime);
+        }
+
+        public void HighScoreTrue()
+        {
+            highscore = true;
+            rectangle = new Rectangle(574, 127, 103, 13);
         }
     }
 }
