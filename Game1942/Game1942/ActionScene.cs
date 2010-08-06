@@ -38,7 +38,7 @@ namespace Game1942
         private bool mGameOver = false, stillValid = true;
         private Vector2 mePos, mpPos, mClosePos;
 
-        //font
+     
         private SpriteFont gameFont;
 
         private List<Enemy> enemies = new List<Enemy>(), chosenTargets = new List<Enemy>();
@@ -83,6 +83,7 @@ namespace Game1942
         public override void Initialize()
         {
             currentBackground = new ScrollingBackground("water", actionTexture);
+     
             Start();
             base.Initialize();
             screenheight = GraphicsDevice.Viewport.Height;
@@ -118,16 +119,16 @@ namespace Game1942
             weaponManager.Update(gameTime);
             AddBullet(gameTime);
             currentBackground.Update(gameTime);
-            level.Update(gameTime);
+            
 
             keyboard = Keyboard.GetState();
-           
+            // removes one life from player
             if (oldLives > player.GetLives())
             {
                 ResetScene();
                 oldLives = player.GetLives();
             }
-
+            // if player don´t have any life left then its game over, but we reset the lives to the starting number.
             if (player.GetLives() < 0)
             {
                 player.ResetLives();
@@ -137,9 +138,12 @@ namespace Game1942
             
             
             powerUpManager.Update(gameTime);
+            //gets the current enemies on the screen
             enemies = level.GetCurrentEnemys();
+
             for (int x = 0; x < enemies.Count; x++)
             {
+                // if the boss is defeated
                 if (enemies[x].GetLevelWon())
                 {
                     SetGameOver();
@@ -170,6 +174,7 @@ namespace Game1942
             base.Update(gameTime);
         }
 
+        // sets the player if null, if not resets the lives to the starting number. Puts the player in the starting position 
         private void Start() 
         {
             if (player == null)
@@ -189,7 +194,7 @@ namespace Game1942
 
 		    timeOnLevel = 0.0f;
         }
-
+        // checks all collision between main objects
         public void CheckCollisions()
         {
             collisionDetection.CheckPlayerVSEnemy(player, level.GetCurrentEnemys());
@@ -203,19 +208,21 @@ namespace Game1942
         {
             GraphicsDevice.Clear(Color.Black);
             mSpriteBatch.Begin();
-
+            // draws the background
             currentBackground.Draw(mSpriteBatch);
+            // draws the islands
             level.DrawIslands(gameTime, mSpriteBatch);
+            // draws the strings
             mSpriteBatch.DrawString(gameFont, "Player Score: " + collisionDetection.GetScore() +
-                "\nActionScene EnemyCounts: " + level.GetCurrentEnemys().Count +
-                "\nBullet count: " + weaponManager.GetWeaponList().Count +
+                "\nActionScene Enemy Count: " + level.GetCurrentEnemys().Count +
+                "\nBullet Count: " + weaponManager.GetWeaponList().Count +
                 "\nCurrent Weapon: " + player.GetCurrentWeapon() +
                 "\nCurrent Missiles: " + player.GetCurrentMissiles() +
                 "\nLevel Time: " + (int)level.GetTime(), new Vector2(15, 15), Color.White, 0, new Vector2(0, 0), 0.5f, SpriteEffects.None, 0);
             mSpriteBatch.End();
             base.Draw(gameTime);
         }
-
+        // add bullets to the player
         public void AddBullet(GameTime gTime)
         {
             weaponCycle1 += (float)gTime.ElapsedGameTime.TotalSeconds;
@@ -242,7 +249,7 @@ namespace Game1942
                 }
             }
         }
-
+        // finds the closest enemy for the missile
         public void findClosestEnemies()
         {
             enemies = level.GetCurrentEnemys();
@@ -285,19 +292,19 @@ namespace Game1942
                 }
             }
         }
-
+        // decrease weapon by one, removes bullets and resets the level
         public void ResetScene()
         {
             player.UpgradeWeapon(-1);
             level.Reset();
             RemoveBullets();
         }
-
+        // well..
         public int ResultScore
         {
-            get { return collisionDetection.GetScore() + 1000; }
+            get { return collisionDetection.GetScore(); }
         }
-
+        // removes bullets and makes a total reset of the game.
         public void SetGameOver()
         {
             RemoveBullets();

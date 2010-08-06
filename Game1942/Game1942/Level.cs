@@ -57,19 +57,17 @@ namespace Game1942
         /// Allows the game component to update itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
-            if (!gamePaused)
-            {
+           
                 ElapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            }
+           
             ReadXML(ElapsedTime);
             if (ElapsedTime < 0)
             {
                 ElapsedTime = 0;
             }
 
-            //ska det va så?
             enemyManager.IfDead();
 
             base.Update(gameTime);
