@@ -42,15 +42,18 @@ namespace Game1942
         {
             mTexture = theTexture;
             mPosition = new Vector2();
-            // get the animations
+            mLivesRectangle = new Rectangle(169, 268, SHIPWIDTH, SHIPHEIGHT);
+
             playerAnimation = new Animation(game, theTexture, 7);
             explosionAnimation = new Animation(game, theTexture, 6);
            
             playerAnimationPlayer = new AnimationPlayer(game);
             mSpriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
 
-            mLivesRectangle = new Rectangle(169, 268, SHIPWIDTH, SHIPHEIGHT);
+            
             playerAnimationPlayer.PlayAnimation(playerAnimation);
+
+            //sets starting stats for player
             startLives = 1;
             lives = startLives;
             maxHP = 100;
@@ -65,15 +68,8 @@ namespace Game1942
             font = Game.Content.Load<SpriteFont>("font");
         }
         
-
-        /// <summary>
-        /// Allows the game component to perform any initialization it needs to before starting
-        /// to run.  This is where it can query for any required services and load content.
-        /// </summary>
         public override void Initialize()
         {
-            // TODO: Add your initialization code here
-
             base.Initialize();
         }
 
@@ -82,15 +78,11 @@ namespace Game1942
             base.LoadContent();
         }
 
-        /// <summary>
-        /// Allows the game component to update itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
+            // sets the position where lives should start to draw from
             mLivesPosition.X = mScreenBounds.Width - SHIPWIDTH*lives;
             // Move the ship with keyboard
-            
             KeyboardState keyboard = Keyboard.GetState();
             if (keyboard.IsKeyDown(Keys.Up))
             {
@@ -135,9 +127,6 @@ namespace Game1942
             base.Update(gameTime);
         }
 
-        /// <summary>
-        /// Draw the ship sprite
-        /// </summary>
         public override void Draw(GameTime gameTime)
         {
             mSpriteBatch.Begin();
@@ -149,25 +138,23 @@ namespace Game1942
             }
             //draws hp for player above the player sprite
             for (int x = 0; x < playerSpeed; x++)
-            {
-                
+            {                
                 if (HP >= 0)
                 {
                     mSpriteBatch.DrawString(font, "HP: " + HP.ToString(), new Vector2(mPosition.X, mPosition.Y + 32), Color.White);
                 }
             }             
             mSpriteBatch.End();
+            //plays the player animation
             playerAnimationPlayer.Draw(gameTime, mSpriteBatch, getPosition());
             base.Draw(gameTime);
         }
-
-        /// <summary>
-        /// Get the bound rectangle of ship position in screen
-        /// </summary>
+        // the bounds of the ship
         public Rectangle GetBounds()
         {
             return new Rectangle((int)mPosition.X, (int)mPosition.Y, SHIPWIDTH, SHIPHEIGHT);
         }
+
         public void PutInStartPosition()
         { 
             mPosition.X = mScreenBounds.Width / 2;
@@ -184,7 +171,7 @@ namespace Game1942
             get { return killed; }
             set { killed = value; }
         }
-
+        // removes hp from the player and plays sound and animation if the player is dead.
         public void IsHit(int dmg)
         {
             HP -= dmg;
@@ -195,7 +182,7 @@ namespace Game1942
                 playerAnimationPlayer.PlayAnimation(explosionAnimation);
             }
         }
-
+        // 
         public void IsKilled(GameTime gTime)
         {
 

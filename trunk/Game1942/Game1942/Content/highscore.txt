@@ -1,9 +1,9 @@
-<Score>3400</Score><PlayerName>Tessan</PlayerName>
-<Score>2000</Score><PlayerName>Nisse</PlayerName>
-<Score>2000</Score><PlayerName>Jon</PlayerName>
-<Score>1500</Score><PlayerName>Anna</PlayerName>
-<Score>1110</Score><PlayerName>YEAHHH</PlayerName>
-<Score>1100</Score><PlayerName>HEJJ HOPP</PlayerName>
-<Score>1001</Score><PlayerName>FDGSDG</PlayerName>
-<Score>1001</Score><PlayerName>YEAH</PlayerName>
-<Score>1001</Score><PlayerName></PlayerName>
+<Score>500</Score><PlayerName>Raynor</PlayerName>
+<Score>495</Score><PlayerName>JOHAN</PlayerName>
+<Score>425</Score><PlayerName>JOHAN</PlayerName>
+<Score>200</Score><PlayerName>Fisher</PlayerName>
+<Score>100</Score><PlayerName>Tom</PlayerName>
+<Score>20</Score><PlayerName>NOOB</PlayerName>
+<Score>0</Score><PlayerName></PlayerName>
+<Score>0</Score><PlayerName></PlayerName>
+<Score>0</Score><PlayerName></PlayerName>
